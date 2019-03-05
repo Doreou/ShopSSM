@@ -1,0 +1,221 @@
+.main {
+    padding-left: 180px;
+    padding-right: 160px;
+    padding-top: 50px;
+    width: 100%;
+}
+
+#my_enshrine, #my_info, #my_messages, #my_products {
+    min-height: 200px;
+}
+#my_messages {
+    background: #fff;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    padding: 40px 60px 0px 22px;
+    overflow: hidden;
+}
+
+#my_messages h1 {
+    position: relative;
+    color: rgb(58,58,58);
+    border-bottom: 1px solid rgb(58,58,58);
+    font-size: 16px;
+    padding-bottom: 10px;
+    margin-left: 22px;
+}
+
+.item-message{
+    background: #3DB399 none repeat scroll 0 0;
+}
+
+.item-message a{
+    color: #fff!important;
+}
+
+#my_messages h1 span {
+    background: #fff;
+    position: absolute;
+    bottom: -10px;
+    right: -50px;
+}
+.enshrine_it {
+    font: 12px;
+    float: right;
+    margin-right: 50px;
+    display: block;
+    color: #4BC0A5;
+    border: 1px solid #4BC0A5;
+    padding: 3px 16px;
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 13px;
+    -ms-border-radius: 13px;
+    cursor: pointer;
+}
+
+.each_msg.unread {
+    background: #fff;
+    background: url("/resource/image/unread.png") center left no-repeat;
+}
+.each_msg {
+    position: relative;
+    background: #fff;
+    margin-top: 3px;
+    padding: 2px 10px 5px  22px;
+    border-bottom: 3px solid rgb(58,58,58);
+}
+
+.each_msg img{
+    width: 100px;
+    height: 100px;
+    float: left;
+
+}
+
+.each_msg .ensh_tips{
+    position: relative;
+}
+
+.each_msg .ensh_tips .readbtn{
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    float: right;
+    height: 30px;
+    border: 1px solid rgb(58,58,58);
+    border-radius: 15px;
+    width: 80px;
+    line-height: 30px;
+    text-align: center;
+    color: rgb(0, 172, 144);
+    margin-bottom: 40px;
+    cursor: pointer;
+    transition: color 1s,background-color 1s, border 1s;
+}
+
+.each_msg .ensh_tips .readbtn:hover{
+    background-color: rgb(231,75,59);
+    border: 1px solid rgb(231,75,59);
+    color: #fff;
+}
+
+.enshrine_yous, .reply_yours, .cmd_yours, .sold_out_yours, .delete_yours {
+    color: #444;
+    font: 12px;
+}
+.ensh_tips {
+    position: relative;
+    float: right;
+    width: 730px;
+    height: 80px;
+}
+
+.ensh_tips p{
+    margin-bottom: 5px;
+}
+
+.enshr_each {
+    background: #fff none repeat scroll 0 0;
+    height: 140px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.enshr_info {
+    float: right;
+    padding: 20px;
+    position: relative;
+}
+
+.ershou-favorite, .enshr_ph, .photo-wr img, .release-button, .search-submit, .page-num {
+    transition: all 0.2s ease-in-out 0s;
+}
+.enshr_ph {
+    height: 140px;
+    width: 140px;
+}
+
+.enshr_info h2 {
+    margin-bottom: 10px;
+}
+h2, .h2 {
+    font-size: 20px;
+}
+
+.enshr_info h2 a {
+    color: #1b816c;
+    font: 14px;
+    text-decoration: none;
+}
+
+.enshr_info p {
+    color: #666;
+    font: 12px;
+    height: 35px;
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
+.enshr_state {
+    bottom: -10px;
+    position: absolute;
+    width: 100%;
+}
+
+.enshrine_it {
+    border: 1px solid #4bc0a5;
+    color: #4bc0a5;
+    cursor: pointer;
+    display: block;
+    float: right;
+    font: 12px;
+    margin-right: 50px;
+    padding: 3px 16px;
+}
+
+.onsaling, .auto_out {
+    color: #ffb200;
+    font: 12px;
+}
+
+.msg_ph {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    cursor: pointer;
+}
+
+.sold_out_yours p a {
+    color: #E25A44;
+    text-decoration: none;
+    font: 12px;
+}
+
+.which_pro span a {
+    color: #197F6C;
+    text-decoration: none;
+    font: 12px;
+}
+
+#my_messages h1 span {
+    background: #fff;
+    position: absolute;
+    bottom: -10px;
+    right: -50px;
+}
+.enshrine_it {
+    font: 12px;
+    float: right;
+    margin-right: 50px;
+    display: block;
+    color: rgb(58,58,58);
+    border: 1px solid rgb(58,58,58);
+    padding: 3px 16px;
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 13px;
+    -ms-border-radius: 13px;
+    cursor: pointer;
+}

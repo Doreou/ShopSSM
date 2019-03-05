@@ -1,0 +1,151 @@
+.main {
+    padding-left: 180px;
+    padding-right: 160px;
+    padding-top: 50px;
+    width: 100%;
+}
+
+#my_enshrine, #my_info, #my_messages, #my_products {
+    min-height: 300px;
+}
+
+#my_products {
+    margin-top: 20px;
+}
+
+#sold_out_pro h1 {
+    margin-top: 10px;
+}
+#my_products h1 {
+    height: 22px;
+    white-space: nowrap;
+    width: 200px;
+}
+
+.enshr_each {
+    background: #fff none repeat scroll 0 0;
+    height: 140px;
+    margin-top: 10px;
+    padding-left: 140px;
+}
+
+.enshr_info {
+    box-sizing: border-box;
+    padding: 20px;
+    position: relative;
+}
+
+.enshr_info h2 {
+    margin-bottom: 10px;
+    margin-top: 0px;
+}
+
+.enshr_info h2 a {
+    color: rgb(58,58,58);
+    font: 14px "Microsoft YaHei";
+    text-decoration: none;
+}
+
+.enshr_info p {
+    color: #666;
+    font: 12px "Microsoft YaHei";
+    height: 35px;
+    margin-bottom: 10px;
+    overflow: auto;
+}
+
+.enshr_state {
+    bottom: 5px;
+    position: relative;
+}
+
+.btn-group {
+    position: absolute;
+    right: 20px;
+}
+
+.enshrine_it {
+    border: 1px solid #4bc0a5;
+    color: #4bc0a5;
+    cursor: pointer;
+    display: block;
+    float: right;
+    font: 12px "Microsoft YaHei";
+    margin-right: 50px;
+    padding: 3px 16px;
+}
+
+.enshr_ph {
+    height: 140px;
+    width: 140px;
+    margin-left: -140px;
+}
+.ershou-favorite, .enshr_ph, .photo-wr img, .release-button, .search-submit, .page-num {
+    transition: all 0.2s ease-in-out 0s;
+}
+
+a {
+    transition: color 0.2s ease 0s;
+}
+a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+.enshrine_it {
+    border: 1px solid rgb(58,58,58);
+    color: rgb(58,58,58);
+    cursor: pointer;
+    display: block;
+    float: right;
+    font: 12px "Microsoft YaHei";
+    margin-right: 25px;
+    padding: 3px 16px;
+}
+
+.onsaling, .auto_out {
+    color: #ffb200;
+    font: 12px "Microsoft YaHei";
+}
+
+.autosale_now{
+    color: rgb(0, 170, 136)!important;
+    font: 14px "Microsoft YaHei";
+}
+
+.autosale_out{
+    color: rgb(191,0,0);
+    font: 14px "Microsoft YaHei";
+    margin-right: 50px;
+    display: inline-block;
+}
+
+.no-data{
+    padding: 10px 0;
+    text-align: center;
+    color: #0099CC;
+    margin-top: 170px;
+}
+
+.no-data .text{
+    font-size: 14px;
+    display: inline-block;
+}
+
+.no-data .btn{
+    display: inline-block;
+    height: 40px;
+    border: 1px solid #0099CC;
+    border-radius: 20px;
+    line-height: 40px;
+    margin-left: 10px;
+    width: 150px;
+    color: rgb(0,170,136);
+    font-size: 14px;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.no-data .btn:hover{
+    background-color: rgb(0,170,136);
+    color: #fff;
+}
