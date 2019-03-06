@@ -6,6 +6,8 @@ import cn.doreou.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -15,6 +17,12 @@ public class OrderServiceImpl implements OrderService {
     }
     public void buy(Goods goods){
         orderMapper.buy(goods);
+    }
+    public List<Goods> getMyBuy(String userid,String type){
+        return orderMapper.getMyBuy(userid,type);
+    }
+    public List<Goods> getMySale(String userid,String type){
+        return orderMapper.getMySale(userid,type);
     }
 
 }

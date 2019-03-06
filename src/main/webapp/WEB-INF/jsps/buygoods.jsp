@@ -152,7 +152,7 @@
             <h5>发布求购信息</h5>
         </div>
         <div class="ibox-content">
-            <form action="/home/release/dobuy" class="form-horizontal m-t" id="buyForm" method="post" novalidate="novalidate">
+            <form action="/Order/buygoods" class="form-horizontal m-t" id="buyForm" method="post" novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">标题：</label>
                     <div class="col-sm-8">
@@ -172,9 +172,29 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-3 control-label">分类：</label>
+                    <div class="col-sm-8">
+                        <select id="status" name="status" data-placeholder="选择磨损程度..." class="chosen-select form-control"
+                                style="width: 100%;" tabindex="-1">
+                            <option value="全新">全新</option>
+                            <option value="九五新以上">九五新以上</option>
+                            <option value="八五新-九五新">八五新-九五新</option>
+                            <option value="五成新-八五新">五成新-八五新</option>
+                            <option value="五成新以下">五成新以下</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
                         <input id="price" name="price" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">所需数量：</label>
+                    <div class="col-sm-8">
+                        <input id="count" name="count" placeholder="请输入您需要的商品数量" class="form-control" type="text"
+                               aria-required="true" aria-invalid="false">
                     </div>
                 </div>
                 <div class="form-group">
@@ -182,7 +202,7 @@
                     <div class="col-sm-8">
                         <select id="type" name="type" data-placeholder="选择分类..." class="chosen-select form-control" style="width: 100%;" tabindex="-1">
                             <% for (Book b:bookList){%>
-                            <option value="<%=b.getSub_id()%>"><%=b.getSubject()%></option>
+                            <option value="<%=b.getSubject()%>"><%=b.getSubject()%></option>
                             <%}%>
                         </select>
                     </div>

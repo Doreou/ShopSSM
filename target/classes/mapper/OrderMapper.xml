@@ -8,7 +8,14 @@
     </insert>
 
     <insert id="buy" parameterType="cn.doreou.model.Goods">
-        INSERT into t_goods (goods_title,introduce,expt_price,status,number,subject,type) values (#{goods_title},#{introduce},#{expt_price},#{status},#{number},#{subject},#{type})
+        INSERT into t_goods (owner_id,goods_title,introduce,expt_price,status,number,subject,type) values (#{owner_id},#{goods_title},#{introduce},#{expt_price},#{status},#{number},#{subject},#{type})
     </insert>
+    
+    <select id="getMyBuy" resultType="cn.doreou.model.Goods">
+        select * from t_goods where owner_id=#{param1} and type=#{param2}
+    </select>
+    <select id="getMySale" resultType="cn.doreou.model.Goods">
+        select * from t_goods where owner_id=#{param1} and type=#{param2}
+    </select>
 
 </mapper>

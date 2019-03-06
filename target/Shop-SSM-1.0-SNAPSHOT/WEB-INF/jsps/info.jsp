@@ -202,8 +202,8 @@
     <div class="container-fluid">
         <ul id="middle_nav" class="clearfix row">
             <li class="item-info col-lg-2 current"><a href="/Page/info">个人资料</a></li>
-            <li class="item-goods col-lg-2 "><a href="/Page/mysale">我发布的商品</a></li>
-            <li class="item-buy col-lg-2 "><a href="/Page/mybuy">我发布的求购</a></li>
+            <li class="item-goods col-lg-2 "><a href="/Order/getMySale">我发布的商品</a></li>
+            <li class="item-buy col-lg-2 "><a href="/Order/getMyBuy">我发布的求购</a></li>
             <li class="item-favor col-lg-2 "><a href="/Page/mycollect">我的收藏</a></li>
             <li class="item-message col-lg-2 "><a href="/Page/mynews">消息中心</a></li>
             <li class="item-cert col-lg-2 "><a href="/Page/checkinfo">认证信息</a></li>
@@ -383,7 +383,7 @@
         //执行实例
         var uploadInst = upload.render({
             elem: '#change_ph' //绑定元素
-            ,url: '/upload/' //上传接口
+            ,url: '/User/upload' //上传接口
             ,done: function(res){
                 //上传完毕回调
             }

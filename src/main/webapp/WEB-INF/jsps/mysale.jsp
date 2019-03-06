@@ -1,6 +1,7 @@
 <%@ page import="cn.doreou.model.Book" %>
 <%@ page import="cn.doreou.model.User" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="cn.doreou.model.Goods" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/3/4
@@ -35,6 +36,10 @@
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     List<User> userList=(List<User>) session.getAttribute("user");
+    Object mysale=session.getAttribute("mysale");
+    if(mysale!=null){
+        mysale=(List<Goods>) mysale;
+    }
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -217,13 +222,43 @@
     <div id="my_products">
         <div class="no-data">
             <p class="text">您暂时还没有发布商品呃！你可以</p>
-            <a href="/release/sale" target="_blank">
+            <a href="/release/buy" target="_blank">
                 <p class="btn">发布商品</p>
             </a>
-            <a href="/sale/goods" target="_blank">
+            <a href="/buy/index" target="_blank">
                 <p class="btn">查看二手模块</p>
             </a>
-        </div>            </div>
+        </div>
+        <%if(mysale!=null){
+            for (Goods g:(List<Goods>)mysale){%>
+        <div id="sold_out_pro">
+            <div class="enshr_each">
+                <img class="enshr_ph pull-left" alt="<%=g.getGoods_title()%>" src="/Public/images/icon/buyicon.png">
+                <div class="enshr_info">
+                    <h2><%=g.getGoods_title()%></h2>
+                    <p><%=g.getIntroduce()%></p>
+                    <div class="enshr_state">
+                        <div class="btn-group">
+                            <a href="/user/reflashbuy/buyid/348">
+                                <span value="" class="btn btn-info btn-sm">擦亮</span>
+                            </a>
+                            <a href="/user/shelvesbuy/buyid/348">
+                                <span class="btn btn-warning btn-sm">下架</span>
+                            </a>
+                            <a href="/user/delbuy/buyid/348">
+                                <span class="btn btn-danger btn-sm">删除</span>
+                            </a>                                    </div>
+                        <span class="autosale_now">求购信息正在展示，90天后自动下架</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%}
+        }%>
+        <div class="text-center">
+            <nav><ul class="pagination"></ul></nav>
+        </div>
+    </div>
     <div class="common-footer">
         <div class="footerNav">
             <ul class="fn">
@@ -262,6 +297,11 @@
 </div>
 <script>
     $(document).ready(function(){
+        if(<%=mysale==null%>){
+            $("#sold_out_pro").hide();
+        }else{
+            $(".no-data").hide();
+        }
         if (<%=userList!=null%>) {
             //隐藏登陆/注册
             $("#js_visible").hide();
