@@ -185,12 +185,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-
-                    <label class="col-sm-3 control-label">商品原价：
-                        <!-- <span class="badge badge-warning " id="tip2">？</span> --></label>
-                    <div class="col-sm-8">
-                        <input id="pricost" name="pricost" class="required form-control" type="text" placeholder="请输入原价"
-                               aria-required="true">
+                    <label class="col-sm-3 control-label">商品原价：</label>
+                    <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
+                        <input id="pricost" name="pricost" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
@@ -207,8 +204,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">期望出价：</label>
-                    <div class="pre-price input-group m-b col-sm-8">
+                    <label class="col-sm-3 control-label">预期价格：</label>
+                    <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
                         <input id="price" name="price" type="text" class="form-control">
                     </div>
                 </div>

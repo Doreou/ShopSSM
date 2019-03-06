@@ -13,6 +13,8 @@ public class OrderServiceImpl implements OrderService {
     public void sale(Goods goods){
         orderMapper.sale(goods);
     }
-
+    public void buy(Goods goods){
+        orderMapper.buy(goods);
+    }
 
 }

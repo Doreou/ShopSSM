@@ -174,7 +174,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control"> <span class="input-group-addon">.00</span>
+                        <input id="price" name="price" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">

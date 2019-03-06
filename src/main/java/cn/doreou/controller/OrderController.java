@@ -23,7 +23,6 @@ public class OrderController {
     @RequestMapping("salegoods")
     public String SaleGoods(HttpSession session,@RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status,@RequestParam("count") int number,@RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject){
         List<User> userList=(List<User>) session.getAttribute("user");
-        System.out.println(number);
         Goods goods=new Goods();
         goods.setGoods_title(title);
         goods.setIntroduce(introduce);
@@ -33,6 +32,7 @@ public class OrderController {
         goods.setPri_cost(pri_cost);
         goods.setExpt_price(expt_price);
         goods.setSubject(subject);
+        goods.setType("出售");
         orderService.sale(goods);
         return "salegoods";
     }

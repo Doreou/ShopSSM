@@ -6,6 +6,15 @@ public class Goods {
     private String goods_title;
     private String introduce;
     private float pri_cost;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     private float expt_price;
     private String status;
     private String subject;
@@ -14,6 +23,7 @@ public class Goods {
     private int clickcount;
     private int focuscount;
     private int collectcount;
+    private String type;
 
     public int getGoods_id() {
         return goods_id;
