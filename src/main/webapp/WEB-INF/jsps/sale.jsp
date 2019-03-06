@@ -25,7 +25,7 @@
     <script src="/layui.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
     <style>
-        .layui-carousel{
+        .layui-carousel {
             margin: auto;
         }
     </style>
@@ -34,9 +34,9 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    Object userList=session.getAttribute("user");
-    if(userList!=null){
-        userList=(List<User>) userList;
+    Object userList = session.getAttribute("user");
+    if (userList != null) {
+        userList = (List<User>) userList;
     }
 %>
 <div class="pace  pace-inactive">
@@ -123,7 +123,7 @@
         </a>
         <%}%>
         <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
-            <%--<div class="left"></div>--%>
+        <%--<div class="left"></div>--%>
         <%--</li>--%>
     </ul>
 </div>
@@ -239,7 +239,16 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
+        if (<%=userList!=null%>) {
+            <%
+                List<User> userList1=(List<User>) session.getAttribute("user");
+                if(userList1.get(0).getIcon()!=null){%>
+                    $(".headpic").attr("src", "<%=userList1.get(0).getIcon()%>");
+            <%}
+        %>
+        }
+
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
         if (<%=userList!=null%>) {
@@ -251,7 +260,7 @@
         }
 
     })
-    layui.use(['carousel', 'form'], function() {
+    layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
             , form = layui.form;
 

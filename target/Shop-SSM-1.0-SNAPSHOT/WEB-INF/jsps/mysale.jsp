@@ -297,6 +297,10 @@
 </div>
 <script>
     $(document).ready(function(){
+        if (<%=userList.get(0).getIcon()!=null%>) {
+            $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
+            $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
+        }
         if(<%=mysale==null%>){
             $("#sold_out_pro").hide();
         }else{

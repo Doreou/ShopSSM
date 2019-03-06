@@ -7,6 +7,7 @@ import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
 
@@ -18,10 +19,7 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -207,8 +205,12 @@ public class UserController {
         user.setUser_id(userList.get(0).getUser_id());
         user.setIcon(code);
         userService.updateHeadPic(user);
+        //更新用户信息
+        userList=userService.getById(userList.get(0).getUser_id());
+        session.setAttribute("user",userList);
         return "redirect:/Page/info";
     }
+
 
 
 }

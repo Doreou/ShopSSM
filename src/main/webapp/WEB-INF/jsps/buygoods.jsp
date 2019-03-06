@@ -35,10 +35,7 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    Object userList = session.getAttribute("user");
-    if (userList != null) {
-        userList = (List<User>) userList;
-    }
+    List<User> userList =(List<User>) session.getAttribute("user");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -272,6 +269,9 @@
 </div>
 <script>
     $(document).ready(function () {
+        if (<%=userList.get(0).getIcon()!=null%>) {
+            $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
+        }
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
         if (<%=userList!=null%>) {

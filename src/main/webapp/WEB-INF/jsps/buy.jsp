@@ -245,6 +245,14 @@
 </div>
 <script>
     $(document).ready(function(){
+        if (<%=userList!=null%>) {
+            <%
+                List<User> userList1=(List<User>) session.getAttribute("user");
+                if(userList1.get(0).getIcon()!=null){%>
+            $(".headpic").attr("src", "<%=userList1.get(0).getIcon()%>");
+            <%}
+        %>
+        }
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
             if (<%=userList!=null%>) {

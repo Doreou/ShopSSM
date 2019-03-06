@@ -14,17 +14,17 @@
 <head>
     <meta charset="utf-8">
     <title>我的信息</title>
-    <link href="/css/animate.css" rel="stylesheet" />
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/css/login.css" rel="stylesheet" />
-    <link href="/css/salestyle.css" rel="stylesheet" />
-    <link href="/css/custom.css" rel="stylesheet" />
+    <link href="/css/animate.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/css/login.css" rel="stylesheet"/>
+    <link href="/css/salestyle.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet"/>
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
-    <link href="/css/common.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/infohead.css" />
-    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
-    <link rel="stylesheet" href="/css/info.css" />
+    <link href="/css/common.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/infohead.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css"/>
+    <link rel="stylesheet" href="/css/info.css"/>
     <link rel="stylesheet" href="/css/mybuy.css">
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
@@ -37,10 +37,10 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    List<User> userList=(List<User>) session.getAttribute("user");
-    Object mybuy=session.getAttribute("mybuy");
-    if(mybuy!=null){
-        mybuy=(List<Goods>) mybuy;
+    List<User> userList = (List<User>) session.getAttribute("user");
+    Object mybuy = session.getAttribute("mybuy");
+    if (mybuy != null) {
+        mybuy = (List<Goods>) mybuy;
     }
 %>
 <div class="pace  pace-inactive">
@@ -104,7 +104,8 @@
             </ul>
             <form class="navbar-form navbar-right search-box" onsubmit="return false;">
                 <div class="form-group pull-left">
-                    <input name="keyword" type="text" id="serachWord" class="form-control search-field" placeholder="搜索一下..."> </div>
+                    <input name="keyword" type="text" id="serachWord" class="form-control search-field"
+                           placeholder="搜索一下..."></div>
                 <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
@@ -157,7 +158,8 @@
         </div>
         <div id="user_msg">
             <div class="name">
-                <%=userList.get(0).getUsername()%> </div>
+                <%=userList.get(0).getUsername()%>
+            </div>
             <p class="has_sell">共有<span class="all">0</span>件商品，已卖出<span>0</span>件商品</p>
             <ul class="seller_attr">
                 <li>学校：&nbsp;&nbsp;<span>大连大学</span></li>
@@ -170,32 +172,33 @@
 
     <div style="display: none" class="tailoring-container">
         <form action="/User/upload" id="upload">
-        <div class="tailoring-content" style="top: 100px; left: 365.5px;">
-            <div class="tailoring-content-one">
-                <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
-                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg" class="hidden" onchange="selectImg(this)">
-                    选择图片
-                </label>
-                <div class="close-tailoring">×</div>
-            </div>
-            <div class="tailoring-content-two">
-                <div class="tailoring-box-parcel">
-                    <img id="tailoringImg">
+            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
+                <div class="tailoring-content-one">
+                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
+                               class="hidden" onchange="selectImg(this)">
+                        选择图片
+                    </label>
+                    <div class="close-tailoring">×</div>
                 </div>
-                <div class="preview-box-parcel">
-                    <p>图片预览：</p>
-                    <div class="square previewImg"></div>
-                    <div class="circular previewImg"></div>
+                <div class="tailoring-content-two">
+                    <div class="tailoring-box-parcel">
+                        <img id="tailoringImg">
+                    </div>
+                    <div class="preview-box-parcel">
+                        <p>图片预览：</p>
+                        <div class="square previewImg"></div>
+                        <div class="circular previewImg"></div>
+                    </div>
+                </div>
+                <textarea style="display: none" name="code" id="code"></textarea>
+                <div class="tailoring-content-three">
+                    <button class="l-btn cropper-reset-btn">复位</button>
+                    <button class="l-btn cropper-rotate-btn">旋转</button>
+                    <button class="l-btn cropper-scaleX-btn">换向</button>
+                    <button class="l-btn sureCut" id="sureCut">确定</button>
                 </div>
             </div>
-            <textarea style="display: none" name="code" id="code"></textarea>
-            <div class="tailoring-content-three">
-                <button class="l-btn cropper-reset-btn">复位</button>
-                <button class="l-btn cropper-rotate-btn">旋转</button>
-                <button class="l-btn cropper-scaleX-btn">换向</button>
-                <button class="l-btn sureCut" id="sureCut">确定</button>
-            </div>
-        </div>
         </form>
     </div>
 
@@ -224,14 +227,18 @@
                 <p class="btn">查看求购模块</p>
             </a>
         </div>
-        <%if(mybuy!=null){
-            for (Goods g:(List<Goods>)mybuy){%>
+        <%
+            if (mybuy != null) {
+                for (Goods g : (List<Goods>) mybuy) {
+        %>
         <div id="sold_out_pro">
             <div class="enshr_each">
                 <img class="enshr_ph pull-left" alt="<%=g.getGoods_title()%>" src="/Public/images/icon/buyicon.png">
                 <div class="enshr_info">
-                    <h2><%=g.getGoods_title()%></h2>
-                    <p><%=g.getIntroduce()%></p>
+                    <h2><%=g.getGoods_title()%>
+                    </h2>
+                    <p><%=g.getIntroduce()%>
+                    </p>
                     <div class="enshr_state">
                         <div class="btn-group">
                             <a href="/user/reflashbuy/buyid/348">
@@ -242,16 +249,20 @@
                             </a>
                             <a href="/user/delbuy/buyid/348">
                                 <span class="btn btn-danger btn-sm">删除</span>
-                            </a>                                    </div>
+                            </a></div>
                         <span class="autosale_now">求购信息正在展示，90天后自动下架</span>
                     </div>
                 </div>
             </div>
         </div>
-        <%}
-        }%>
+        <%
+                }
+            }
+        %>
         <div class="text-center">
-            <nav><ul class="pagination"></ul></nav>
+            <nav>
+                <ul class="pagination"></ul>
+            </nav>
         </div>
     </div>
     <div class="common-footer">
@@ -266,7 +277,8 @@
             </ul>
         </div>
         <div class="footerMain">
-            <a href="/index/index" class="fLogo" style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
+            <a href="/index/index" class="fLogo"
+               style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
             <div class="fContact">
                 <h3 class="fct">联系我们 / <span>contact us</span></h3>
                 <p>Q群：999999999</p>
@@ -291,10 +303,16 @@
 
 </div>
 <script>
-    $(document).ready(function(){
-        if(<%=mybuy==null%>){
+    $(document).ready(function () {
+        if (<%=userList.get(0).getIcon()!=null%>) {
+            $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
+            $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
+        }
+
+
+        if (<%=mybuy==null%>) {
             $("#sold_out_pro").hide();
-        }else{
+        } else {
             $(".no-data").hide();
         }
         if (<%=userList!=null%>) {
@@ -305,33 +323,33 @@
             $("#login_show").hide();
         }
 
-        if(<%=userList.get(0).getMember_status()==0%>){
+        if (<%=userList.get(0).getMember_status()==0%>) {
             $('#checkmember').html("未认证");
-        }else{
+        } else {
             $('#checkmember').html("已认证");
         }
 
         //上传控制图层js控制器
-        $("#change_ph").bind("click",function(){
-            $('.tailoring-container').attr("style","display:block");
+        $("#change_ph").bind("click", function () {
+            $('.tailoring-container').attr("style", "display:block");
         });
 
-        $(".close-tailoring").bind("click",function(){
-            $('.tailoring-container').attr("style","display:none");
+        $(".close-tailoring").bind("click", function () {
+            $('.tailoring-container').attr("style", "display:none");
         });
         //结束
 
 
-        $("#origin_ph").bind("mouseenter",function(){
-            $('#change_ph').attr("style","display:block");
+        $("#origin_ph").bind("mouseenter", function () {
+            $('#change_ph').attr("style", "display:block");
         });
-        $("#change_ph").bind("mouseleave",function(){
-            $('#change_ph').attr("style","display:none");
+        $("#change_ph").bind("mouseleave", function () {
+            $('#change_ph').attr("style", "display:none");
         });
 
-        if(<%=userList.get(0).getLabel()==null%>){
+        if (<%=userList.get(0).getLabel()==null%>) {
             $('.user_qianming').html("ta很懒，还没有留下签名哦~");
-        }else{
+        } else {
             $('.user_qianming').html("<%=userList.get(0).getLabel()%>");
         }
 
@@ -339,42 +357,43 @@
 
     function selectImg(file) {
         var reader = new FileReader();
-        reader.onload = function(evt) {
+        reader.onload = function (evt) {
             var replaceSrc = evt.target.result;
             // 更换cropper的图片
             $('#tailoringImg').cropper('replace', replaceSrc);// 默认false，适应高度，不失真
         }
         reader.readAsDataURL(file.files[0]);
     }
+
     // cropper图片裁剪
     $('#tailoringImg').cropper({
-        aspectRatio : 1 / 1,// 默认比例
-        preview : '.previewImg',// 预览视图
-        guides : false, // 裁剪框的虚线(九宫格)
-        autoCropArea : 0.5, // 0-1之间的数值，定义自动剪裁区域的大小，默认0.8
-        movable : false, // 是否允许移动图片
-        dragCrop : true, // 是否允许移除当前的剪裁框，并通过拖动来新建一个剪裁框区域
-        movable : true, // 是否允许移动剪裁框
-        resizable : true, // 是否允许改变裁剪框的大小
-        zoomable : false, // 是否允许缩放图片大小
-        mouseWheelZoom : false, // 是否允许通过鼠标滚轮来缩放图片
-        touchDragZoom : true, // 是否允许通过触摸移动来缩放图片
-        rotatable : true, // 是否允许旋转图片
-        crop : function(e) {
+        aspectRatio: 1 / 1,// 默认比例
+        preview: '.previewImg',// 预览视图
+        guides: false, // 裁剪框的虚线(九宫格)
+        autoCropArea: 0.5, // 0-1之间的数值，定义自动剪裁区域的大小，默认0.8
+        movable: false, // 是否允许移动图片
+        dragCrop: true, // 是否允许移除当前的剪裁框，并通过拖动来新建一个剪裁框区域
+        movable: true, // 是否允许移动剪裁框
+        resizable: true, // 是否允许改变裁剪框的大小
+        zoomable: true, // 是否允许缩放图片大小
+        mouseWheelZoom: true, // 是否允许通过鼠标滚轮来缩放图片
+        touchDragZoom: true, // 是否允许通过触摸移动来缩放图片
+        rotatable: true, // 是否允许旋转图片
+        crop: function (e) {
             // 输出结果数据裁剪图像。
         }
     });
     // 旋转
-    $(".cropper-rotate-btn").on("click", function() {
+    $(".cropper-rotate-btn").on("click", function () {
         $('#tailoringImg').cropper("rotate", 45);
     });
     // 复位
-    $(".cropper-reset-btn").on("click", function() {
+    $(".cropper-reset-btn").on("click", function () {
         $('#tailoringImg').cropper("reset");
     });
     // 换向
     var flagX = true;
-    $(".cropper-scaleX-btn").on("click", function() {
+    $(".cropper-scaleX-btn").on("click", function () {
         if (flagX) {
             $('#tailoringImg').cropper("scaleX", -1);
             flagX = false;
@@ -385,15 +404,14 @@
         flagX != flagX;
     });
 
-    $("#sureCut").on("click", function() {
+    $("#sureCut").on("click", function () {
         if ($("#tailoringImg").attr("src") == null) {
             return false;
         } else {
             var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
             var base64 = cas.toDataURL('image/png'); // 转换为base64
-            alert(base64);
             $('#code').html(base64);
-            $('.tailoring-container').attr("style","display:none");
+            $('.tailoring-container').attr("style", "display:none");
             $('#upload').submit();
 
         }
