@@ -78,7 +78,15 @@ public class PageController {
         return "mycollect";
     }
     @RequestMapping("salegoods")
-    public String Salegoods(){
+    public String Salegoods(HttpSession session){
+        session.setAttribute("title","");
+        session.setAttribute("status","");
+        session.setAttribute("detail","");
+        session.setAttribute("count","");
+        session.setAttribute("price","");
+        session.setAttribute("pricost","");
+        session.setAttribute("address","");
+        session.setAttribute("type","");
         return "salegoods";
     }
 

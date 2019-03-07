@@ -21,10 +21,13 @@
     <link href="/css/salegoods.css" rel="stylesheet">
     <link href="/css/chosen.css" rel="stylesheet">
     <link href="/css/salestyle.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
     <link href="/css/common.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/ImgCropping.css">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
+    <script src="/js/cropper.min.js"></script>
     <style>
         .layui-carousel {
             margin: auto;
@@ -149,20 +152,20 @@
             <h5>发布二手信息</h5>
         </div>
         <div class="ibox-content">
-            <form action="/Order/salegoods" class="form-horizontal m-t" id="saleForm" method="post"
+            <form action="" class="form-horizontal m-t" id="saleForm" method="post"
                   novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">标题：</label>
                     <div class="col-sm-8">
                         <input id="title" name="title" class="required form-control" type="text" placeholder="请输入标题"
-                               aria-required="true">
+                               aria-required="true" value="<%=session.getAttribute("title")%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">详情：</label>
                     <div class="col-sm-8">
                         <textarea id="detail" name="detail" placeholder="请输入详情" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false"></textarea>
+                                  aria-required="true" aria-invalid="false" content="<%=session.getAttribute("detail")%>"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -178,13 +181,13 @@
                     <label class="col-sm-3 control-label">数量：</label>
                     <div class="col-sm-8">
                         <input id="count" name="count" placeholder="请输入您拥有的商品数量" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false">
+                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("count")%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">商品原价：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="pricost" name="pricost" type="text" class="form-control">
+                        <input id="pricost" name="pricost" type="text" class="form-control" value="<%=session.getAttribute("pricost")%>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -203,14 +206,14 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control">
+                        <input id="price" name="price" type="text" class="form-control" value="<%=session.getAttribute("price")%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">交易地点：</label>
                     <div class="col-sm-8">
                         <input id="address" name="address" class="form-control" placeholder="宿舍、教学楼、食堂等" type="text"
-                               aria-required="true" aria-invalid="true">
+                               aria-required="true" aria-invalid="true" value="<%=session.getAttribute("address")%>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -247,12 +250,42 @@
                 <%--</div>--%>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-3">
-                        <button type="submit" class="btn btn-primary btn-block">提交</button>
+                        <button class="btn btn-primary btn-block" onclick="adddata()">提交</button>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
+    <div style="display: none" class="tailoring-container">
+            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
+                <div class="tailoring-content-one">
+                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
+                               class="hidden" onchange="selectImg(this)">
+                        选择图片
+                    </label>
+                    <div class="close-tailoring">×</div>
+                </div>
+                <div class="tailoring-content-two">
+                    <div class="tailoring-box-parcel">
+                        <img id="tailoringImg">
+                    </div>
+                    <div class="preview-box-parcel">
+                        <p>图片预览：</p>
+                        <div class="square previewImg"></div>
+                        <div class="circular previewImg"></div>
+                    </div>
+                </div>
+                <textarea style="display: none" name="code" id="code"></textarea>
+                <div class="tailoring-content-three">
+                    <button class="l-btn cropper-reset-btn">复位</button>
+                    <button class="l-btn cropper-rotate-btn">旋转</button>
+                    <button class="l-btn cropper-scaleX-btn">换向</button>
+                    <button class="l-btn sureCut" id="sureCut">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="common-footer">
         <div class="footerNav">
             <ul class="fn">
@@ -315,6 +348,86 @@
             elem: '#test1'
             , arrow: 'always'
         });
+    });
+    function adddata() {
+        $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/salegoods');
+        $('#saleForm').submit();
+    }
+    //上传控制图层js控制器
+    $("#change_ph").bind("click", function () {
+        $('.tailoring-container').attr("style", "display:block");
+    });
+
+    $('#modal1').bind("click", function () {
+        $('.tailoring-container').attr("style", "display:block");
+    });
+
+    $(".close-tailoring").bind("click", function () {
+        $('.tailoring-container').attr("style", "display:none");
+    });
+    //结束
+
+    function selectImg(file) {
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var replaceSrc = evt.target.result;
+            // 更换cropper的图片
+            $('#tailoringImg').cropper('replace', replaceSrc);// 默认false，适应高度，不失真
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+    // cropper图片裁剪
+    $('#tailoringImg').cropper({
+        aspectRatio: 1 / 1,// 默认比例
+        preview: '.previewImg',// 预览视图
+        guides: false, // 裁剪框的虚线(九宫格)
+        autoCropArea: 0.5, // 0-1之间的数值，定义自动剪裁区域的大小，默认0.8
+        movable: false, // 是否允许移动图片
+        dragCrop: true, // 是否允许移除当前的剪裁框，并通过拖动来新建一个剪裁框区域
+        movable: true, // 是否允许移动剪裁框
+        resizable: true, // 是否允许改变裁剪框的大小
+        zoomable: true, // 是否允许缩放图片大小
+        mouseWheelZoom: true, // 是否允许通过鼠标滚轮来缩放图片
+        touchDragZoom: true, // 是否允许通过触摸移动来缩放图片
+        rotatable: true, // 是否允许旋转图片
+        crop: function (e) {
+            // 输出结果数据裁剪图像。
+        }
+    });
+    // 旋转
+    $(".cropper-rotate-btn").on("click", function () {
+        $('#tailoringImg').cropper("rotate", 45);
+    });
+    // 复位
+    $(".cropper-reset-btn").on("click", function () {
+        $('#tailoringImg').cropper("reset");
+    });
+    // 换向
+    var flagX = true;
+    $(".cropper-scaleX-btn").on("click", function () {
+        if (flagX) {
+            $('#tailoringImg').cropper("scaleX", -1);
+            flagX = false;
+        } else {
+            $('#tailoringImg').cropper("scaleX", 1);
+            flagX = true;
+        }
+        flagX != flagX;
+    });
+
+    $("#sureCut").on("click", function () {
+        if ($("#tailoringImg").attr("src") == null) {
+            return false;
+        } else {
+            var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
+            var base64 = cas.toDataURL('image/png'); // 转换为base64
+            $('#code').html(base64);
+            $('.tailoring-container').attr("style", "display:none");
+            $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/upload');
+            $('#saleForm').submit();
+
+        }
     });
 </script>
 </body>

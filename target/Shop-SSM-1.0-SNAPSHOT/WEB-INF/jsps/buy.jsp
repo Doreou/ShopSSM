@@ -253,6 +253,7 @@
             <%}
         %>
         }
+
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
             if (<%=userList!=null%>) {
@@ -264,6 +265,7 @@
             }
 
     })
+
     layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
             , form = layui.form;

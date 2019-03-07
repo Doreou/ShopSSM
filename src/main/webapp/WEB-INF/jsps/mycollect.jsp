@@ -26,9 +26,11 @@
     <link rel="stylesheet" href="/css/info.css" />
     <link rel="stylesheet" href="/css/favor.css">
     <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/ImgCropping.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
+    <script src="/js/cropper.min.js"></script>
 </head>
 <body class="  pace-done">
 <%
@@ -160,45 +162,36 @@
             </ul>
         </div>
     </div>
-    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">上传头像</h4>
+    <div style="display: none" class="tailoring-container">
+        <form action="/User/upload" id="upload">
+            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
+                <div class="tailoring-content-one">
+                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
+                               class="hidden" onchange="selectImg(this)">
+                        选择图片
+                    </label>
+                    <div class="close-tailoring">×</div>
                 </div>
-                <div class="modal-body">
-                    <div class="avatar-box">
-                        <div class="avatar-content">
-                            <div class="avatar-container">
-                                <img id="cropper-img" class="cropper-img" src="">
-                            </div>
-                            <div class="avatar-preview">
-                                <div class="pre120 preview-img" style="width: 120px;height: 120px;">
-                                </div>
-                                <div class="pre100 preview-img" style="width: 100px;height: 100px;">
-                                </div>
-                                <div class="pre60 preview-img" style="width: 60px;height: 60px;">
-                                </div>
-                            </div>
-                            <div style="clear: both;"></div>
-                        </div>
-                        <div class="button-group">
-                            <ul class="cropper-button">
-                                <li class="choose_img">
-                                    选择图片
-                                    <input onchange="choose_img(this)" type="file">
-                                </li>
-                                <li onclick="zoom_out()">放大</li>
-                                <li onclick="zoom_in()">缩小</li>
-                                <li onclick="rotate_avator()">旋转</li>
-                                <li onclick="upload_avator()">确定裁剪</li>
-                            </ul>
-                        </div>
+                <div class="tailoring-content-two">
+                    <div class="tailoring-box-parcel">
+                        <img id="tailoringImg">
+                    </div>
+                    <div class="preview-box-parcel">
+                        <p>图片预览：</p>
+                        <div class="square previewImg"></div>
+                        <div class="circular previewImg"></div>
                     </div>
                 </div>
+                <textarea style="display: none" name="code" id="code"></textarea>
+                <div class="tailoring-content-three">
+                    <button class="l-btn cropper-reset-btn">复位</button>
+                    <button class="l-btn cropper-rotate-btn">旋转</button>
+                    <button class="l-btn cropper-scaleX-btn">换向</button>
+                    <button class="l-btn sureCut" id="sureCut">确定</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="container-fluid">
         <ul id="middle_nav" class="clearfix row">
@@ -263,6 +256,7 @@
     </div>
 
 </div>
+<script src="/js/upload.js"></script>
 <script>
     $(document).ready(function(){
         if (<%=userList.get(0).getIcon()!=null%>) {
@@ -297,21 +291,6 @@
         }
 
     })
-
-    layui.use('upload', function(){
-        var upload = layui.upload;
-        //执行实例
-        var uploadInst = upload.render({
-            elem: '#change_ph' //绑定元素
-            ,url: '/upload/' //上传接口
-            ,done: function(res){
-                //上传完毕回调
-            }
-            ,error: function(){
-                //请求异常回调
-            }
-        });
-    });
 
 </script>
 

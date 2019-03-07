@@ -13,4 +13,5 @@ public interface UserMapper {
     List<User> queryById(String userid);
     void updateInfoById(User user);//修改用户信息
     void updateHeadPic(User user);
+    String getHeadPic(String userid);
 }
