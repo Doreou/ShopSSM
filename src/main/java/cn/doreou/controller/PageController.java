@@ -2,7 +2,12 @@ package cn.doreou.controller;
 
 
 import cn.doreou.model.Book;
+import cn.doreou.model.GoodAndUser;
+import cn.doreou.model.Goods;
+import cn.doreou.model.User;
 import cn.doreou.service.BookService;
+import cn.doreou.service.OrderService;
+import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +22,19 @@ import java.util.List;
 public class PageController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private UserService userService;
 //    购买二手
     @RequestMapping("buy")
     public String Gobuy(HttpSession session){
+        List<Goods> result=orderService.getAllSale();
+        session.setAttribute("AllSaleGoodsList",result);
+        List<Goods> result1=orderService.getAllBuy();
+        session.setAttribute("AllBuyGoodsList",result1);
+        List<GoodAndUser> goodAndUsers=userService.getInfoByGoods();
+        session.setAttribute("userinfo",goodAndUsers);
         List<Book> bookList=bookService.getAllSubject();
         session.setAttribute("AllSubject",bookList);
         return "buy";
@@ -93,5 +108,10 @@ public class PageController {
     @RequestMapping("buygoods")
     public String Buygoods(){
         return "buygoods";
+    }
+
+    @RequestMapping("checkinfo_nextstep")
+    public String Checkinfo_nextstep(){
+        return "checkinfo_nextstep";
     }
 }

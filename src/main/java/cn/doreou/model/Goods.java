@@ -1,11 +1,22 @@
 package cn.doreou.model;
 
+import java.util.Date;
+
 public class Goods {
     private int goods_id;
     private String owner_id;
     private String goods_title;
     private String introduce;
     private float pri_cost;
+    private Date time;
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
 
     public String getType() {
         return type;

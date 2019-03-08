@@ -24,5 +24,16 @@ public class OrderServiceImpl implements OrderService {
     public List<Goods> getMySale(String userid,String type){
         return orderMapper.getMySale(userid,type);
     }
-
+    public List<Goods> getSaleBySub(String subject){
+        return orderMapper.getSaleBySub(subject);
+    }
+    public List<Goods> getBuyBySub(String subject){
+        return orderMapper.getBuyBySub(subject);
+    }
+    public List<Goods> getAllSale(){
+        return orderMapper.getAllSale();
+    }
+    public List<Goods> getAllBuy(){
+        return orderMapper.getAllBuy();
+    }
 }

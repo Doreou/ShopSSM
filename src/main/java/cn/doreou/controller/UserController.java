@@ -1,8 +1,10 @@
 package cn.doreou.controller;
 
 import cn.doreou.model.Book;
+import cn.doreou.model.Goods;
 import cn.doreou.model.User;
 import cn.doreou.service.BookService;
+import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private BookService bookService;
+    @Autowired
+    private OrderService orderService;
 
     //登陆/注册验证码
     @RequestMapping("getVerifyCode")
@@ -153,8 +157,10 @@ public class UserController {
                 if (result) {
                     List<User> userList=userService.getById(userid);
                     List<Book> bookList = bookService.getAllSubject();
+                    List<Goods> goodsList=orderService.getAllSale();
+//                    session.setAttribute("AllGoodsList",goodsList);
                     session.setAttribute("user",userList);
-                    session.setAttribute("AllSubject", bookList);
+//                    session.setAttribute("AllSubject", bookList);
                     return "redirect:/Page/sale";
                 } else {
                     //返回错误信息

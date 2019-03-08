@@ -1,5 +1,6 @@
 package cn.doreou.service;
 
+import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.User;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface UserService {
     List<User> getById(String userid);
     void updateInfoById(User user);
     void updateHeadPic(User user);
+    List<GoodAndUser> getInfoByGoods();
 }

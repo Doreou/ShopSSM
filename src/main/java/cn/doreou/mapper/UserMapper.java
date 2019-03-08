@@ -1,6 +1,8 @@
 package cn.doreou.mapper;
 
 
+import cn.doreou.model.GoodAndUser;
+import cn.doreou.model.Goods;
 import cn.doreou.model.User;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +16,6 @@ public interface UserMapper {
     void updateInfoById(User user);//修改用户信息
     void updateHeadPic(User user);
     String getHeadPic(String userid);
+    List<GoodAndUser> getInfoByGoods();
+
 }

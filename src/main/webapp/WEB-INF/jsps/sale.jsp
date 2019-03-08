@@ -1,6 +1,8 @@
 <%@ page import="cn.doreou.model.Book" %>
 <%@ page import="java.util.List" %>
-<%@ page import="cn.doreou.model.User" %><%--
+<%@ page import="cn.doreou.model.User" %>
+<%@ page import="cn.doreou.model.Goods" %>
+<%@ page import="cn.doreou.model.GoodAndUser" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/2/17
@@ -20,6 +22,7 @@
     <link href="/css/iconfont.css" rel="stylesheet">
     <link href="/css/swiper-3.4.2.min.css" rel="stylesheet">
     <link href="/css/buy.css" rel="stylesheet">
+    <link href="/css/showsale.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet"/>
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
@@ -38,6 +41,8 @@
     if (userList != null) {
         userList = (List<User>) userList;
     }
+    Object goodslist=session.getAttribute("AllSaleGoodsList");
+    List<GoodAndUser> usersinfo=(List<GoodAndUser>) session.getAttribute("userinfo");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -109,9 +114,19 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
+        <a href="/Order/getAllSale" class="clearfix">
+            <li class="item clearfix text-center">
+                <div class="icon pull-left">
+                    <i class="icon iconfontitems"></i>
+                </div>
+                <div class="title pull-left">
+                    所有分类
+                </div>
+            </li>
+        </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/sale/type/<%=b.getSub_id()%>" class="clearfix">
+        <a href="/Order/querysalebysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -122,9 +137,6 @@
             </li>
         </a>
         <%}%>
-        <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
-        <%--<div class="left"></div>--%>
-        <%--</li>--%>
     </ul>
 </div>
 <div class="sidebar">
@@ -154,53 +166,43 @@
                     <div><img src="/images/lunbo2_600x280.jpg"></div>
                 </div>
             </div>
-            <%--<div class="banner">--%>
-            <%--<div class="swiper-container swiper-container-horizontal swiper-container-fade">--%>
-            <%--<div class="swiper-wrapper" style="transition-duration: 0ms;">--%>
-            <%--<div class="swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev"--%>
-            <%--data-swiper-slide-index="3"--%>
-            <%--style="width: 1190px; transform: translate3d(0px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="/images/1.jpg">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide swiper-slide-duplicate-active" data-swiper-slide-index="0"--%>
-            <%--style="width: 1190px; transform: translate3d(-1190px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="/images/2.jpg">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide" data-swiper-slide-index="1"--%>
-            <%--style="width: 1190px; transform: translate3d(-2380px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide" data-swiper-slide-index="2"--%>
-            <%--style="width: 1190px; transform: translate3d(-3570px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide swiper-slide-prev swiper-slide-duplicate-next"--%>
-            <%--data-swiper-slide-index="3"--%>
-            <%--style="width: 1190px; transform: translate3d(-4760px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="0"--%>
-            <%--style="width: 1190px; transform: translate3d(-5950px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<!-- 如果需要分页器 -->--%>
-            <%--<div class="swiper-pagination swiper-pagination-bullets"><span--%>
-            <%--class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span--%>
-            <%--class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span--%>
-            <%--class="swiper-pagination-bullet"></span></div>--%>
-            <%--<!-- 如果需要导航按钮 -->--%>
-            <%--<div class="swiper-button-prev swiper-button-white"></div>--%>
-            <%--<div class="swiper-button-next swiper-button-white"></div>--%>
-            <%--</div>--%>
-            <%--</div>--%>
         </div>
+        <ul class="goodsbox clearfix">
+            <%
+                if(goodslist!=null){
+                for(Goods g:(List<Goods>)goodslist){%>
+            <li class="items clearfix" style="margin-left: 66px;">
+                <div class="class-item">
+                    <div class="class-bg-layer"></div>
+                    <div class="class-item-bg">
+                        <a target="_blank" href="/sale/<%=g.getGoods_id()%>" class="class-img">
+                            <img class="img-responsive lazyload" src="<%=g.getCover()%>" alt="<%=g.getGoods_title()%>" data-original="/Uploads/salebuy/2019-03-07/5c80d801426ca.png" style="display: block;">
+                        </a>
+                        <div class="pricehot clearfix">
+                            <span class="price">￥&nbsp;<span><%=g.getExpt_price()%></span></span>
+                            <span class="hot">点击数&nbsp;<span><%=g.getClickcount()%></span></span>
+                        </div>
+                        <a target="_blank" href="/sale/2671" class="title">
+                            <%=g.getGoods_title()%>                                    </a>
+                        <div class="some  clearfix">
+                            <span class="school">大连大学</span>
+                            <span class="renzheng">
+                                <%for(GoodAndUser u:usersinfo){
+                                    if (u.getGoods_id()==g.getGoods_id()){
+                                        if(u.getMember_status()==0){%>
+                                                未认证
+                                        <%}else {%>
+                                                已认证
+                                        <%}
+                                    }
+                                }%>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+                <%}}%>
+        </ul>
         <div class="common-footer">
             <div class="footerNav">
                 <ul class="fn">
@@ -240,15 +242,6 @@
 </div>
 <script>
     $(document).ready(function () {
-        if (<%=userList!=null%>) {
-            <%
-                List<User> userList1=(List<User>) session.getAttribute("user");
-                if(userList1.get(0).getIcon()!=null){%>
-                    $(".headpic").attr("src", "<%=userList1.get(0).getIcon()%>");
-            <%}
-        %>
-        }
-
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
         if (<%=userList!=null%>) {
@@ -270,6 +263,7 @@
             , arrow: 'always'
         });
     });
+
 </script>
 </body>
 </html>

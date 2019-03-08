@@ -10,4 +10,8 @@ public interface OrderService {
     void buy(Goods goods);
     List<Goods> getMySale(String userid,String type);
     List<Goods> getMyBuy(String userid,String type);
+    List<Goods> getSaleBySub(String subject);
+    List<Goods> getBuyBySub(String subject);
+    List<Goods> getAllSale();
+    List<Goods> getAllBuy();
 }

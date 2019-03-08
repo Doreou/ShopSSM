@@ -1,6 +1,7 @@
 package cn.doreou.service.impl;
 
 import cn.doreou.mapper.UserMapper;
+import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.User;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,8 @@ public class UserServiceImpl implements UserService {
     }
     public void updateHeadPic(User user){
         userMapper.updateHeadPic(user);
+    }
+    public List<GoodAndUser> getInfoByGoods(){
+        return userMapper.getInfoByGoods();
     }
 }

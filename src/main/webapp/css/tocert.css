@@ -1,0 +1,265 @@
+.main {
+    padding-left: 180px;
+    padding-right: 160px;
+    padding-top: 50px;
+    width: 100%;
+}
+
+#certpic{
+    width: 300px;
+    height: 200px;
+    margin: 15px auto;
+    display: none;
+}
+
+#certpic img{
+    width: 300px;
+    height: 200px;
+}
+
+.bottom_info{
+    text-align:center;
+    margin: 20px auto 20px;
+}
+
+.idtf-upload{
+    background-color:#fff;
+    width:100%;
+    padding: 15px;
+}
+
+.bottom_info .textlogo{
+    display:inline-block;
+    height:40px;
+    width:100%;
+    background-color:rgb(58,58,58);
+    margin:0px auto;
+    text-align:center;
+    color:#fff;
+}
+
+.textlogo h1{
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 30px;
+    line-height:65px;
+}
+
+.logo img {
+    margin:10px auto;
+}
+.idtf-steps {
+    height:95px;
+    width:100%;
+    background-color:rgb(200,200,200);
+}
+
+.idtf-o{
+    display:inline-block;
+    width:40px;
+    height:40px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    background-color:#fff;
+    color:rgb(68,193,165);
+    vertical-align:middle;
+    line-height: 37px;
+    text-align: center;
+    font-weight:bold;
+}
+
+.divide-l{
+    display:inline-block;
+    margin:20px auto;
+    color:#fff;
+    font-size: 20px;
+}
+
+.first,
+.second,
+.third{
+    display:inline-block;
+}
+
+.std_input_info{
+    height:60px;
+    display:block !important;
+    margin-top: 20px;
+}
+
+.std_input span{
+    display:inline-block;
+    color: rgb(58,58,58);
+    vertical-align:middle;
+
+}
+
+.std_input{
+    margin:30px auto;
+    display:inline-block;
+    margin-left:10px;
+    position: relative;
+}
+
+.std_input .input-help{
+    position: absolute;
+    color: red;
+}
+
+.idtf-steps .step{
+    display: inline-block;
+    height: 30px;
+
+    background: none;
+}
+
+.identify-btn input{
+    text-align:center;
+    height:50px !important;
+    width:180px;
+    border-radius:26px;
+    background-color:rgb(58,58,58 );
+    margin:15px auto;
+    font-weight:bold;
+    font-size:20px;
+    box-shadow:1px 1px 1px 1px rgba(0,0,0,0.16);
+    outline:none !important;
+    color:#fff;
+    transition: background-color 1s;
+}
+
+.identify-btn input:hover{
+    background-color: rgb(85,85,85);
+}
+
+.identify-btn input
+
+.identify-btn input:active{
+    position:relative;
+    top:1px;
+}
+
+.identify-btn a{
+    color:#fff;
+    text-decoration:none;
+    line-height: 47px;
+    text-align: center;
+    font-weight:bold;
+}
+
+.feiji{
+    vertical-align:middle;
+}
+
+.upload-target{
+    height:120px;
+}
+
+.camera{
+    margin-bottom:-7px;
+}
+
+.upload-tip{
+    color: rgb(58,58,58);
+    text-decoration:none;
+    display:block;
+    margin-top: 10px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+}
+
+.idtf-photo .showpic{
+    padding: 8px;
+    background-color: rgb(157,207,212);
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.idtf-photo .showpic .remove{
+    background: rgba(0, 0, 0, 0) url("../../images/icon/remove.png") no-repeat scroll 0 0;
+    bottom: 20px;
+    height: 50px;
+    position: absolute;
+    right: 12px;
+    width: 50px;
+    z-index: 10;
+}
+
+.idtf-photo .showpic img{
+    width: 450px;
+    height: 200px;
+    margin: 5px auto;
+}
+
+.bottom_info .std_input span{
+    font-size: 20px;
+    line-height: 20px;
+    display: inline-block;
+}
+
+.bottom_info .std_input input{
+    outline:auto;
+    outline-color:rgb(202,202,202);
+    height:32px;
+    font-size:14px;
+    padding-left:5px;
+    border: 1px solid #888888;
+}
+
+.bottom_info .identify-btn span{
+    color: #fff;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    width: 120px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    display: inline-block;
+    background-color: rgb(0,170,136);
+    font-size:18px;
+
+}
+.idtf-photo,
+.uploading,
+.identify-btn{
+    display:block !important;
+}
+
+.webuploader-element-invisible {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+#filePicker{
+    display: block;
+}
+
+.cert-tips{
+    margin: 20px 0 10px;
+    text-align: center;
+    color: #f60;
+}
+
+.submitcert {
+    margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+

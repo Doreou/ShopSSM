@@ -1,11 +1,14 @@
 <%@ page import="cn.doreou.model.Book" %>
 <%@ page import="java.util.List" %>
 <%@ page import="cn.doreou.model.User" %>
-  Created by IntelliJ IDEA.
-  User: Holmes
-  Date: 2019/2/17
-  Time: 10:54
-  To change this template use File | Settings | File Templates.
+<%@ page import="cn.doreou.model.GoodAndUser" %>
+<%@ page import="cn.doreou.model.Goods" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+Created by IntelliJ IDEA.
+User: Holmes
+Date: 2019/2/17
+Time: 10:54
+To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -21,6 +24,7 @@
     <link href="/css/swiper-3.4.2.min.css" rel="stylesheet">
     <link href="/css/buy.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet"/>
+    <link href="/css/showsale.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
@@ -34,10 +38,12 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    Object userList=session.getAttribute("user");
-    if(userList!=null){
-        userList=(List<User>) userList;
+    Object userList = session.getAttribute("user");
+    if (userList != null) {
+        userList = (List<User>) userList;
     }
+    Object goodslist = session.getAttribute("AllBuyGoodsList");
+    List<GoodAndUser> usersinfo = (List<GoodAndUser>) session.getAttribute("userinfo");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -112,10 +118,19 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
-
+        <a href="/Order/getAllBuy" class="clearfix">
+            <li class="item clearfix text-center">
+                <div class="icon pull-left">
+                    <i class="icon iconfontitems"></i>
+                </div>
+                <div class="title pull-left">
+                    所有分类
+                </div>
+            </li>
+        </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/buy/type/<%=b.getSub_id()%>" class="clearfix">
+        <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -128,7 +143,7 @@
         <%}%>
 
         <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
-            <%--<div class="left"></div>--%>
+        <%--<div class="left"></div>--%>
         <%--</li>--%>
     </ul>
 </div>
@@ -159,52 +174,102 @@
                     <div><img src="/images/lunbo2_600x280.jpg"></div>
                 </div>
             </div>
-            <%--<div class="banner">--%>
-            <%--<div class="swiper-container swiper-container-horizontal swiper-container-fade">--%>
-            <%--<div class="swiper-wrapper" style="transition-duration: 0ms;">--%>
-            <%--<div class="swiper-slide swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev"--%>
-            <%--data-swiper-slide-index="3"--%>
-            <%--style="width: 1190px; transform: translate3d(0px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="/images/1.jpg">--%>
+        </div>
+        <div class="list clearfix">
+            <% for (Goods g : (List<Goods>) goodslist) {%>
 
-            <%--</div>--%>
-            <%--<div class="swiper-slide swiper-slide-duplicate-active" data-swiper-slide-index="0"--%>
-            <%--style="width: 1190px; transform: translate3d(-1190px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="/images/2.jpg">--%>
+            <div class="itemlist clearfix">
+                <div class="itembox clearfix">
+                    <div class="item_main">
+                        <div class="left">
+                            <div class="userhead">
+                                <%
+                                    for (GoodAndUser u : usersinfo) {
+                                        if (u.getGoods_id() == g.getGoods_id()) {
+                                %>
+                                <img src="<%=u.getIcon()%>">
+                                <%
+                                        }
+                                    }
+                                %>
+                            </div>
+                            <div class="username">
+                                <%
+                                    for (GoodAndUser u : usersinfo) {
+                                        if (u.getGoods_id() == g.getGoods_id()) {
+                                %>
+                                <a target="_blank" href="/other/salenow?userid=3713"><%=u.getUsername()%>
+                                </a>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="title">
+                                <%=g.getGoods_title()%>
+                            </div>
+                            <div class="desc">
+                                <%=g.getIntroduce()%>
+                            </div>
+                            <div class="attr">
+                                期望价格：<span class="price"><%=g.getExpt_price()%></span> 交易地点：<span
+                                    class="position">宿舍</span>
+                                发布时间：<span class="datetime"><%
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                String time = sdf.format(g.getTime());
+                            %><%=time%></span>
+                                学校：<span class="school">大连大学</span>
+                            </div>
+                            <div class="contact">
+                                <%
+                                    for (GoodAndUser u : usersinfo) {
+                                        if (u.getGoods_id() == g.getGoods_id()) {
+                                %>
+                                <span class="phone">手机：<span class="telnum">
+                                    <%if (u.getPhone() != null) {%>
+                                        <%=u.getPhone()%>
+                                    <%} else {%>
+                                        ta还没有留下电话哦~
+                                    <%}%>
+                                                                                                                                    </span> </span>
+                                <span class="qq">QQ：<span class="qqnum">
+                                            <%if (u.getQq() != null) {%>
+                                        <%=u.getQq()%>
+                                    <%} else {%>
+                                        ta还没有留下QQ哦~
+                                    <%}%>                                                                                           </span>
+                                        </span>
+                                <span class="phone">微信：<span class="telnum">
+                                                                                            <%if (u.getWechat() != null) {%>
+                                        <%=u.getWechat()%>
+                                    <%} else {%>
+                                        ta还没有留下微信哦~
+                                    <%}%>                                        </span> </span>
+                                <span class="qq">用户认证状态：<span class="qqnum">
+                                            <%if (u.getMember_status() == 0) {%>
+                                                未认证
+                                            <%} else {%>
+                                                已认证
+                                            <%}%>                                            </span>
+                                        </span>                                                                         </span> </span>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </div>
+                            <!--<a class="comment" href="javascript:showcomment(1016)">评论</a>-->
+                        </div>
+                    </div>
+                    <div id="item1016" class="item_comments" style="display: none;">
+                        <div class="comment_wr">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <%--</div>--%>
-            <%--<div class="swiper-slide" data-swiper-slide-index="1"--%>
-            <%--style="width: 1190px; transform: translate3d(-2380px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide" data-swiper-slide-index="2"--%>
-            <%--style="width: 1190px; transform: translate3d(-3570px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide swiper-slide-prev swiper-slide-duplicate-next"--%>
-            <%--data-swiper-slide-index="3"--%>
-            <%--style="width: 1190px; transform: translate3d(-4760px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--<div class="swiper-slide swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="0"--%>
-            <%--style="width: 1190px; transform: translate3d(-5950px, 0px, 0px); opacity: 1; transition-duration: 0ms;">--%>
-            <%--<img class="swiper-lazy swiper-lazy-loaded" src="">--%>
-
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<!-- 如果需要分页器 -->--%>
-            <%--<div class="swiper-pagination swiper-pagination-bullets"><span--%>
-            <%--class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span--%>
-            <%--class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span--%>
-            <%--class="swiper-pagination-bullet"></span></div>--%>
-            <%--<!-- 如果需要导航按钮 -->--%>
-            <%--<div class="swiper-button-prev swiper-button-white"></div>--%>
-            <%--<div class="swiper-button-next swiper-button-white"></div>--%>
-            <%--</div>--%>
-            <%--</div>--%>
+            <%}%>
         </div>
         <div class="common-footer">
             <div class="footerNav">
@@ -244,25 +309,17 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
-        if (<%=userList!=null%>) {
-            <%
-                List<User> userList1=(List<User>) session.getAttribute("user");
-                if(userList1.get(0).getIcon()!=null){%>
-            $(".headpic").attr("src", "<%=userList1.get(0).getIcon()%>");
-            <%}
-        %>
-        }
+    $(document).ready(function () {
 
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
-            if (<%=userList!=null%>) {
-                //隐藏登陆/注册
-                $("#js_visible").hide();
-            } else {
-                //隐藏信息div
-                $("#login_show").hide();
-            }
+        if (<%=userList!=null%>) {
+            //隐藏登陆/注册
+            $("#js_visible").hide();
+        } else {
+            //隐藏信息div
+            $("#login_show").hide();
+        }
 
     })
 

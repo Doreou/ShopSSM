@@ -1,10 +1,10 @@
 <%@ page import="cn.doreou.model.Book" %>
-<%@ page import="cn.doreou.model.User" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="cn.doreou.model.User" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/3/4
-  Time: 19:59
+  Date: 2019/3/7
+  Time: 17:28
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,20 +13,22 @@
 <head>
     <meta charset="utf-8">
     <title>我的信息</title>
-    <link href="/css/animate.css" rel="stylesheet" />
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/css/login.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
-    <link href="/css/custom.css" rel="stylesheet" />
+    <link href="/css/animate.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/css/login.css" rel="stylesheet"/>
+    <link href="/css/salestyle.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet"/>
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
-    <link href="/css/common.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/infohead.css" />
-    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
-    <link rel="stylesheet" href="/css/info.css" />
-    <link rel="stylesheet" href="/css/favor.css">
+    <link href="/css/common.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/infohead.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css"/>
+    <link rel="stylesheet" href="/css/info.css"/>
+    <link rel="stylesheet" href="/css/cert.css">
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
+    <link rel="stylesheet" href="/css/webuploader.css">
+    <link rel="stylesheet" href="/css/tocert.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
@@ -36,7 +38,7 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    List<User> userList=(List<User>) session.getAttribute("user");
+    List<User> userList = (List<User>) session.getAttribute("user");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -99,7 +101,8 @@
             </ul>
             <form class="navbar-form navbar-right search-box" onsubmit="return false;">
                 <div class="form-group pull-left">
-                    <input name="keyword" type="text" id="serachWord" class="form-control search-field" placeholder="搜索一下..."> </div>
+                    <input name="keyword" type="text" id="serachWord" class="form-control search-field"
+                           placeholder="搜索一下..."></div>
                 <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
@@ -152,7 +155,8 @@
         </div>
         <div id="user_msg">
             <div class="name">
-                <%=userList.get(0).getUsername()%> </div>
+                <%=userList.get(0).getUsername()%>
+            </div>
             <p class="has_sell">共有<span class="all">0</span>件商品，已卖出<span>0</span>件商品</p>
             <ul class="seller_attr">
                 <li>学校：&nbsp;&nbsp;<span>大连大学</span></li>
@@ -162,37 +166,7 @@
             </ul>
         </div>
     </div>
-    <div style="display: none" class="tailoring-container">
-        <form action="/User/upload" id="upload">
-            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
-                <div class="tailoring-content-one">
-                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
-                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
-                               class="hidden" onchange="selectImg(this)">
-                        选择图片
-                    </label>
-                    <div class="close-tailoring">×</div>
-                </div>
-                <div class="tailoring-content-two">
-                    <div class="tailoring-box-parcel">
-                        <img id="tailoringImg">
-                    </div>
-                    <div class="preview-box-parcel">
-                        <p>图片预览：</p>
-                        <div class="square previewImg"></div>
-                        <div class="circular previewImg"></div>
-                    </div>
-                </div>
-                <textarea style="display: none" name="code" id="code"></textarea>
-                <div class="tailoring-content-three">
-                    <button class="l-btn cropper-reset-btn">复位</button>
-                    <button class="l-btn cropper-rotate-btn">旋转</button>
-                    <button class="l-btn cropper-scaleX-btn">换向</button>
-                    <button class="l-btn sureCut" id="sureCut">确定</button>
-                </div>
-            </div>
-        </form>
-    </div>
+
     <div class="container-fluid">
         <ul id="middle_nav" class="clearfix row">
             <li class="item-info col-lg-2 current"><a href="/Page/info">个人资料</a></li>
@@ -207,19 +181,99 @@
         </ul>
     </div>
 
-    <div class="favor-box">
-        <div id="my_enshrine">
-            <div class="no-data">
-                <p class="text">您暂时还没有收藏的二手物品呃！你可以</p>
-                <a href="/release/sale" target="_blank">
-                    <p class="btn">发布商品</p>
-                </a>
-                <a href="/shop/index" target="_blank">
-                    <p class="btn">浏览商城商品</p>
-                </a>
+    <div class="bottom_info">
+        <div class="identify-wrapper center">
+            <div class="idtf-content">
+                <div class="idtf-steps">
+                    <div class="divide-l step clearfix">
+                        <span><img class="feiji" src="/images/feiji.png"></span>
+                        <span class="idtf-o">1</span>
+                        <span class="first">填写学号和姓名</span>
+                    </div>
+                    <div class="divide-l step clearfix">
+                        <span><img class="feiji" src="/images/feiji.png"></span>
+                        <span class="idtf-o">2</span>
+                        <span class="second">上传学生证照片</span>
+                    </div>
+                    <div class="divide-l step clearfix">
+                        <span><img class="feiji" src="/images/feiji.png"></span>
+                        <span class="idtf-o">3</span>
+                        <span class="third">提交认证审核</span>
+                    </div>
+                </div>
+
+                <div class="idtf-upload">
+                    <form action="/home/user/docert" method="post" id="certform">
+                        <div class="std_input_info">
+                            <div class="std_input field">
+                                <span>姓名</span>
+                                <input value="" id="Name" name="name" type="text" placeholder="请输入真实姓名"
+                                       data-validate="required:姓名是个必填项哦~">
+                            </div>
+                            <div class="std_input field">
+                                <span>证件号</span>
+                                <input name="cardnum" id="StudentId" value="" type="text" placeholder="例201012913"
+                                       data-validate="required:证件号是必填项哦~">
+                            </div>
+                        </div>
+                        <p class="alert alert-danger alert-dismissible text-center" id="closealert" role="alert"
+                           style="display: inline-block;margin-top: 15px;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                            <strong>请上传学生，或一卡通，或身份证照片</strong>
+                        </p>
+                        <input name="certpic" type="hidden" value="">
+                        <div class="idtf-photo">
+                            <div class="thumbPicker webuploader-container" style="margin-top: 20px;" savedir="cert"
+                                 uploadheight="1000" uploadwidth="1000" inputname="certpic">
+                                <div class="webuploader-pick">点击上传相关证件照片</div>
+                            </div>
+                        </div>
+                        <div id="certpic">
+
+                        </div>
+                        <div class="identify-btn">
+                            <button type="button" class="btn btn-success submitcert">提交认证</button>
+                        </div>
+
+
+                        <div style="display: none" class="tailoring-container">
+                            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
+                                <div class="tailoring-content-one">
+                                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file"
+                                               id="chooseImg"
+                                               class="hidden" onchange="selectImg(this)">
+                                        选择图片
+                                    </label>
+                                    <div class="close-tailoring">×</div>
+                                </div>
+                                <div class="tailoring-content-two">
+                                    <div class="tailoring-box-parcel">
+                                        <img id="tailoringImg">
+                                    </div>
+                                    <div class="preview-box-parcel">
+                                        <p>图片预览：</p>
+                                        <div class="square previewImg"></div>
+                                        <div class="circular previewImg"></div>
+                                    </div>
+                                </div>
+                                <textarea style="display: none" name="code" id="code"></textarea>
+                                <div class="tailoring-content-three">
+                                    <button class="l-btn cropper-reset-btn">复位</button>
+                                    <button class="l-btn cropper-rotate-btn">旋转</button>
+                                    <button class="l-btn cropper-scaleX-btn">换向</button>
+                                    <button class="l-btn sureCut" id="sureCut">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+
     <div class="common-footer">
         <div class="footerNav">
             <ul class="fn">
@@ -232,7 +286,8 @@
             </ul>
         </div>
         <div class="footerMain">
-            <a href="/index/index" class="fLogo" style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
+            <a href="/index/index" class="fLogo"
+               style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
             <div class="fContact">
                 <h3 class="fct">联系我们 / <span>contact us</span></h3>
                 <p>Q群：999999999</p>
@@ -258,7 +313,18 @@
 </div>
 <script src="/js/upload.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
+        $('.webuploader-pick').bind("click", function () {
+            $('.tailoring-container').attr("style", "display:block");
+        });
+
+        $(".close-tailoring").bind("click", function () {
+            $('.tailoring-container').attr("style", "display:none");
+        });
+        $('.close').bind("click", function () {
+            $('#closealert').attr("style", "display:none");
+        });
+
         if (<%=userList.get(0).getIcon()!=null%>) {
             $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
             $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
@@ -271,29 +337,26 @@
             $("#login_show").hide();
         }
 
-        if(<%=userList.get(0).getMember_status()==0%>){
+        if (<%=userList.get(0).getMember_status()==0%>) {
             $('#checkmember').html("未认证");
-        }else{
+        } else {
             $('#checkmember').html("已认证");
         }
 
-        $("#origin_ph").bind("mouseenter",function(){
-            $('#change_ph').attr("style","display:block");
+        $("#origin_ph").bind("mouseenter", function () {
+            $('#change_ph').attr("style", "display:block");
         });
-        $("#change_ph").bind("mouseleave",function(){
-            $('#change_ph').attr("style","display:none");
+        $("#change_ph").bind("mouseleave", function () {
+            $('#change_ph').attr("style", "display:none");
         });
-
-        if(<%=userList.get(0).getLabel()==null%>){
+        if (<%=userList.get(0).getLabel()==null%>) {
             $('.user_qianming').html("ta很懒，还没有留下签名哦~");
-        }else{
+        } else {
             $('.user_qianming').html("<%=userList.get(0).getLabel()%>");
         }
 
     })
-
 </script>
 
 </body>
 </html>
-

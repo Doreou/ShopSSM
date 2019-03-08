@@ -17,5 +17,17 @@
     <select id="getMySale" resultType="cn.doreou.model.Goods">
         select * from t_goods where owner_id=#{param1} and type=#{param2}
     </select>
+    <select id="getSaleBySub" resultType="cn.doreou.model.Goods" parameterType="STRING">
+        select * from t_goods where subject=#{_parameter} and type='出售'
+    </select>
+    <select id="getBuyBySub" resultType="cn.doreou.model.Goods" parameterType="STRING">
+        select * from t_goods where subject=#{_parameter} and type='购入'
+    </select>
+    <select id="getAllSale" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='出售'
+    </select>
+    <select id="getAllBuy" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='购入'
+    </select>
 
 </mapper>

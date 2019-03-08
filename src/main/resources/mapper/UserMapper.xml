@@ -18,5 +18,8 @@
     <update id="updateHeadPic" parameterType="cn.doreou.model.User">
         update t_user set icon=#{icon} where user_id=#{user_id}
     </update>
+    <select id="getInfoByGoods" resultType="cn.doreou.model.GoodAndUser">
+      select goods_id,user_id,username,email,member_status,qq,phone,wechat,icon,phone from t_user,t_goods where owner_id=user_id;
+    </select>
 
 </mapper>

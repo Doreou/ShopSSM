@@ -195,13 +195,13 @@
     </div>
     <div class="container-fluid">
         <ul id="middle_nav" class="clearfix row">
-            <li class="item-info col-lg-2"><a href="/Page/info">个人资料</a></li>
-            <li class="item-goods col-lg-2"><a href="/Page/mysale">我发布的商品</a></li>
-            <li class="item-buy col-lg-2 "><a href="/Page/mybuy">我发布的求购</a></li>
-            <li class="item-favor col-lg-2"><a href="/Page/mycollect">我的收藏</a></li>
+            <li class="item-info col-lg-2 current"><a href="/Page/info">个人资料</a></li>
+            <li class="item-goods col-lg-2 "><a href="/Order/getMySale">我发布的商品</a></li>
+            <li class="item-buy col-lg-2 "><a href="/Order/getMyBuy">我发布的求购</a></li>
+            <li class="item-favor col-lg-2 "><a href="/Page/mycollect">我的收藏</a></li>
             <li class="item-message col-lg-2 "><a href="/Page/mynews">消息中心</a></li>
-            <li class="item-cert col-lg-2 current"><a href="/Page/checkinfo">认证信息</a></li>
-            <li class="back" style="left: 992px; width: 198px;">
+            <li class="item-cert col-lg-2 "><a href="/Page/checkinfo">认证信息</a></li>
+            <li class="back" style="left: 0px; width: 198px;">
                 <div class="left"></div>
             </li>
         </ul>
@@ -210,7 +210,7 @@
     <div id="identify">
         <div id="student_id" class="id_ways clearfix">
             <div class="id_right_part">
-                <a class="id_it" href="/user/tocert">立即认证</a>
+                <a class="id_it" href="/Page/checkinfo_nextstep">立即认证</a>
             </div>
             <div class="id_left_part">
                 <img src="/images/cert.png" alt="学号">

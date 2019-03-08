@@ -164,8 +164,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">详情：</label>
                     <div class="col-sm-8">
-                        <textarea id="detail" name="detail" placeholder="请输入详情" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" content="<%=session.getAttribute("detail")%>"></textarea>
+                        <input id="detail" name="detail" placeholder="请输入详情" class="form-control" type="text"
+                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("detail")%>"></input>
                     </div>
                 </div>
                 <div class="form-group">
