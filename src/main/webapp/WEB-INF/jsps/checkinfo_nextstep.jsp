@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="/css/ImgCropping.css">
     <link rel="stylesheet" href="/css/webuploader.css">
     <link rel="stylesheet" href="/css/tocert.css">
+    <link rel="stylesheet" href="/css/layer.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
@@ -203,16 +204,16 @@
                 </div>
 
                 <div class="idtf-upload">
-                    <form action="/home/user/docert" method="post" id="certform">
+                    <form action="" method="post" id="certform">
                         <div class="std_input_info">
                             <div class="std_input field">
                                 <span>姓名</span>
-                                <input value="" id="Name" name="name" type="text" placeholder="请输入真实姓名"
+                                <input value="<%=session.getAttribute("name")%>" id="Name" name="name" type="text" placeholder="请输入真实姓名"
                                        data-validate="required:姓名是个必填项哦~">
                             </div>
                             <div class="std_input field">
                                 <span>证件号</span>
-                                <input name="cardnum" id="StudentId" value="" type="text" placeholder="例201012913"
+                                <input name="cardnum" id="StudentId" value="<%=session.getAttribute("id")%>" type="text" placeholder="例15427039"
                                        data-validate="required:证件号是必填项哦~">
                             </div>
                         </div>
@@ -223,6 +224,9 @@
                             <strong>请上传学生，或一卡通，或身份证照片</strong>
                         </p>
                         <input name="certpic" type="hidden" value="">
+                        <div class="str">
+                            <img id="finalImg" src="<%=session.getAttribute("code")%>" width="20%">
+                        </div>
                         <div class="idtf-photo">
                             <div class="thumbPicker webuploader-container" style="margin-top: 20px;" savedir="cert"
                                  uploadheight="1000" uploadwidth="1000" inputname="certpic">
@@ -233,7 +237,7 @@
 
                         </div>
                         <div class="identify-btn">
-                            <button type="button" class="btn btn-success submitcert">提交认证</button>
+                            <button type="button" onclick="addData()" class="btn btn-success submitcert">提交认证</button>
                         </div>
 
 
@@ -311,9 +315,16 @@
     </div>
 
 </div>
-<script src="/js/upload.js"></script>
 <script>
     $(document).ready(function () {
+        var errmsg="";
+        errmsg="<%=session.getAttribute("errmsg")%>";
+        if(errmsg!=""&&errmsg!="null"){
+            layer.msg(errmsg.toString());
+            //提示后重置errmsg
+            <%session.setAttribute("errmsg","");%>
+        }
+
         $('.webuploader-pick').bind("click", function () {
             $('.tailoring-container').attr("style", "display:block");
         });
@@ -356,6 +367,76 @@
         }
 
     })
+
+    function addData(){
+        $('#certform').attr('action','${pageContext.request.contextPath}/Cert/newcert');
+        $('#certform').submit();
+    }
+
+    function selectImg(file) {
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var replaceSrc = evt.target.result;
+            // 更换cropper的图片
+            $('#tailoringImg').cropper('replace', replaceSrc);// 默认false，适应高度，不失真
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+    // cropper图片裁剪
+    $('#tailoringImg').cropper({
+        aspectRatio: 1 / 1,// 默认比例
+        preview: '.previewImg',// 预览视图
+        guides: false, // 裁剪框的虚线(九宫格)
+        autoCropArea: 0.5, // 0-1之间的数值，定义自动剪裁区域的大小，默认0.8
+        movable: false, // 是否允许移动图片
+        dragCrop: true, // 是否允许移除当前的剪裁框，并通过拖动来新建一个剪裁框区域
+        movable: true, // 是否允许移动剪裁框
+        resizable: true, // 是否允许改变裁剪框的大小
+        zoomable: true, // 是否允许缩放图片大小
+        mouseWheelZoom: true, // 是否允许通过鼠标滚轮来缩放图片
+        touchDragZoom: true, // 是否允许通过触摸移动来缩放图片
+        rotatable: true, // 是否允许旋转图片
+        crop: function (e) {
+            // 输出结果数据裁剪图像。
+        }
+    });
+    // 旋转
+    $(".cropper-rotate-btn").on("click", function () {
+        $('#tailoringImg').cropper("rotate", 45);
+    });
+    // 复位
+    $(".cropper-reset-btn").on("click", function () {
+        $('#tailoringImg').cropper("reset");
+    });
+    // 换向
+    var flagX = true;
+    $(".cropper-scaleX-btn").on("click", function () {
+        if (flagX) {
+            $('#tailoringImg').cropper("scaleX", -1);
+            flagX = false;
+        } else {
+            $('#tailoringImg').cropper("scaleX", 1);
+            flagX = true;
+        }
+        flagX != flagX;
+    });
+
+    $("#sureCut").on("click", function () {
+        if ($("#tailoringImg").attr("src") == null) {
+            return false;
+        } else {
+            var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
+            var base64 = cas.toDataURL('image/png'); // 转换为base64
+            $('#code').html(base64);
+            $('#finalImg').attr("src",base64);
+            $('.tailoring-container').attr("style", "display:none");
+            $('#certform').attr('action','${pageContext.request.contextPath}/Cert/upload');
+            $('#certform').submit();
+
+        }
+    });
+
 </script>
 
 </body>

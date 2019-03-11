@@ -53,6 +53,8 @@ public class OrderController {
         goods.setTime(jointime);
         goods.setType("出售");
         orderService.sale(goods);
+        String errmsg="发布成功";
+        session.setAttribute("errmsg",errmsg);
         return "redirect:/Page/salegoods";
     }
 
@@ -79,6 +81,8 @@ public class OrderController {
         goods.setTime(jointime);
         goods.setType("购入");
         orderService.sale(goods);
+        String errmsg="发布成功";
+        session.setAttribute("errmsg",errmsg);
         return "buygoods";
     }
 
@@ -109,6 +113,8 @@ public class OrderController {
         session.setAttribute("price",expt_price);
         session.setAttribute("address",give_place);
         session.setAttribute("type",subject);
+        String errmsg="上传成功";
+        session.setAttribute("errmsg",errmsg);
         return "salegoods";
     }
 

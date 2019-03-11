@@ -22,8 +22,10 @@
     <link href="/css/chosen.css" rel="stylesheet">
     <link href="/css/salestyle.css" rel="stylesheet"/>
     <link href="/css/common.css" rel="stylesheet"/>
+    <link href="/css/layer.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
+    <script src="/js/layer.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
     <style>
         .layui-carousel {
@@ -269,6 +271,14 @@
 </div>
 <script>
     $(document).ready(function () {
+        var errmsg="";
+        errmsg="<%=session.getAttribute("errmsg")%>";
+        if(errmsg!=""&&errmsg!="null"){
+            layer.msg(errmsg.toString());
+            //提示后重置errmsg
+            <%session.setAttribute("errmsg","");%>
+        }
+
         if (<%=userList.get(0).getIcon()!=null%>) {
             $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
         }

@@ -16,7 +16,7 @@
     <link href="/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/css/login.css" rel="stylesheet"/>
     <link href="/css/custom.css" rel="stylesheet">
-    <link href="/css/modules/layer/default/layer.css" rel="stylesheet">
+    <link href="/css/layer.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
 </head>

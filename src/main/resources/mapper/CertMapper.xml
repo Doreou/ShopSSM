@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.doreou.mapper.CertMapper">
+    <insert id="insertNewCert" parameterType="cn.doreou.model.Cert">
+        insert into t_cert (user_id,up_time,user_name,cert_pic,status) values(#{user_id},#{up_time},#{username},#{cert_pic},#{status})
+    </insert>
+    <select id="isExist" parameterType="STRING" resultType="cn.doreou.model.Cert">
+        select * from t_cert where user_id=#{_parameter}
+    </select>
+</mapper>

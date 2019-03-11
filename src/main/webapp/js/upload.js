@@ -62,7 +62,6 @@ $(".cropper-scaleX-btn").on("click", function () {
 });
 
 $("#sureCut").on("click", function () {
-    alert("111111111");
     if ($("#tailoringImg").attr("src") == null) {
         return false;
     } else {

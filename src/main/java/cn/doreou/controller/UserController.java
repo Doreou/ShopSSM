@@ -214,6 +214,8 @@ public class UserController {
         //更新用户信息
         userList=userService.getById(userList.get(0).getUser_id());
         session.setAttribute("user",userList);
+        String errmsg="上传成功";
+        session.setAttribute("errmsg",errmsg);
         return "redirect:/Page/info";
     }
 

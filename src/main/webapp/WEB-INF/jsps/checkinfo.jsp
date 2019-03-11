@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="/css/cert.css">
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
+    <link rel="stylesheet" href="/css/layer.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
@@ -260,6 +261,13 @@
 <script src="/js/upload.js"></script>
 <script>
     $(document).ready(function(){
+        var errmsg="";
+        errmsg="<%=session.getAttribute("errmsg")%>";
+        if(errmsg!=""&&errmsg!="null"){
+            layer.msg(errmsg.toString());
+            //提示后重置errmsg
+            <%session.setAttribute("errmsg","");%>
+        }
         if (<%=userList.get(0).getIcon()!=null%>) {
             $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
             $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
@@ -291,6 +299,7 @@
         }
 
     })
+
 </script>
 
 </body>

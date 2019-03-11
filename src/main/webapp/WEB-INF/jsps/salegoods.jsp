@@ -24,10 +24,12 @@
     <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
     <link href="/css/common.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/ImgCropping.css">
+    <link href="/css/layer.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
     <script src="/js/cropper.min.js"></script>
+    <script src="/js/layer.js"></script>
     <style>
         .layui-carousel {
             margin: auto;
@@ -325,6 +327,14 @@
 </div>
 <script>
     $(document).ready(function () {
+        var errmsg="";
+        errmsg="<%=session.getAttribute("errmsg")%>";
+        if(errmsg!=""&&errmsg!="null"){
+            layer.msg(errmsg.toString());
+            //提示后重置errmsg
+            <%session.setAttribute("errmsg","");%>
+        }
+
         if (<%=userList.get(0).getIcon()!=null%>) {
             $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
         }

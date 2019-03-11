@@ -287,8 +287,7 @@
         </p>
     </div>
 
-</div>
-<script src="/js/upload.js"></script>
+</div><script src="/js/upload.js"></script>
 <script>
     $(document).ready(function(){
         if (<%=userList.get(0).getIcon()!=null%>) {

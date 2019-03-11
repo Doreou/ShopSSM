@@ -6,6 +6,7 @@ import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.model.User;
 import cn.doreou.service.BookService;
+import cn.doreou.service.CertService;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class PageController {
     private OrderService orderService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CertService certService;
 //    购买二手
     @RequestMapping("buy")
     public String Gobuy(HttpSession session){
@@ -111,7 +114,17 @@ public class PageController {
     }
 
     @RequestMapping("checkinfo_nextstep")
-    public String Checkinfo_nextstep(){
-        return "checkinfo_nextstep";
+    public String Checkinfo_nextstep(HttpSession session){
+        List<User> userList=(List<User>) session.getAttribute("user");
+        if(certService.isExist(userList.get(0).getUser_id())){
+            String errmsg="您已提交过申请，请等待管理员审核";
+            session.setAttribute("errmsg",errmsg);
+            return "redirect:/Page/checkinfo";
+        }else {
+            session.setAttribute("name", "");
+            session.setAttribute("id", "");
+            return "checkinfo_nextstep";
+        }
     }
+
 }
