@@ -11,7 +11,10 @@ import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -31,11 +34,18 @@ public class PageController {
     private CertService certService;
 //    购买二手
     @RequestMapping("buy")
-    public String Gobuy(HttpSession session){
-        List<Goods> result=orderService.getAllSale();
+    public String Gobuy(HttpSession session,Model model){
+        List<Goods> result=orderService.SearchSaleByPage(0,8);
         session.setAttribute("AllSaleGoodsList",result);
-        List<Goods> result1=orderService.getAllBuy();
+        //获取数据量
+        model.addAttribute("salecount",orderService.getSaleCount());
+        //首次进入该页面默认加载10条数据
+        List<Goods> result1=orderService.SearchBuyByPage(0,10);
         session.setAttribute("AllBuyGoodsList",result1);
+        //重置初始页面
+        model.addAttribute("currpage",1);
+        //获取数据量
+        model.addAttribute("buycount",orderService.getBuyCount());
         List<GoodAndUser> goodAndUsers=userService.getInfoByGoods();
         session.setAttribute("userinfo",goodAndUsers);
         List<Book> bookList=bookService.getAllSubject();
@@ -44,8 +54,8 @@ public class PageController {
     }
 //    出售二手
     @RequestMapping("sale")
-    public String Gosale(HttpSession session){
-        Gobuy(session);
+    public String Gosale(HttpSession session,Model model){
+        Gobuy(session,model);
         return "sale";
     }
 //    加入我们
@@ -125,6 +135,10 @@ public class PageController {
             session.setAttribute("id", "");
             return "checkinfo_nextstep";
         }
+    }
+    @RequestMapping("goodsinfo")
+    public String GoodsInfo(){
+        return "goodsinfo";
     }
 
 }

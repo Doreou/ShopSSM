@@ -28,6 +28,7 @@ To change this template use File | Settings | File Templates.
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
+    <link href="/css/layer.css" rel="stylesheet">
     <style>
         .layui-carousel {
             margin: auto;
@@ -107,11 +108,11 @@ To change this template use File | Settings | File Templates.
                 </li>
             </ul>
 
-            <form class="navbar-form navbar-right search-box" onsubmit="return false;">
+            <form class="navbar-form navbar-right search-box" action="/Order/searchbuy">
                 <div class="form-group pull-left">
                     <input name="keyword" type="text" id="serachWord" class="form-control search-field"
                            placeholder="搜索一下..."></div>
-                <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
+                <button type="submit" class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
     </div>
@@ -172,6 +173,20 @@ To change this template use File | Settings | File Templates.
                 <div carousel-item="">
                     <div><img src="/images/timg.jpg"></div>
                     <div><img src="/images/lunbo2_600x280.jpg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="school-box">
+            <div class="outer-school" style="padding-left: 66px;padding-right: 66px;">
+                <div class="inner-box">
+                    <div class="order">
+                        <div class="order-line">
+                            <a data-type="0" onclick="querySale(this,0);" class="">随机<span class="fa fa-arrows-v"></span></a>
+                            <a onclick="querySale(this,1);" class="active 5">时间<span class="aui-iconfont fa fa-long-arrow-down"></span></a>
+                            <a onclick="querySale(this,2);" class="" data-type="1" data-id="10">价格<span class="aui-iconfont fa fa-arrows-v"></span></a>
+                            <a onclick="querySale(this,3);" class="" data-type="4">热度<span class="aui-iconfont fa fa-arrows-v"></span></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -271,6 +286,10 @@ To change this template use File | Settings | File Templates.
 
             <%}%>
         </div>
+        <div id="page" style="text-align: center">
+
+        </div>
+
         <div class="common-footer">
             <div class="footerNav">
                 <ul class="fn">
@@ -310,6 +329,9 @@ To change this template use File | Settings | File Templates.
 </div>
 <script>
     $(document).ready(function () {
+        <%--if(<%=userList!=null%>){--%>
+        <%--$('.headpic').attr("src","<%=((List<User>) userList).get(0).getIcon()%>");--%>
+        <%--}--%>
 
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
@@ -333,6 +355,38 @@ To change this template use File | Settings | File Templates.
             , arrow: 'always'
         });
     });
+
+
+    function getData(curr){
+        $.ajax({
+            type:'POST',
+            url:'${pageContext.request.contextPath}/Order/searchbuybypage?page='+curr,
+            success:function () {
+                window.location.href='${pageContext.request.contextPath}/Order/searchbuybypage?page='+curr;
+            }
+        })
+    }
+
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+        var total=${buycount};
+        var currpage=1;
+        laypage.render({
+            elem: 'page'
+            ,count:total  //数据总数，从服务端得到
+            ,curr:${currpage}
+            ,jump: function(obj, first){
+                //首次不执行
+                if(!first){
+                    //do something
+                    currpage=obj.curr;
+                    getData(currpage);
+                }
+            }
+
+        });
+    });
+
 </script>
 </body>
 </html>

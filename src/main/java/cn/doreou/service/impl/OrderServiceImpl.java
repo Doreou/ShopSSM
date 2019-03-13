@@ -1,6 +1,7 @@
 package cn.doreou.service.impl;
 
 import cn.doreou.mapper.OrderMapper;
+import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,26 @@ public class OrderServiceImpl implements OrderService {
     }
     public List<Goods> getAllBuy(){
         return orderMapper.getAllBuy();
+    }
+    public List<GoodAndUser> getInfoById(String goods_id){
+        return orderMapper.getInfoByid(goods_id);
+    }
+    public List<Goods> SearchBuy(String key){
+        return orderMapper.SearchBuy(key);
+    }
+    public List<Goods> SearchSale(String key){
+        return orderMapper.SearchSale(key);
+    }
+    public List<Goods> SearchBuyByPage(int start,int pagesize){
+        return orderMapper.SearchBuyByPage(start,pagesize);
+    }
+    public List<Goods> SearchSaleByPage(int start,int pagesize){
+        return orderMapper.SearchSaleByPage(start,pagesize);
+    }
+    public int getBuyCount(){
+        return orderMapper.getBuyCount();
+    }
+    public int getSaleCount(){
+        return orderMapper.getSaleCount();
     }
 }

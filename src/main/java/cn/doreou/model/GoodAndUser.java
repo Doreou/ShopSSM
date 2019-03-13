@@ -1,12 +1,44 @@
 package cn.doreou.model;
 
+import java.util.Date;
+
 public class GoodAndUser {
     private int goods_id;
     private String user_id;
     private String username;
     private String qq;
     private String wechat;
+    private float expt_price;
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    private Date time;
+
+    public float getExpt_price() {
+        return expt_price;
+    }
+
+    public void setExpt_price(float expt_price) {
+        this.expt_price = expt_price;
+    }
+
+    public String getGoods_title() {
+        return goods_title;
+    }
+
+    public void setGoods_title(String goods_title) {
+        this.goods_title = goods_title;
+    }
+
     private String email;
+    private String goods_title;
+
 
     public String getPhone() {
         return phone;

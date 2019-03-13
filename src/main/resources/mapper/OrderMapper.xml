@@ -29,5 +29,28 @@
     <select id="getAllBuy" resultType="cn.doreou.model.Goods">
         select * from t_goods where type='购入'
     </select>
+    <select id="getInfoByid" parameterType="STRING" resultType="cn.doreou.model.GoodAndUser">
+        select * from t_goods,t_user where goods_id=#{_parameter} and user_id=owner_id
+    </select>
+    <select id="SearchBuy" resultType="cn.doreou.model.Goods">
+        select * from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='购入'
+    </select>
+    <select id="SearchSale" resultType="cn.doreou.model.Goods">
+        select * from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='出售'
+    </select>
+    
+    <select id="SearchBuyByPage" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='购入' limit #{param1},#{param2}
+    </select>
+    <select id="SearchSaleByPage" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='出售' limit #{param1},#{param2}
+    </select>
+    <select id="getBuyCount" resultType="INT">
+        select count(*) from t_goods where type='购入'
+    </select>
+    <select id="getSaleCount" resultType="INT">
+        select count(*) from t_goods where type='出售'
+    </select>
+
 
 </mapper>

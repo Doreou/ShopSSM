@@ -103,11 +103,11 @@
                     <a href="/User/logout">退出</a>
                 </li>
             </ul>
-            <form class="navbar-form navbar-right search-box" onsubmit="return false;">
+            <form class="navbar-form navbar-right search-box" action="/Order/searchsale">
                 <div class="form-group pull-left">
                     <input name="keyword" type="text" id="serachWord" class="form-control search-field"
                            placeholder="搜索一下..."></div>
-                <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
+                <button type="submit"class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
     </div>
@@ -175,7 +175,7 @@
                 <div class="class-item">
                     <div class="class-bg-layer"></div>
                     <div class="class-item-bg">
-                        <a target="_blank" href="/sale/<%=g.getGoods_id()%>" class="class-img">
+                        <a target="_blank" href="/Order/getgoodsinfo?id=<%=g.getGoods_id()%>" class="class-img">
                             <img class="img-responsive lazyload" src="<%=g.getCover()%>" alt="<%=g.getGoods_title()%>" data-original="/Uploads/salebuy/2019-03-07/5c80d801426ca.png" style="display: block;">
                         </a>
                         <div class="pricehot clearfix">
@@ -203,6 +203,9 @@
             </li>
                 <%}}%>
         </ul>
+        <div id="page" style="text-align: center">
+
+        </div>
         <div class="common-footer">
             <div class="footerNav">
                 <ul class="fn">
@@ -242,6 +245,9 @@
 </div>
 <script>
     $(document).ready(function () {
+        <%--if(<%=userList!=null%>){--%>
+            <%--$('.headpic').attr("src","<%=((List<User>) userList).get(0).getIcon()%>");--%>
+        <%--}--%>
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
         if (<%=userList!=null%>) {
@@ -261,6 +267,36 @@
         carousel.render({
             elem: '#test1'
             , arrow: 'always'
+        });
+    });
+
+    function getData(curr){
+        $.ajax({
+            type:'POST',
+            url:'${pageContext.request.contextPath}/Order/searchsalebypage?page='+curr,
+            success:function () {
+                window.location.href='${pageContext.request.contextPath}/Order/searchsalebypage?page='+curr;
+            }
+        })
+    }
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+        var total=${salecount};
+        var currpage=1;
+        laypage.render({
+            elem: 'page'
+            ,count:total  //数据总数，从服务端得到
+            ,curr:${currpage}
+            ,limit:8
+            ,jump: function(obj, first){
+                //首次不执行
+                if(!first){
+                    //do something
+                    currpage=obj.curr;
+                    getData(currpage);
+                }
+            }
+
         });
     });
 

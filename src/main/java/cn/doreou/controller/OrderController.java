@@ -1,15 +1,14 @@
 package cn.doreou.controller;
 
+import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.model.User;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -142,5 +141,44 @@ public class OrderController {
         session.setAttribute("AllBuyGoodsList",result);
         return "buy";
     }
+
+    @RequestMapping("getgoodsinfo")
+    public String getGoodsInfo(HttpSession session,@RequestParam("id") String id){
+        List<GoodAndUser> ResultList=orderService.getInfoById(id);
+        session.setAttribute("goodsinfo",ResultList);
+        return "goodsinfo";
+    }
+    @RequestMapping("searchbuy")
+    public String SearchBuy(HttpSession session,Model model,@RequestParam("keyword") String key){
+        List<Goods> result=orderService.SearchBuy(key);
+        session.setAttribute("AllBuyGoodsList",result);
+        model.addAttribute("count",result.size());
+        return "buy";
+    }
+
+    @RequestMapping("searchsale")
+    public String SearchSale(HttpSession session,@RequestParam("keyword") String key){
+        List<Goods> result=orderService.SearchSale(key);
+        session.setAttribute("AllSaleGoodsList",result);
+        return "sale";
+    }
+    @RequestMapping(value = "searchbuybypage")
+    public String SearchByPage(HttpSession session,Model model,@RequestParam("page") int start){
+        List<Goods> result=orderService.SearchBuyByPage((start-1)*10,10);
+        model.addAttribute("currpage",start);
+        model.addAttribute("buycount",orderService.getBuyCount());
+        session.setAttribute("AllBuyGoodsList",result);
+        return "buy";
+    }
+    @RequestMapping("searchsalebypage")
+    public String SearchSaleByPage(HttpSession session,Model model,@RequestParam("page") int start){
+        List<Goods> result=orderService.SearchSaleByPage((start-1)*8,8);
+        model.addAttribute("currpage",start);
+        model.addAttribute("salecount",orderService.getSaleCount());
+        session.setAttribute("AllSaleGoodsList",result);
+        return "sale";
+    }
+
+
 
 }
