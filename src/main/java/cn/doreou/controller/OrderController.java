@@ -2,9 +2,12 @@ package cn.doreou.controller;
 
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
+import cn.doreou.model.PojoToJson;
 import cn.doreou.model.User;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
+import com.google.gson.Gson;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("Order")
@@ -51,6 +53,7 @@ public class OrderController {
         }
         goods.setTime(jointime);
         goods.setType("出售");
+        goods.setIsundercarriage(1);
         orderService.sale(goods);
         String errmsg="发布成功";
         session.setAttribute("errmsg",errmsg);
@@ -79,6 +82,7 @@ public class OrderController {
         }
         goods.setTime(jointime);
         goods.setType("购入");
+        goods.setIsundercarriage(1);
         orderService.sale(goods);
         String errmsg="发布成功";
         session.setAttribute("errmsg",errmsg);
@@ -86,19 +90,24 @@ public class OrderController {
     }
 
     @RequestMapping("getMyBuy")
-    public String getMyBuy(HttpSession session){
-        List<User> userList=(List<User>) session.getAttribute("user");
-        List<Goods> mybuy=orderService.getMyBuy(userList.get(0).getUser_id(),"购入");
-        session.setAttribute("mybuy",mybuy);
-        return "redirect:/Page/mybuy";
+    public String getMyBuy(HttpSession session, Model model,@RequestParam(value = "page",required = false,defaultValue = "1") String start){
+            List<User> userList = (List<User>) session.getAttribute("user");
+            List<Goods> mybuy = orderService.getMyBuy(userList.get(0).getUser_id(), "购入", (Integer.parseInt(start)-1)*5, 5);
+            model.addAttribute("mybuycount", orderService.getMyBuyCount(userList.get(0).getUser_id(), "购入"));
+            model.addAttribute("currpage", start);
+            session.setAttribute("mybuy", mybuy);
+            return "mybuy";
+
     }
 
     @RequestMapping("getMySale")
-    public String getMySale(HttpSession session){
+    public String getMySale(HttpSession session,Model model,@RequestParam(value = "page",required = false,defaultValue = "1") String start){
         List<User> userList=(List<User>) session.getAttribute("user");
-        List<Goods> mysale=orderService.getMySale(userList.get(0).getUser_id(),"出售");
+        List<Goods> mysale=orderService.getMySale(userList.get(0).getUser_id(),"出售",(Integer.parseInt(start)-1)*5,5);
+        model.addAttribute("mysalecount", orderService.getMySaleCount(userList.get(0).getUser_id(), "出售"));
+        model.addAttribute("currpage", start);
         session.setAttribute("mysale",mysale);
-        return "redirect:/Page/mysale";
+        return "mysale";
     }
 
     @RequestMapping("upload")
@@ -118,14 +127,18 @@ public class OrderController {
     }
 
     @RequestMapping("querysalebysub")
-    public String QuerySaleBySub(HttpSession session,@RequestParam("select") String subject){
-        List<Goods> result=orderService.getSaleBySub(subject);
+    public String QuerySaleBySub(HttpSession session,Model model,@RequestParam("select") String subject,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.getSaleBySub(subject,(start-1)*8,8);
+        model.addAttribute("salecount",orderService.getCountBySub(subject));
+        model.addAttribute("currpage",start);
         session.setAttribute("AllSaleGoodsList",result);
         return "sale";
     }
     @RequestMapping("querybuybysub")
-    public String QueryBuyBySub(HttpSession session,@RequestParam("select") String subject){
-        List<Goods> result=orderService.getBuyBySub(subject);
+    public String QueryBuyBySub(HttpSession session,Model model,@RequestParam("select") String subject,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.getBuyBySub(subject,(start-1)*10,10);
+        model.addAttribute("buycount",orderService.getCountBySub(subject));
+        model.addAttribute("currpage",start);
         session.setAttribute("AllBuyGoodsList",result);
         return "buy";
     }
@@ -149,22 +162,25 @@ public class OrderController {
         return "goodsinfo";
     }
     @RequestMapping("searchbuy")
-    public String SearchBuy(HttpSession session,Model model,@RequestParam("keyword") String key){
-        List<Goods> result=orderService.SearchBuy(key);
+    public String SearchBuy(HttpSession session,Model model,@RequestParam("keyword") String key,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.SearchBuy(key,(start-1)*10,10);
+        model.addAttribute("buycount",orderService.getSearchBuyCount(key));
+        model.addAttribute("currpage",start);
         session.setAttribute("AllBuyGoodsList",result);
-        model.addAttribute("count",result.size());
         return "buy";
     }
 
     @RequestMapping("searchsale")
-    public String SearchSale(HttpSession session,@RequestParam("keyword") String key){
-        List<Goods> result=orderService.SearchSale(key);
+    public String SearchSale(HttpSession session,Model model,@RequestParam("keyword") String key,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.SearchSale(key,(start-1)*8,8);
+        model.addAttribute("salecount",orderService.getSearchSaleCount(key));
+        model.addAttribute("currpage",start);
         session.setAttribute("AllSaleGoodsList",result);
         return "sale";
     }
     @RequestMapping(value = "searchbuybypage")
     public String SearchByPage(HttpSession session,Model model,@RequestParam("page") int start){
-        List<Goods> result=orderService.SearchBuyByPage((start-1)*10,10);
+        List<Goods> result=orderService.SearchAllBuyByPage((start-1)*10,10);
         model.addAttribute("currpage",start);
         model.addAttribute("buycount",orderService.getBuyCount());
         session.setAttribute("AllBuyGoodsList",result);
@@ -172,13 +188,30 @@ public class OrderController {
     }
     @RequestMapping("searchsalebypage")
     public String SearchSaleByPage(HttpSession session,Model model,@RequestParam("page") int start){
-        List<Goods> result=orderService.SearchSaleByPage((start-1)*8,8);
+        List<Goods> result=orderService.SearchAllSaleByPage((start-1)*8,8);
         model.addAttribute("currpage",start);
         model.addAttribute("salecount",orderService.getSaleCount());
         session.setAttribute("AllSaleGoodsList",result);
         return "sale";
     }
 
+    //下架商品
+    @RequestMapping("undercarriage")
+    @ResponseBody
+    public Object undercarriage(HttpSession session, Model model, @RequestParam(value = "page",required = false,defaultValue = "1") String start, @RequestParam("goods_id") int goods_id,@RequestParam("choice") int choice){
+        //0代表下架 1上架
+        orderService.isundercarriage(goods_id,choice);
+        getMySale(session,model,start);
+        return "true";
+    }
 
+    //删除商品
+    @RequestMapping("deletegoods")
+    @ResponseBody
+    public Object deleteGoods(HttpSession session, Model model, @RequestParam(value = "page",required = false,defaultValue = "1") String start, @RequestParam("goods_id") int goods_id) {
+        orderService.deleteGoods(goods_id);
+        getMySale(session,model,start);
+        return "true";
+    }
 
 }

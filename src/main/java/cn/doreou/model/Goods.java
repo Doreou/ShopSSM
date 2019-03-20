@@ -9,6 +9,15 @@ public class Goods {
     private String introduce;
     private float pri_cost;
     private Date time;
+    private int isundercarriage;
+
+    public int getIsundercarriage() {
+        return isundercarriage;
+    }
+
+    public void setIsundercarriage(int isundercarriage) {
+        this.isundercarriage = isundercarriage;
+    }
 
     public Date getTime() {
         return time;

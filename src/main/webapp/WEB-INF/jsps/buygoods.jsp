@@ -91,7 +91,17 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}else {%>
+                             src="/images/default3.png"
+                            <%}
+                                    %>
+
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -109,9 +119,19 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
+            <li class="item clearfix text-center">
+                <div class="icon pull-left">
+                    <i class="icon iconfontitems"></i>
+                </div>
+                <div class="title pull-left">
+                    所有分类
+                </div>
+            </li>
+        </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/sale/type/<%=b.getSub_id()%>" class="clearfix">
+        <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -122,6 +142,7 @@
             </li>
         </a>
         <%}%>
+
         <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
         <%--<div class="left"></div>--%>
         <%--</li>--%>

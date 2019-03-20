@@ -62,7 +62,7 @@
                 <li class="">
                     <a target="_blank" href="/contact">联系我们</a>
                 </li>
-                <li class="back" style="left: 132px; width: 66px;">
+                <li class="back" style="left: 357px; width: 92px;">
                     <div class="left"></div>
                 </li>
             </ul>
@@ -78,7 +78,11 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -95,7 +99,7 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
-        <a href="/Order/getAllBuy" class="clearfix">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -127,10 +131,10 @@
 <div class="sidebar">
     <div class="btn block">
         <div class="ershou">
-            <a href="/release/sale">发布二手</a>
+            <a href="/Order/salegoods">发布二手</a>
         </div>
         <div class="qiugou">
-            <a href="/release/buy">发布求购</a>
+            <a href="/Order/buygoods">发布求购</a>
         </div>
     </div>
     <div class="helped block">
@@ -183,7 +187,7 @@
         <div class="air"></div>
         <div class="bottom">
             <div class="text1 text"></div>
-            <a href="/other/tojoinus">
+            <a href="/Page/apply">
                 <div class="text2 text replay"></div>
             </a>
             <div class="text3 text"></div>

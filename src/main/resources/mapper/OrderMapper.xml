@@ -4,53 +4,79 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.doreou.mapper.OrderMapper">
     <insert id="sale" parameterType="cn.doreou.model.Goods">
-        INSERT into t_goods (owner_id,goods_title,introduce,pri_cost,expt_price,status,number,subject,cover,type,time) values (#{owner_id},#{goods_title},#{introduce},#{pri_cost},#{expt_price},#{status},#{number},#{subject},#{cover},#{type},#{time})
+        INSERT into t_goods (owner_id,goods_title,introduce,pri_cost,expt_price,status,number,subject,cover,type,time,isundercarriage) values (#{owner_id},#{goods_title},#{introduce},#{pri_cost},#{expt_price},#{status},#{number},#{subject},#{cover},#{type},#{time},#{isundercarriage})
     </insert>
 
     <insert id="buy" parameterType="cn.doreou.model.Goods">
-        INSERT into t_goods (owner_id,goods_title,introduce,expt_price,status,number,subject,type,time) values (#{owner_id},#{goods_title},#{introduce},#{expt_price},#{status},#{number},#{subject},#{type},#{time})
+        INSERT into t_goods (owner_id,goods_title,introduce,expt_price,status,number,subject,type,time,isundercarriage) values (#{owner_id},#{goods_title},#{introduce},#{expt_price},#{status},#{number},#{subject},#{type},#{time},#{isundercarriage})
     </insert>
-    
+
     <select id="getMyBuy" resultType="cn.doreou.model.Goods">
-        select * from t_goods where owner_id=#{param1} and type=#{param2}
+        select * from t_goods where owner_id=#{param1} and type=#{param2} limit #{param3},#{param4}
     </select>
     <select id="getMySale" resultType="cn.doreou.model.Goods">
-        select * from t_goods where owner_id=#{param1} and type=#{param2}
+        select * from t_goods where owner_id=#{param1} and type=#{param2} limit #{param3},#{param4}
     </select>
     <select id="getSaleBySub" resultType="cn.doreou.model.Goods" parameterType="STRING">
-        select * from t_goods where subject=#{_parameter} and type='出售'
+        select * from t_goods where subject=#{subject} and type='出售' and isundercarriage=1
     </select>
     <select id="getBuyBySub" resultType="cn.doreou.model.Goods" parameterType="STRING">
-        select * from t_goods where subject=#{_parameter} and type='购入'
+        select * from t_goods where subject=#{subject} and type='购入' and isundercarriage=1
     </select>
     <select id="getAllSale" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='出售'
+        select * from t_goods where type='出售' and isundercarriage=1
     </select>
     <select id="getAllBuy" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='购入'
+        select * from t_goods where type='购入' and isundercarriage=1
     </select>
     <select id="getInfoByid" parameterType="STRING" resultType="cn.doreou.model.GoodAndUser">
         select * from t_goods,t_user where goods_id=#{_parameter} and user_id=owner_id
     </select>
     <select id="SearchBuy" resultType="cn.doreou.model.Goods">
-        select * from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='购入'
+        select * from t_goods where goods_title like concat(concat('%',#{key}),'%') and type='购入' and isundercarriage=1
     </select>
     <select id="SearchSale" resultType="cn.doreou.model.Goods">
-        select * from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='出售'
+        select * from t_goods where goods_title like concat(concat('%',#{key}),'%') and type='出售' and isundercarriage=1
     </select>
-    
-    <select id="SearchBuyByPage" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='购入' limit #{param1},#{param2}
+
+    <select id="SearchAllBuyByPage" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='购入' and isundercarriage=1 limit #{param1},#{param2}
     </select>
-    <select id="SearchSaleByPage" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='出售' limit #{param1},#{param2}
+    <select id="SearchAllSaleByPage" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='出售' and isundercarriage=1 limit #{param1},#{param2}
     </select>
     <select id="getBuyCount" resultType="INT">
-        select count(*) from t_goods where type='购入'
+        select count(*) from t_goods where type='购入' and isundercarriage=1
     </select>
     <select id="getSaleCount" resultType="INT">
-        select count(*) from t_goods where type='出售'
+        select count(*) from t_goods where type='出售' and isundercarriage=1
     </select>
+    <select id="getMyBuyCount" resultType="INT">
+        select count(*) from t_goods where owner_id=#{param1} and type=#{param2}
+    </select>
+    <select id="getMySaleCount" resultType="INT">
+        select count(*) from t_goods where owner_id=#{param1} and type=#{param2}
+    </select>
+    <select id="getCountBySub" resultType="INT" parameterType="STRING">
+        select count(*) from t_goods where subject=#{subject} and isundercarriage=1
+    </select>
+    <select id="getSearchSaleCount" resultType="INT" parameterType="STRING">
+        select count(*) from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='出售' and isundercarriage=1
+    </select>
+    <select id="getSearchBuyCount" resultType="INT" parameterType="STRING">
+        select count(*) from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='购入' and isundercarriage=1
+    </select>
+
+    <update id="Isundercarriage">
+      update t_goods set isundercarriage=#{user_choice} where goods_id=#{goods_id}
+    </update>
+    <select id="goodsStatus" parameterType="INT">
+        select isundercarriage from t_goods where goods_id=#{goods_id}
+    </select>
+    
+    <delete id="deleteGoods" parameterType="INT">
+        delete from t_goods where goods_id=#{goods_id}
+    </delete>
 
 
 </mapper>

@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/css/mybuy.css">
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
+    <link rel="stylesheet" href="/css/layer.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
@@ -113,9 +114,19 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
+            <li class="item clearfix text-center">
+                <div class="icon pull-left">
+                    <i class="icon iconfontitems"></i>
+                </div>
+                <div class="title pull-left">
+                    所有分类
+                </div>
+            </li>
+        </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/buy/type/<%=b.getSub_id()%>" class="clearfix">
+        <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -126,6 +137,7 @@
             </li>
         </a>
         <%}%>
+
         <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
         <%--<div class="left"></div>--%>
         <%--</li>--%>
@@ -244,10 +256,17 @@
                             <a href="/user/reflashbuy/buyid/348">
                                 <span value="" class="btn btn-info btn-sm">擦亮</span>
                             </a>
-                            <a href="/user/shelvesbuy/buyid/348">
+                            <%if (g.getIsundercarriage() == 1) {%>
+                            <a class="undercarriage" onclick="undercarriage(<%=g.getGoods_id()%>,0)">
+                                <input style="display: none" value="<%=g.getGoods_id()%>" id="goods_id">
                                 <span class="btn btn-warning btn-sm">下架</span>
                             </a>
-                            <a href="/user/delbuy/buyid/348">
+                            <%} else {%>
+                            <a class="undercarriage" onclick="undercarriage(<%=g.getGoods_id()%>,1)">
+                                <span class="btn btn-warning btn-sm">已下架</span>
+                            </a>
+                            <%}%>
+                            <a class="deleteGoods" onclick="deleteGoods(<%=g.getGoods_id()%>)">
                                 <span class="btn btn-danger btn-sm">删除</span>
                             </a></div>
                         <span class="autosale_now">求购信息正在展示，90天后自动下架</span>
@@ -264,6 +283,9 @@
                 <ul class="pagination"></ul>
             </nav>
         </div>
+    </div>
+    <div id="page" style="text-align: center">
+
     </div>
     <div class="common-footer">
         <div class="footerNav">
@@ -303,6 +325,7 @@
 
 </div>
 <script src="/js/upload.js"></script>
+<script language="JavaScript" src="/js/mydo.js"></script>
 <script>
     $(document).ready(function () {
         if (<%=userList.get(0).getIcon()!=null%>) {
@@ -311,8 +334,9 @@
         }
 
 
-        if (<%=mybuy==null%>) {
+        if (!${mybuycount}) {
             $("#sold_out_pro").hide();
+            $("#page").hide();
         } else {
             $(".no-data").hide();
         }
@@ -330,14 +354,6 @@
             $('#checkmember').html("已认证");
         }
 
-
-        $("#origin_ph").bind("mouseenter", function () {
-            $('#change_ph').attr("style", "display:block");
-        });
-        $("#change_ph").bind("mouseleave", function () {
-            $('#change_ph').attr("style", "display:none");
-        });
-
         if (<%=userList.get(0).getLabel()==null%>) {
             $('.user_qianming').html("ta很懒，还没有留下签名哦~");
         } else {
@@ -345,6 +361,35 @@
         }
 
     })
+    function getData(curr){
+        $.ajax({
+            type:'POST',
+            url:'${pageContext.request.contextPath}/Order/getMyBuy?page='+curr,
+            success:function () {
+                window.location.href='${pageContext.request.contextPath}/Order/getMyBuy?page='+curr;
+            }
+        })
+    }
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+        var total=${mybuycount};
+        var currpage=1;
+        laypage.render({
+            elem: 'page'
+            ,count:total  //数据总数，从服务端得到
+            ,curr:${currpage}
+            ,limit:5
+            ,jump: function(obj, first){
+                //首次不执行
+                if(!first){
+                    //do something
+                    currpage=obj.curr;
+                    getData(currpage);
+                }
+            }
+
+        });
+    });
 </script>
 
 </body>

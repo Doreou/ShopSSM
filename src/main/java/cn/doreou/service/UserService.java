@@ -1,5 +1,6 @@
 package cn.doreou.service;
 
+import cn.doreou.model.Applyer;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.User;
 
@@ -13,4 +14,6 @@ public interface UserService {
     void updateInfoById(User user);
     void updateHeadPic(User user);
     List<GoodAndUser> getInfoByGoods();
+    void applyJob(Applyer applyer);
+    boolean checkApply(String user_id);
 }

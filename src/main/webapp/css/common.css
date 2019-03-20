@@ -209,7 +209,7 @@ li {
 }
 
 .sidebar .helped{
-    background: rgba(0, 0, 0, 0) url("/Public/images/icon/help.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/images/help.png") no-repeat scroll 0 0;
     color: rgb(58,58,58);
     font-size: 26px;
     height: 155px;
@@ -242,7 +242,7 @@ li {
 }
 
 .sidebar .erweima .qq {
-    background-image: url("/Public/images/icon/qq.png");
+    background-image: url("/images/qq.png");
     cursor: pointer;
     display: inline-block;
     height: 50px;
@@ -250,7 +250,7 @@ li {
 
 }
 .sidebar .erweima .wb {
-    background-image: url("/Public/images/icon/wb.png");
+    background-image: url("/images/wb.png");
     margin-right: 10px;
     cursor: pointer;
     display: inline-block;
@@ -411,14 +411,14 @@ li {
 	float:left;
 }
 .common-footer .fxl {
-	background:url("/Public/images/icon/sprite.png") no-repeat 0 0;
+	background:url("/images/sprite.png") no-repeat 0 0;
 }
 .common-footer .fqq {
-	background:url("/Public/images/icon/sprite.png") no-repeat -58px 0;
+	background:url("/images/sprite.png") no-repeat -58px 0;
 	margin-left:20px;
 }
 .common-footer .fwx {
-	background:url("/Public/images/icon/sprite.png") no-repeat -115px 0;
+	background:url("/images/sprite.png") no-repeat -115px 0;
 	margin-left:20px;
 }
 .common-footer .copyright {

@@ -26,7 +26,7 @@ public class CertController {
         if(id.equals(userList.get(0).getUser_id())) {
             if (!certService.isExist(id)) {
                 Cert cert = new Cert();
-                String code = session.getAttribute("code").toString();
+                String code = session.getAttribute("CertPic").toString();
                 cert.setUser_id(id);
                 cert.setUsername(name);
                 Date now = new Date();
@@ -57,7 +57,7 @@ public class CertController {
     }
     @RequestMapping("upload")
     public String getCode(HttpSession session,@RequestParam("code") String code, @RequestParam("name") String name,@RequestParam("cardnum") String id){
-        session.setAttribute("code",code);
+        session.setAttribute("CertPic",code);
         session.setAttribute("name",name);
         session.setAttribute("id",id);
         String errmsg="上传成功";

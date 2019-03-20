@@ -101,7 +101,17 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}else {%>
+                             src="/images/default3.png"
+                            <%}
+                                    %>
+
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -120,7 +130,7 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
-        <a href="/Order/getAllBuy" class="clearfix">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -280,11 +290,18 @@
             </ul>
             <p id="reply-to-tips">Doreou 回复 lyc ：</p>
             <div class="common">
-                <img id="replyer" src="/images/pleaselogin.png">
-                <!-- <input value="Doreou 回复 lyc ：" type="text" name="common" id="commoncontent"> -->
-                <!-- <div contenteditable="true" id="commoncontent">
 
-                </div> -->
+                <img id="replyer" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                    <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                     src="<%=user.get(0).getIcon()%>"
+                    <%}else {%>
+                     src="/images/pleaselogin.png"
+                    <%}
+                                    %>
+
+                    <%}%>>
                 <textarea id="commoncontent"></textarea>
                 <button id="commonbtn" class="commonbtn" my-name="Doreou" goodsid-id="2666" to-name="lyc" onclick="saleReplyPost(this)" to-id="3708" pid="0">评论</button>
             </div>
@@ -422,13 +439,6 @@
 </div>
 <script>
     $(document).ready(function () {
-
-        <%--if(<%=userList!=null%>){--%>
-           <%--$('#replyer').attr("src","<%=((List<User>) userList).get(0).getIcon()%>");--%>
-           <%--&lt;%&ndash;$('.headpic').attr("src","<%=((List<User>) userList).get(0).getIcon()%>")&ndash;%&gt;--%>
-        <%--}--%>
-
-
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
         if (<%=userList!=null%>) {

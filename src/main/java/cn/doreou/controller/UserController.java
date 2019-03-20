@@ -1,5 +1,6 @@
 package cn.doreou.controller;
 
+import cn.doreou.model.Applyer;
 import cn.doreou.model.Book;
 import cn.doreou.model.Goods;
 import cn.doreou.model.User;
@@ -8,6 +9,7 @@ import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
@@ -46,12 +48,11 @@ public class UserController {
 
     //登陆/注册验证码
     @RequestMapping("getVerifyCode")
-    public void generate(HttpServletResponse response, HttpSession session) {
+    public void generate(HttpServletResponse response, HttpSession session, Model model) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         String verifyCodeValue = drawImg(output);
         // 将校验码保存到session中
         session.setAttribute("verifyCodeValue", verifyCodeValue);
-
         try {
             ServletOutputStream out = response.getOutputStream();
             output.writeTo(out);
@@ -201,6 +202,8 @@ public class UserController {
         //更新用户当前信息
         userList=userService.getById(userList.get(0).getUser_id());
         session.setAttribute("user",userList);
+        String errmsg="修改成功";
+        session.setAttribute("errmsg",errmsg);
         return "redirect:/Page/info";
     }
 
@@ -218,5 +221,32 @@ public class UserController {
         session.setAttribute("errmsg",errmsg);
         return "redirect:/Page/info";
     }
+
+    @RequestMapping("applyjob")
+    public String applyJob(HttpSession session,@RequestParam("name") String name,@RequestParam("school") String school,@RequestParam("major") String major,@RequestParam("description") String job,@RequestParam("info") String info,@RequestParam("contactnum") String conn_way){
+        String errmsg="";
+        List<User> userList = (List<User>) session.getAttribute("user");
+        if(userService.checkApply(userList.get(0).getUser_id())) {
+            Applyer applyer = new Applyer();
+            applyer.setUser_id(userList.get(0).getUser_id());
+            applyer.setName(name);
+            applyer.setMajor(major);
+            applyer.setJob(job);
+            applyer.setInfo(info);
+            applyer.setConn_way(conn_way);
+            applyer.setLocation(school);
+            applyer.setStatus(0);
+            userService.applyJob(applyer);
+            errmsg= "提交成功，你将在个人信息页--我的消息或通过您留下的联系方式查看管理员的回复";
+            session.setAttribute("errmsg", errmsg);
+            return "redirect:/Page/apply";
+        }else {
+            errmsg="您已提交过申请，请等待管理员回复";
+            session.setAttribute("errmsg", errmsg);
+            return "redirect:/Page/apply";
+        }
+    }
+
+
 
 }

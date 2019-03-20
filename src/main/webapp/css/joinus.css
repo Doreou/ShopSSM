@@ -7,7 +7,7 @@
 
 
 .main .top{
-    background: rgba(0, 0, 0, 0) url(../img/title.png) ;
+    background: rgba(0, 0, 0, 0) url("/images/title.png") ;
     display: inline-block;
     width: 500px;
     height: 150px;
@@ -56,7 +56,7 @@
 }
 
 .main .middle .box1 i{
-    background: rgba(0, 0, 0, 0) url("../../../images/joinus/joinus.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/images/joinus.png") no-repeat scroll 0 0;
     background-position: 0 0;
 }
 
@@ -69,7 +69,7 @@
 }
 
 .main .middle .box2 i{
-    background: rgba(0, 0, 0, 0) url("../../../images/joinus/joinus.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/images/joinus.png") no-repeat scroll 0 0;
     background-position: -135px 0;
 }
 
@@ -82,7 +82,7 @@
 }
 
 .main .middle .box3 i{
-    background: rgba(0, 0, 0, 0) url("../../../images/joinus/joinus.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/images/joinus.png") no-repeat scroll 0 0;
     background-position: -270px 0;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .main .middle .box4 i{
-    background: rgba(0, 0, 0, 0) url("../../../images/joinus/joinus.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/images/joinus.png") no-repeat scroll 0 0;
     background-position: -405px 0;
 }
 

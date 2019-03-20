@@ -1,6 +1,7 @@
 package cn.doreou.service.impl;
 
 import cn.doreou.mapper.UserMapper;
+import cn.doreou.model.Applyer;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.User;
 import cn.doreou.service.UserService;
@@ -50,5 +51,15 @@ public class UserServiceImpl implements UserService {
     }
     public List<GoodAndUser> getInfoByGoods(){
         return userMapper.getInfoByGoods();
+    }
+    public void applyJob(Applyer applyer){
+        userMapper.applyJob(applyer);
+    }
+    public boolean checkApply(String user_id){
+        if(userMapper.checkApply(user_id).size()>0){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

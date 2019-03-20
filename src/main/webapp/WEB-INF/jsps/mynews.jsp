@@ -107,9 +107,19 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
+            <li class="item clearfix text-center">
+                <div class="icon pull-left">
+                    <i class="icon iconfontitems"></i>
+                </div>
+                <div class="title pull-left">
+                    所有分类
+                </div>
+            </li>
+        </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/buy/type/<%=b.getSub_id()%>" class="clearfix">
+        <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -120,6 +130,7 @@
             </li>
         </a>
         <%}%>
+
         <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
         <%--<div class="left"></div>--%>
         <%--</li>--%>
@@ -269,13 +280,6 @@
         }else{
             $('#checkmember').html("已认证");
         }
-
-        $("#origin_ph").bind("mouseenter",function(){
-            $('#change_ph').attr("style","display:block");
-        });
-        $("#change_ph").bind("mouseleave",function(){
-            $('#change_ph').attr("style","display:none");
-        });
 
         if(<%=userList.get(0).getLabel()==null%>){
             $('.user_qianming').html("ta很懒，还没有留下签名哦~");

@@ -35,12 +35,12 @@ public class PageController {
 //    购买二手
     @RequestMapping("buy")
     public String Gobuy(HttpSession session,Model model){
-        List<Goods> result=orderService.SearchSaleByPage(0,8);
+        List<Goods> result=orderService.SearchAllSaleByPage(0,8);
         session.setAttribute("AllSaleGoodsList",result);
         //获取数据量
         model.addAttribute("salecount",orderService.getSaleCount());
         //首次进入该页面默认加载10条数据
-        List<Goods> result1=orderService.SearchBuyByPage(0,10);
+        List<Goods> result1=orderService.SearchAllBuyByPage(0,10);
         session.setAttribute("AllBuyGoodsList",result1);
         //重置初始页面
         model.addAttribute("currpage",1);
@@ -60,7 +60,9 @@ public class PageController {
     }
 //    加入我们
     @RequestMapping("joinus")
-    public String JoinUs(){
+    public String JoinUs(HttpSession session){
+        List<Book> bookList=bookService.getAllSubject();
+        session.setAttribute("AllSubject",bookList);
         return "joinus";
     }
 //    我要登陆
@@ -107,20 +109,33 @@ public class PageController {
     }
     @RequestMapping("salegoods")
     public String Salegoods(HttpSession session){
-        session.setAttribute("title","");
-        session.setAttribute("status","");
-        session.setAttribute("detail","");
-        session.setAttribute("count","");
-        session.setAttribute("price","");
-        session.setAttribute("pricost","");
-        session.setAttribute("address","");
-        session.setAttribute("type","");
-        return "salegoods";
+        if(session.getAttribute("user")!=null) {
+            session.setAttribute("title", "");
+            session.setAttribute("status", "");
+            session.setAttribute("detail", "");
+            session.setAttribute("count", "");
+            session.setAttribute("price", "");
+            session.setAttribute("pricost", "");
+            session.setAttribute("address", "");
+            session.setAttribute("type", "");
+            session.setAttribute("code", null);
+            return "salegoods";
+        }else{
+            String errmsg="您尚未登陆，请登陆后再进行操作";
+            session.setAttribute("errmsg",errmsg);
+            return "login";
+        }
     }
 
     @RequestMapping("buygoods")
-    public String Buygoods(){
-        return "buygoods";
+    public String Buygoods(HttpSession session){
+        if(session.getAttribute("user")!=null) {
+            return "buygoods";
+        }else{
+            String errmsg="您尚未登陆，请登陆后再进行操作";
+            session.setAttribute("errmsg",errmsg);
+            return "login";
+        }
     }
 
     @RequestMapping("checkinfo_nextstep")
@@ -133,12 +148,23 @@ public class PageController {
         }else {
             session.setAttribute("name", "");
             session.setAttribute("id", "");
+            session.setAttribute("CertPic",null);
             return "checkinfo_nextstep";
         }
     }
     @RequestMapping("goodsinfo")
     public String GoodsInfo(){
         return "goodsinfo";
+    }
+    @RequestMapping("apply")
+    public String Apply(HttpSession session){
+        if(session.getAttribute("user")!=null){
+            return "apply";
+        }else{
+            String errmsg="您尚未登陆，请登陆后再进行操作";
+            session.setAttribute("errmsg",errmsg);
+            return "login";
+        }
     }
 
 }

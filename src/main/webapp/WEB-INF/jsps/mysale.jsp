@@ -14,20 +14,21 @@
 <head>
     <meta charset="utf-8">
     <title>我的信息</title>
-    <link href="/css/animate.css" rel="stylesheet" />
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/css/login.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
-    <link href="/css/custom.css" rel="stylesheet" />
+    <link href="/css/animate.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/font-awesome.min.css" rel="stylesheet"/>
+    <%--<link href="/css/login.css" rel="stylesheet" />--%>
+    <link href="/css/newstyle.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet"/>
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
-    <link href="/css/common.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/infohead.css" />
-    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
-    <link rel="stylesheet" href="/css/info.css" />
+    <link href="/css/common.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/infohead.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css"/>
+    <link rel="stylesheet" href="/css/info.css"/>
     <link rel="stylesheet" href="/css/goods.css">
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
+    <link rel="stylesheet" href="/css/layer.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
@@ -37,10 +38,10 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    List<User> userList=(List<User>) session.getAttribute("user");
-    Object mysale=session.getAttribute("mysale");
-    if(mysale!=null){
-        mysale=(List<Goods>) mysale;
+    List<User> userList = (List<User>) session.getAttribute("user");
+    Object mysale = session.getAttribute("mysale");
+    if (mysale != null) {
+        mysale = (List<Goods>) mysale;
     }
 %>
 <div class="pace  pace-inactive">
@@ -104,7 +105,8 @@
             </ul>
             <form class="navbar-form navbar-right search-box" onsubmit="return false;">
                 <div class="form-group pull-left">
-                    <input name="keyword" type="text" id="serachWord" class="form-control search-field" placeholder="搜索一下..."> </div>
+                    <input name="keyword" type="text" id="serachWord" class="form-control search-field"
+                           placeholder="搜索一下..."></div>
                 <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
@@ -112,9 +114,19 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
+            <li class="item clearfix text-center">
+                <div class="icon pull-left">
+                    <i class="icon iconfontitems"></i>
+                </div>
+                <div class="title pull-left">
+                    所有分类
+                </div>
+            </li>
+        </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/buy/type/<%=b.getSub_id()%>" class="clearfix">
+        <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -125,6 +137,7 @@
             </li>
         </a>
         <%}%>
+
         <%--<li class="back" style="top: 112px; width: 134px; height: 55px; overflow: hidden;">--%>
         <%--<div class="left"></div>--%>
         <%--</li>--%>
@@ -157,7 +170,8 @@
         </div>
         <div id="user_msg">
             <div class="name">
-                <%=userList.get(0).getUsername()%> </div>
+                <%=userList.get(0).getUsername()%>
+            </div>
             <p class="has_sell">共有<span class="all">0</span>件商品，已卖出<span>0</span>件商品</p>
             <ul class="seller_attr">
                 <li>学校：&nbsp;&nbsp;<span>大连大学</span></li>
@@ -222,36 +236,52 @@
                 <p class="btn">查看二手模块</p>
             </a>
         </div>
-        <%if(mysale!=null){
-            for (Goods g:(List<Goods>)mysale){%>
+        <%
+            if (mysale != null) {
+                for (Goods g : (List<Goods>) mysale) {
+        %>
         <div id="sold_out_pro">
             <div class="enshr_each">
                 <img class="enshr_ph pull-left" alt="<%=g.getGoods_title()%>" src="<%=g.getCover()%>">
                 <div class="enshr_info">
-                    <h2><%=g.getGoods_title()%></h2>
-                    <p><%=g.getIntroduce()%></p>
+                    <h2><%=g.getGoods_title()%>
+                    </h2>
+                    <p><%=g.getIntroduce()%>
+                    </p>
                     <div class="enshr_state">
                         <div class="btn-group">
                             <a href="/user/reflashbuy/buyid/348">
                                 <span value="" class="btn btn-info btn-sm">擦亮</span>
                             </a>
-                            <a href="/user/shelvesbuy/buyid/348">
+                            <%if (g.getIsundercarriage() == 1) {%>
+                            <a class="undercarriage" onclick="undercarriage(<%=g.getGoods_id()%>,0)">
+                                <input style="display: none" value="<%=g.getGoods_id()%>" id="goods_id">
                                 <span class="btn btn-warning btn-sm">下架</span>
                             </a>
-                            <a href="/user/delbuy/buyid/348">
+                            <%} else {%>
+                            <a class="undercarriage" onclick="undercarriage(<%=g.getGoods_id()%>,1)">
+                                <span class="btn btn-warning btn-sm">已下架</span>
+                            </a>
+                            <%}%>
+                            <a class="deleteGoods" onclick="deleteGoods(<%=g.getGoods_id()%>)">
                                 <span class="btn btn-danger btn-sm">删除</span>
-                            </a>                                    </div>
+                            </a></div>
                         <span class="autosale_now">求购信息正在展示，90天后自动下架</span>
                     </div>
                 </div>
             </div>
         </div>
-        <%}
-        }%>
+        <%
+                }
+            }
+        %>
         <div class="text-center">
-            <nav><ul class="pagination"></ul></nav>
+            <nav>
+                <ul class="pagination"></ul>
+            </nav>
         </div>
     </div>
+    <div id="page" style="text-align: center;"></div>
     <div class="common-footer">
         <div class="footerNav">
             <ul class="fn">
@@ -264,7 +294,8 @@
             </ul>
         </div>
         <div class="footerMain">
-            <a href="/index/index" class="fLogo" style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
+            <a href="/index/index" class="fLogo"
+               style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
             <div class="fContact">
                 <h3 class="fct">联系我们 / <span>contact us</span></h3>
                 <p>Q群：999999999</p>
@@ -287,16 +318,19 @@
         </p>
     </div>
 
-</div><script src="/js/upload.js"></script>
+</div>
+<script language="JavaScript" src="/js/upload.js"></script>
+<script language="JavaScript" src="/js/mydo.js"></script>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         if (<%=userList.get(0).getIcon()!=null%>) {
             $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
             $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
         }
-        if(<%=mysale==null%>){
+        if (!${mysalecount}) {
             $("#sold_out_pro").hide();
-        }else{
+            $("#page").hide();
+        } else {
             $(".no-data").hide();
         }
         if (<%=userList!=null%>) {
@@ -307,26 +341,52 @@
             $("#login_show").hide();
         }
 
-        if(<%=userList.get(0).getMember_status()==0%>){
+        if (<%=userList.get(0).getMember_status()==0%>) {
             $('#checkmember').html("未认证");
-        }else{
+        } else {
             $('#checkmember').html("已认证");
         }
 
-        $("#origin_ph").bind("mouseenter",function(){
-            $('#change_ph').attr("style","display:block");
-        });
-        $("#change_ph").bind("mouseleave",function(){
-            $('#change_ph').attr("style","display:none");
-        });
-
-        if(<%=userList.get(0).getLabel()==null%>){
+        if (<%=userList.get(0).getLabel()==null%>) {
             $('.user_qianming').html("ta很懒，还没有留下签名哦~");
-        }else{
+        } else {
             $('.user_qianming').html("<%=userList.get(0).getLabel()%>");
         }
 
+
     })
+
+
+    function getData(curr) {
+        $.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/Order/getMySale?page=' + curr,
+            success: function () {
+                window.location.href = '${pageContext.request.contextPath}/Order/getMySale?page=' + curr;
+            }
+        })
+    }
+
+    layui.use('laypage', function () {
+        var laypage = layui.laypage;
+        var total =${mysalecount};
+        var currpage = 1;
+        laypage.render({
+            elem: 'page'
+            , count: total  //数据总数，从服务端得到
+            , curr:${currpage}
+            , limit: 5
+            , jump: function (obj, first) {
+                //首次不执行
+                if (!first) {
+                    //do something
+                    currpage = obj.curr;
+                    getData(currpage);
+                }
+            }
+
+        });
+    });
 </script>
 
 </body>

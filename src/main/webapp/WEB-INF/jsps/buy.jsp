@@ -40,9 +40,6 @@ To change this template use File | Settings | File Templates.
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     Object userList = session.getAttribute("user");
-    if (userList != null) {
-        userList = (List<User>) userList;
-    }
     Object goodslist = session.getAttribute("AllBuyGoodsList");
     List<GoodAndUser> usersinfo = (List<GoodAndUser>) session.getAttribute("userinfo");
 %>
@@ -100,7 +97,17 @@ To change this template use File | Settings | File Templates.
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}else {%>
+                             src="/images/default3.png"
+                            <%}
+                                    %>
+
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -119,7 +126,7 @@ To change this template use File | Settings | File Templates.
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
-        <a href="/Order/getAllBuy" class="clearfix">
+        <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>
@@ -329,9 +336,6 @@ To change this template use File | Settings | File Templates.
 </div>
 <script>
     $(document).ready(function () {
-        <%--if(<%=userList!=null%>){--%>
-        <%--$('.headpic').attr("src","<%=((List<User>) userList).get(0).getIcon()%>");--%>
-        <%--}--%>
 
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出

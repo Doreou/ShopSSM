@@ -38,9 +38,6 @@
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     Object userList = session.getAttribute("user");
-    if (userList != null) {
-        userList = (List<User>) userList;
-    }
     Object goodslist=session.getAttribute("AllSaleGoodsList");
     List<GoodAndUser> usersinfo=(List<GoodAndUser>) session.getAttribute("userinfo");
 %>
@@ -96,7 +93,17 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                                    src="<%=user.get(0).getIcon()%>"
+                                <%}else {%>
+                                    src="/images/default3.png"
+                                <%}
+                                    %>
+
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -114,7 +121,7 @@
 </nav>
 <div class="item-box">
     <ul class="all-item" id="js-sale-item">
-        <a href="/Order/getAllSale" class="clearfix">
+        <a href="/Order/searchsalebypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <i class="icon iconfontitems"></i>

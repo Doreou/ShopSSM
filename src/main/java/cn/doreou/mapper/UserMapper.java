@@ -1,9 +1,11 @@
 package cn.doreou.mapper;
 
 
+import cn.doreou.model.Applyer;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.model.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +19,7 @@ public interface UserMapper {
     void updateHeadPic(User user);
     String getHeadPic(String userid);
     List<GoodAndUser> getInfoByGoods();
+    void applyJob(Applyer applyer);
+    List<Applyer> checkApply(@Param("user_id") String user_id);
 
 }

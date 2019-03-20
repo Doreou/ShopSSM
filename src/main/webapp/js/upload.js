@@ -12,6 +12,25 @@ $(".close-tailoring").bind("click", function () {
 });
 //结束
 
+//提交身份验证界面
+$('.webuploader-pick').bind("click", function () {
+    $('.tailoring-container').attr("style", "display:block");
+});
+
+$(".close-tailoring").bind("click", function () {
+    $('.tailoring-container').attr("style", "display:none");
+});
+$('.close').bind("click", function () {
+    $('#closealert').attr("style", "display:none");
+});
+//用户头像覆盖与移出
+$("#origin_ph").bind("mouseenter", function () {
+    $('#change_ph').attr("style", "display:block");
+});
+$("#change_ph").bind("mouseleave", function () {
+    $('#change_ph').attr("style", "display:none");
+});
+
 function selectImg(file) {
     var reader = new FileReader();
     reader.onload = function (evt) {
@@ -59,18 +78,4 @@ $(".cropper-scaleX-btn").on("click", function () {
         flagX = true;
     }
     flagX != flagX;
-});
-
-$("#sureCut").on("click", function () {
-    if ($("#tailoringImg").attr("src") == null) {
-        return false;
-    } else {
-        var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
-        var base64 = cas.toDataURL('image/png'); // 转换为base64
-        $('#code').html(base64);
-        $('.tailoring-container').attr("style", "display:none");
-        $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/upload');
-        $('#saleForm').submit();
-
-    }
 });
