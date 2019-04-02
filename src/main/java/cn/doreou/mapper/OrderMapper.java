@@ -49,4 +49,9 @@ public interface OrderMapper {
     //删除商品记录
     void deleteGoods(@Param("goods_id") int goods_id);
 
+    //排序
+    List<Goods> orderByTime(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
+    List<Goods> orderByHot(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
+    List<Goods> orderByPrice(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
+
 }

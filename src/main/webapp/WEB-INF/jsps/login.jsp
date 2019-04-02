@@ -66,6 +66,7 @@
             版权所有 © All Rights Reserved            </div>
     </div>
 </div>
+<script src="/js/InputCheck.js"></script>
 <script>
     $(document).ready(function(){
         var errmsg="";
@@ -77,20 +78,6 @@
         }
 
     })
-
-    function check(){
-        if ($('#userid').val() == "") {
-            layer.msg("请检查用户名");
-            return false;
-        } else if ($('#password').val() == "") {
-            layer.msg("请检查密码");
-            return false
-        }else if ($('#passcode').val() == "") {
-            layer.msg("请输入验证码");
-            return false;
-        }
-        return true;
-    }
     function btn() {
         if(check()){
             $('#js-form').action="${pageContext.request.contextPath}/User/login";

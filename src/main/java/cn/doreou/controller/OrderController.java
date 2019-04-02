@@ -184,7 +184,7 @@ public class OrderController {
         model.addAttribute("currpage",start);
         model.addAttribute("buycount",orderService.getBuyCount());
         session.setAttribute("AllBuyGoodsList",result);
-        return "buy";
+        return "buyPart";
     }
     @RequestMapping("searchsalebypage")
     public String SearchSaleByPage(HttpSession session,Model model,@RequestParam("page") int start){
@@ -212,6 +212,36 @@ public class OrderController {
         orderService.deleteGoods(goods_id);
         getMySale(session,model,start);
         return "true";
+    }
+
+    //按时间排序
+    @RequestMapping("orderbytime")
+    public String orderByTime(HttpSession session,Model model,@RequestParam("way") String way,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.orderByTime((start-1)*10,10,way);
+        session.setAttribute("way",way);
+        model.addAttribute("currpage",start);
+        model.addAttribute("buycount",orderService.getBuyCount());
+        session.setAttribute("AllBuyGoodsList",result);
+        return "buyPart";
+    }
+    //按热度排序
+    @RequestMapping("orderbyhot")
+    public String orderByHot(HttpSession session,Model model,@RequestParam("way") String way,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.orderByHot((start-1)*10,10,way);
+        session.setAttribute("way",way);
+        model.addAttribute("currpage",start);
+        model.addAttribute("buycount",orderService.getBuyCount());
+        session.setAttribute("AllBuyGoodsList",result);
+        return "buyPart";
+    }
+    @RequestMapping("orderbyprice")
+    public String orderByPrice(HttpSession session,Model model,@RequestParam("way") String way,@RequestParam(value = "page",required = false,defaultValue = "1") int start){
+        List<Goods> result=orderService.orderByPrice((start-1)*10,10,way);
+        session.setAttribute("way",way);
+        model.addAttribute("currpage",start);
+        model.addAttribute("buycount",orderService.getBuyCount());
+        session.setAttribute("AllBuyGoodsList",result);
+        return "buyPart";
     }
 
 }

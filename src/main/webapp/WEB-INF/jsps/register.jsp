@@ -90,26 +90,6 @@
 
     })
 
-    function check() {
-        if ($('#username').val() == "") {
-            layer.msg("请检查用户名");
-            return false;
-        } else if ($('#password').val() == "") {
-            layer.msg("请检查密码");
-            return false;
-        } else if ($('#stuid').val() == "") {
-            layer.msg("请检查id");
-            return false;
-        } else if ($('email').val() == "") {
-            layer.msg("请检查邮箱格式");
-            return false;
-        } else if ($('passcode').val() == "") {
-            layer.msg("请输入验证码");
-            return false;
-        }
-        return true;
-    }
-
     function changeImage() {
         $('#verifycode').attr('src', '${pageContext.request.contextPath}/User/getVerifyCode?t=' + (new Date()).valueOf());
     }

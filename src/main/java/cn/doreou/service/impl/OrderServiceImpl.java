@@ -83,4 +83,13 @@ public class OrderServiceImpl implements OrderService {
     public void deleteGoods(int goods_id){
         orderMapper.deleteGoods(goods_id);
     }
+    public List<Goods> orderByTime(int start,int pagesize,String way){
+        return orderMapper.orderByTime(start,pagesize,way);
+    }
+    public List<Goods> orderByHot(int start,int pagesize,String way){
+        return orderMapper.orderByHot(start,pagesize,way);
+    }
+    public List<Goods> orderByPrice(int start,int pagesize,String way){
+        return orderMapper.orderByPrice(start,pagesize,way);
+    }
 }

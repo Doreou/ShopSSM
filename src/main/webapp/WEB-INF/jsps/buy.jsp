@@ -4,7 +4,7 @@
 <%@ page import="cn.doreou.model.GoodAndUser" %>
 <%@ page import="cn.doreou.model.Goods" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-Created by IntelliJ IDEA.
+<%--Created by IntelliJ IDEA.
 User: Holmes
 Date: 2019/2/17
 Time: 10:54
@@ -14,13 +14,12 @@ To change this template use File | Settings | File Templates.
 <html>
 <head>
     <title>校园求购</title>
+    <link href="/css/iconfont.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet"/>
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/newstyle.css" rel="stylesheet"/>
-    <link href="/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/css/login.css" rel="stylesheet"/>
     <link href="/css/custom.css" rel="stylesheet">
-    <link href="/css/iconfont.css" rel="stylesheet">
     <link href="/css/swiper-3.4.2.min.css" rel="stylesheet">
     <link href="/css/buy.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet"/>
@@ -40,7 +39,6 @@ To change this template use File | Settings | File Templates.
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     Object userList = session.getAttribute("user");
-    Object goodslist = session.getAttribute("AllBuyGoodsList");
     List<GoodAndUser> usersinfo = (List<GoodAndUser>) session.getAttribute("userinfo");
 %>
 <div class="pace  pace-inactive">
@@ -129,7 +127,7 @@ To change this template use File | Settings | File Templates.
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont icon-icon"></span>
                 </div>
                 <div class="title pull-left">
                     所有分类
@@ -141,7 +139,7 @@ To change this template use File | Settings | File Templates.
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont <%=b.getIcon()%>"></span>
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>
@@ -188,18 +186,18 @@ To change this template use File | Settings | File Templates.
                 <div class="inner-box">
                     <div class="order">
                         <div class="order-line">
-                            <a data-type="0" onclick="querySale(this,0);" class="">随机<span class="fa fa-arrows-v"></span></a>
-                            <a onclick="querySale(this,1);" class="active 5">时间<span class="aui-iconfont fa fa-long-arrow-down"></span></a>
-                            <a onclick="querySale(this,2);" class="" data-type="1" data-id="10">价格<span class="aui-iconfont fa fa-arrows-v"></span></a>
-                            <a onclick="querySale(this,3);" class="" data-type="4">热度<span class="aui-iconfont fa fa-arrows-v"></span></a>
+                            <a><span class="iconfont icon-px-" id="random" style="font-size: 14px;color: #F10;">随机</span></a>
+                            <a onclick="orderByTime($('#way').val())"><span class="iconfont icon-px-" id="time" style="font-size: 14px;color: black">时间</span></a>
+                            <a onclick="orderByPrice($('#way').val())"><span class="iconfont icon-px-" id="price" style="font-size: 14px;color: black">价格</span></a>
+                            <a onclick="orderByHot($('#way').val())"><span class="iconfont icon-px-" id="hot" style="font-size: 14px;color: black">热度</span></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="list clearfix">
+        <div class="list clearfix" id="dataform">
+            <%Object goodslist = session.getAttribute("AllBuyGoodsList");%>
             <% for (Goods g : (List<Goods>) goodslist) {%>
-
             <div class="itemlist clearfix">
                 <div class="itembox clearfix">
                     <div class="item_main">
@@ -334,6 +332,7 @@ To change this template use File | Settings | File Templates.
 
     </div>
 </div>
+<script src="/js/buy.js"></script>
 <script>
     $(document).ready(function () {
 
@@ -351,22 +350,30 @@ To change this template use File | Settings | File Templates.
 
     layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
-            , form = layui.form;
 
         //常规轮播
         carousel.render({
             elem: '#test1'
-            , arrow: 'always'
+            ,anim:'fade'
         });
     });
 
 
     function getData(curr){
+        var way=$('#page-way').val();
+        var url='${pageContext.request.contextPath}/Order/searchbuybypage?page='+curr;
+        if(window.getComputedStyle(document.getElementById("time"),null).color=="rgb(255, 17, 0)"){
+            url='${pageContext.request.contextPath}/Order/orderbytime?page='+curr+'&way='+way;
+        }else if(window.getComputedStyle(document.getElementById("hot"),null).color=="rgb(255, 17, 0)"){
+            url='${pageContext.request.contextPath}/Order/orderbyhot?page='+curr+'&way='+way;
+        }else if(window.getComputedStyle(document.getElementById("price"),null).color=="rgb(255, 17, 0)"){
+            url='${pageContext.request.contextPath}/Order/orderbyprice?page='+curr+'&way='+way;
+        }
         $.ajax({
             type:'POST',
-            url:'${pageContext.request.contextPath}/Order/searchbuybypage?page='+curr,
-            success:function () {
-                window.location.href='${pageContext.request.contextPath}/Order/searchbuybypage?page='+curr;
+            url:url,
+            success:function (msg) {
+                $('#dataform').html(msg);
             }
         })
     }

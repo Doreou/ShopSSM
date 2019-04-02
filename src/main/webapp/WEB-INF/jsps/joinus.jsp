@@ -16,6 +16,7 @@
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
     <link href="/css/joinus.css" rel="stylesheet" />
     <link href="/css/common.css" rel="stylesheet" />
+    <link href="/css/layui.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
 </head>
 <body class="  pace-done">
@@ -102,7 +103,7 @@
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont icon-icon"></span>
                 </div>
                 <div class="title pull-left">
                     所有分类
@@ -114,7 +115,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont <%=b.getIcon()%>"></span>
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>

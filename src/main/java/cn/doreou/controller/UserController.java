@@ -223,7 +223,7 @@ public class UserController {
     }
 
     @RequestMapping("applyjob")
-    public String applyJob(HttpSession session,@RequestParam("name") String name,@RequestParam("school") String school,@RequestParam("major") String major,@RequestParam("description") String job,@RequestParam("info") String info,@RequestParam("contactnum") String conn_way){
+    public String applyJob(HttpSession session,@RequestParam("name") String name,@RequestParam("contacttype") String conn_type,@RequestParam("school") String school,@RequestParam("major") String major,@RequestParam("description") String job,@RequestParam("info") String info,@RequestParam("contactnum") String conn_way){
         String errmsg="";
         List<User> userList = (List<User>) session.getAttribute("user");
         if(userService.checkApply(userList.get(0).getUser_id())) {
@@ -233,6 +233,7 @@ public class UserController {
             applyer.setMajor(major);
             applyer.setJob(job);
             applyer.setInfo(info);
+            applyer.setConn_type(conn_type);
             applyer.setConn_way(conn_way);
             applyer.setLocation(school);
             applyer.setStatus(0);

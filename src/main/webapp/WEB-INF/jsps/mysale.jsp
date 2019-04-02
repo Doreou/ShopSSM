@@ -75,7 +75,7 @@
                     <a target="_blank" href="/applyschool">开通学校</a>
                 </li>
                 <li class="">
-                    <a target="_blank" href="/joinus">加入我们</a>
+                    <a target="_blank" href="/Page/joinus">加入我们</a>
                 </li>
                 <li class="">
                     <a target="_blank" href="/contact">联系我们</a>
@@ -117,7 +117,7 @@
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont icon-icon"></span>
                 </div>
                 <div class="title pull-left">
                     所有分类
@@ -129,7 +129,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont <%=b.getIcon()%>"></span>
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>
@@ -260,7 +260,7 @@
                             </a>
                             <%} else {%>
                             <a class="undercarriage" onclick="undercarriage(<%=g.getGoods_id()%>,1)">
-                                <span class="btn btn-warning btn-sm">已下架</span>
+                                <span class="btn btn-warning btn-sm">上架</span>
                             </a>
                             <%}%>
                             <a class="deleteGoods" onclick="deleteGoods(<%=g.getGoods_id()%>)">

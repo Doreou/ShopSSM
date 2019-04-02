@@ -4,6 +4,15 @@ public class Book {
 //      管理分类
     private int sub_id;
     private String subject;
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public int getSub_id() {
         return sub_id;

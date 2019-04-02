@@ -122,7 +122,7 @@
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont icon-icon"></span>
                 </div>
                 <div class="title pull-left">
                     所有分类
@@ -134,7 +134,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont <%=b.getIcon()%>"></span>
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>

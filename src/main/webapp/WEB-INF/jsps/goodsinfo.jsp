@@ -23,7 +23,6 @@
     <link href="/css/swiper-3.4.2.min.css" rel="stylesheet">
     <link href="/css/buy.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet"/>
-    <link href="/css/info_icon.css" rel="stylesheet">
     <link href="/css/showsale.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
@@ -133,7 +132,7 @@
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont icon-icon"></span>
                 </div>
                 <div class="title pull-left">
                     所有分类
@@ -145,7 +144,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont <%=b.getIcon()%>"></span>
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>
@@ -206,15 +205,15 @@
                 <li class="user same">
                     <a target="_blank" href="/salenow/3708">
                             <span class="name">
-                                <span class="iconfont"></span> &nbsp;&nbsp;&nbsp;
+                                <span class="iconfont icon-yonghu"></span>&nbsp;&nbsp;&nbsp;
                                 <span class="">
-                                    <%=goodsinfo.get(0).getUsername()%>                                                                        </span><span class="seehim iconfontitems">
+                                    <%=goodsinfo.get(0).getUsername()%>                                                                        </span><span class="seehim iconfontitems">
                                 </span>(去看他)
                             </span>
                     </a>
                 </li>
                 <li class="contact1 same">
-                    <span class="qq"><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text">
+                    <span class="qq"><span class="iconfont icon-QQ"></span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text">
                         <%if (goodsinfo.get(0).getQq() != null) {%>
                                         <%=goodsinfo.get(0).getQq()%>
                                     <%} else {%>
@@ -222,7 +221,7 @@
                                     <%}%>                                      </span>
                 </li>
                 <li class="contact2 same">
-                    <span class="tel"><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text">
+                    <span class="tel"><span class="iconfont icon-shouji"></span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="text">
                             <%if (goodsinfo.get(0).getPhone() != null) {%>
                                         <%=goodsinfo.get(0).getPhone()%>
                                     <%} else {%>
@@ -230,13 +229,13 @@
                                     <%}%>                                 </span>
                 </li>
                 <li class="school same">
-                    <span class=""><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">大连大学</span>
+                    <span class=""><span class="iconfont icon-dizhi"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">大连大学</span>
                 </li>
                 <li class="address same">
-                    <span class=""><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">120000</span>
+                    <span class=""><span class="iconfont icon-youbian"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">120000</span>
                 </li>
                 <li class="renzheng same">
-                    <span class=""><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">
+                    <span class=""><span class="iconfont icon-renzheng"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">
                         <%if (goodsinfo.get(0).getMember_status() == 0) {%>
                                                 未认证
                                             <%} else {%>
@@ -244,17 +243,17 @@
                                             <%}%>                        </span>
                 </li>
                 <li class="time same">
-                    <span class=""><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;</span><span class="text"><%
+                    <span class=""><span class="iconfont icon-riqi"></span>&nbsp;&nbsp;&nbsp;</span><span class="text"><%
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     String time = sdf.format(goodsinfo.get(0).getTime());
                 %><%=time%></span>
                 </li>
                 <li class="weixin same">
-                    <span class="weixin"><span class="iconfont"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">
+                    <span class="weixin"><span class="iconfont icon-iconfontweixin"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">
                             <%if (goodsinfo.get(0).getWechat() != null) {%>
                                         <%=goodsinfo.get(0).getWechat()%>
                                     <%} else {%>
-                                        ta还没有留下手机哦~
+                                        ta还没有留下微信哦~
                                     <%}%>                        </span>
                 </li>
                 <li>
@@ -280,7 +279,7 @@
             <a target="_blank">
                 <img src="<%=goodsinfo.get(0).getIcon()%>" id="user_ph">
             </a>
-            <span id="user_cmt">哈哈哈哈哈哈哈哈哈哈哈哈<br>(联系我的时候，请说明是在柚子校园看见的噢！)</span>
+            <span id="user_cmt">哈哈哈哈哈哈哈哈哈哈哈哈<br>(联系我的时候，请说明是在...看见的噢！)</span>
         </div>
     </div>
     <div class="commonbox">

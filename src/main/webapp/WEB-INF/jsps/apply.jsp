@@ -136,7 +136,7 @@
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont icon-icon"></span>
                 </div>
                 <div class="title pull-left">
                     所有分类
@@ -148,7 +148,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <i class="icon iconfontitems"></i>
+                    <span class="iconfont <%=b.getIcon()%>"></span>
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>
@@ -193,14 +193,14 @@
                             <label class="col-sm-2 control-label" placeholder="请填写您的姓名">姓名</label>
 
                             <div class="col-sm-10">
-                                <input name="name" type="text" placeholder="请填写姓名" class="form-control">
+                                <input name="name" id="username" type="text" placeholder="请填写姓名" class="form-control">
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">学校</label>
                             <div class="col-sm-10">
-                                <input type="text" name="school" placeholder="请填写学校名称(注：您可以不是本校/在校的学生)"
+                                <input type="text" name="school" id="school" placeholder="请填写学校名称(注：您可以不是本校/在校的学生)"
                                        class="form-control"> <span class="help-block m-b-none">请填写完整学校名称</span>
                             </div>
                         </div>
@@ -208,22 +208,23 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">专业</label>
                             <div class="col-sm-10">
-                                <input type="text" name="major" placeholder="请填写专业名称" class="form-control"> <span
-                                    class="help-block m-b-none">请填写完整专业名称</span>
+                                <input type="text" name="major" id="major" placeholder="请填写专业名称" class="form-control">
+                                <span
+                                        class="help-block m-b-none">请填写完整专业名称</span>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">特长</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control description" value="" name="description"
+                                <textarea class="form-control description" value="" id="description" name="description"
                                           placeholder="您想加入申请的方向，如运营，前端等"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">个人简介</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control description" value="" name="info"
+                                <textarea class="form-control description" value="" id="info" name="info"
                                           placeholder="请简短的描述以下自己(140字以内)"></textarea>
                             </div>
                         </div>
@@ -234,7 +235,7 @@
                             <div class="col-sm-10">
                                 <div class="radio i-checks">
                                     <label class="">
-                                        <div class="iradio_square-green" onclick="check_change()" id="redio1"
+                                        <div class="iradio_square-green checked" id="redio1"
                                              style="position: relative;"><input type="radio" checked="" value="手机"
                                                                                 name="contacttype"
                                                                                 style="position: absolute; opacity: 0;">
@@ -267,7 +268,7 @@
                                 <div class="radio i-checks">
                                     <label>
                                         <div class="iradio_square-green" id="redio4" style="position: relative;"><input
-                                                type="radio" value="邮箱" name="contacttype"
+                                                type="radio" value="邮箱" id="contacttype" name="contacttype"
                                                 style="position: absolute; opacity: 0;">
                                             <ins class="iCheck-helper"
                                                  style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
@@ -280,7 +281,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">联系号码</label>
                             <div class="col-sm-10">
-                                <input type="text" name="contactnum" placeholder="请填写您的手机号，QQ，微信或者邮箱"
+                                <input type="text" id="contactnum" name="contactnum" placeholder="请填写您的手机号，QQ，微信或者邮箱"
                                        class="form-control">
                             </div>
                         </div>
@@ -340,6 +341,7 @@
     </div>
 
 </div>
+<script src="/js/InputCheck.js"></script>
 <script>
     $(document).ready(function () {
         var errmsg = "";
@@ -369,8 +371,10 @@
     })
 
     function submit_form() {
-        $('#js-form').attr('action', '${pageContext.request.contextPath}/User/applyjob');
-        $('#js-form').submit();
+        if (check()) {
+            $('#js-form').attr('action', '${pageContext.request.contextPath}/User/applyjob');
+            $('#js-form').submit();
+        }
     }
 
 </script>

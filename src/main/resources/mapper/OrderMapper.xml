@@ -78,5 +78,15 @@
         delete from t_goods where goods_id=#{goods_id}
     </delete>
 
+    <select id="orderByTime" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='购入' and isundercarriage=1 order by `time` ${way} limit #{start},#{pagesize}
+    </select>
 
+    <select id="orderByHot" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='购入' and isundercarriage=1 order by `clickcount` ${way} limit #{start},#{pagesize}
+    </select>
+
+    <select id="orderByPrice" resultType="cn.doreou.model.Goods">
+        select * from t_goods where type='购入' and isundercarriage=1 order by `expt_price` ${way} limit #{start},#{pagesize}
+    </select>
 </mapper>

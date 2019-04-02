@@ -30,4 +30,7 @@ public interface OrderService {
     void isundercarriage(int goods_id,int choice);
     int goodsStatus(int goods_id);
     void deleteGoods(int goods_id);
+    List<Goods> orderByTime(int start,int pagesize,String way);
+    List<Goods> orderByHot(int start,int pagesize,String way);
+    List<Goods> orderByPrice(int start,int pagesize,String way);
 }

@@ -8,6 +8,15 @@ public class Applyer {
     private String job;
     private String info;
     private String conn_way;
+    private String conn_type;
+
+    public String getConn_type() {
+        return conn_type;
+    }
+
+    public void setConn_type(String conn_type) {
+        this.conn_type = conn_type;
+    }
 
     public String getLocation() {
         return location;
