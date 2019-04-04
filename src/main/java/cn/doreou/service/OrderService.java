@@ -33,4 +33,6 @@ public interface OrderService {
     List<Goods> orderByTime(int start,int pagesize,String way);
     List<Goods> orderByHot(int start,int pagesize,String way);
     List<Goods> orderByPrice(int start,int pagesize,String way);
+    void refresh(Goods goods);
+    void refreshbuy(Goods goods);
 }

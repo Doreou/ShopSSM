@@ -17,7 +17,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/font-awesome.min.css" rel="stylesheet" />
     <link href="/css/login.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/newstyle.css" rel="stylesheet" />
     <link href="/css/custom.css" rel="stylesheet" />
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
     <link href="/css/common.css" rel="stylesheet" />
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="/css/message.css">
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
+    <link rel="stylesheet" href="/css/layer.css">
     <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
@@ -90,7 +91,16 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}else {%>
+                             src="/images/default3.png"
+                            <%}
+                                    %>
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -157,7 +167,16 @@
 <div class="main center">
     <div class="top clearfix">
         <div id="user_photo" class="pull-left">
-            <img id="origin_ph" src="/images/default3.png" alt="头像" style="">
+            <img id="origin_ph" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                 src="<%=user.get(0).getIcon()%>"
+                <%}else {%>
+                 src="/images/default3.png"
+                <%}
+                                    %>
+                <%}%> alt="头像" style="">
             <img data-toggle="modal" data-target="#myModal" id="change_ph" src="/images/mkhead_hover.png" alt="头像"
                  style="display: none;">
         </div>
@@ -263,10 +282,6 @@
 <script src="/js/upload.js"></script>
 <script>
     $(document).ready(function(){
-        if (<%=userList.get(0).getIcon()!=null%>) {
-            $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
-            $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
-        }
         if (<%=userList!=null%>) {
             //隐藏登陆/注册
             $("#js_visible").hide();
@@ -288,6 +303,27 @@
         }
 
     })
+    $("#sureCut").on("click", function () {
+        if ($("#tailoringImg").attr("src") == null) {
+            return false;
+        } else {
+            var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
+            var base64 = cas.toDataURL('image/png'); // 转换为base64
+            $('#code').html(base64);
+            $('.tailoring-container').attr("style", "display:none");
+            $.ajax({
+                type:'POST',
+                url:'${pageContext.request.contextPath}/User/upload',
+                data:$('#upload').serialize(),
+                success:function (data) {
+                    if(data=='true'){
+                        location.reload();
+                    }
+                }
+            })
+
+        }
+    });
 </script>
 
 </body>

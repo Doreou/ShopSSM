@@ -5,10 +5,48 @@ import java.util.Date;
 public class GoodAndUser {
     private int goods_id;
     private String user_id;
+    private float pri_cost;
+
+    public float getPri_cost() {
+        return pri_cost;
+    }
+
+    public void setPri_cost(float pri_cost) {
+        this.pri_cost = pri_cost;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    private String introduce;
+    private int number;
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     private String username;
     private String qq;
     private String wechat;
     private float expt_price;
+    private String icon;
 
     public Date getTime() {
         return time;
@@ -50,15 +88,15 @@ public class GoodAndUser {
 
     private String phone;
 
-    public String getIcon() {
-        return icon;
+    public String getCover() {
+        return cover;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
-    private String icon;
+    private String cover;
     private int member_status;
 
     public int getGoods_id() {

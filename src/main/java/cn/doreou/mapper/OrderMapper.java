@@ -54,4 +54,7 @@ public interface OrderMapper {
     List<Goods> orderByHot(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
     List<Goods> orderByPrice(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
 
+    //更新商品信息
+    void refresh(Goods goods);
+    void refreshbuy(Goods goods);
 }

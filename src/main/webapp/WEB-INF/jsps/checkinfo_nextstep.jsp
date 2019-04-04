@@ -93,7 +93,16 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}else {%>
+                             src="/images/default3.png"
+                            <%}
+                                    %>
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -161,7 +170,16 @@
 <div class="main center">
     <div class="top clearfix">
         <div id="user_photo" class="pull-left">
-            <img id="origin_ph" src="/images/default3.png" alt="头像" style="">
+            <img id="origin_ph" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                 src="<%=user.get(0).getIcon()%>"
+                <%}else {%>
+                 src="/images/default3.png"
+                <%}
+                                    %>
+                <%}%> alt="头像" style="">
             <img data-toggle="modal" data-target="#myModal" id="change_ph" src="/images/mkhead_hover.png" alt="头像"
                  style="display: none;">
         </div>
@@ -252,7 +270,7 @@
 
                         </div>
                         <div class="identify-btn">
-                            <button type="button" onclick="addData()" class="btn btn-success submitcert">提交认证</button>
+                            <button type="button" onclick="return addData()" class="btn btn-success submitcert">提交认证</button>
                         </div>
 
 
@@ -340,11 +358,6 @@
             //提示后重置errmsg
             <%session.setAttribute("errmsg","");%>
         }
-
-        if (<%=userList.get(0).getIcon()!=null%>) {
-            $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
-            $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
-        }
         if (<%=userList!=null%>) {
             //隐藏登陆/注册
             $("#js_visible").hide();
@@ -367,8 +380,13 @@
 
     })
     function addData(){
+        if(<%=session.getAttribute("CertPic")!=null%>){
         $('#certform').attr('action','${pageContext.request.contextPath}/Cert/newcert');
         $('#certform').submit();
+        }else{
+            layer.msg("请上证件图片信息");
+            return false;
+        }
     }
     $("#sureCut").on("click", function () {
         if ($("#tailoringImg").attr("src") == null) {

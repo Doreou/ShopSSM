@@ -181,17 +181,17 @@
             <div class="con-FangDa" id="fangdajing">
                 <div class="con-fangDaIMg">
                     <!-- 正常显示的图片-->
-                    <img alt="" src="<%=goodsinfo.get(0).getIcon()%>">
+                    <img alt="" src="<%=goodsinfo.get(0).getCover()%>">
                     <!-- 滑块-->
                     <div class="magnifyingBegin" style="display: none; left: 300px; top: 2.5px;"></div>
                     <!-- 放大镜显示的图片 -->
                     <div class="magnifyingShow" style="display: none;">
-                        <img alt="我爱你我爱你-柚子校园" src="<%=goodsinfo.get(0).getIcon()%>" style="margin-left: -900px; margin-top: -7.5px;">
+                        <img alt="我爱你我爱你-柚子校园" src="<%=goodsinfo.get(0).getCover()%>" style="margin-left: -900px; margin-top: -7.5px;">
                     </div>
                 </div>
                 <ul class="con-FangDa-ImgList">
                     <!-- 图片显示列表 -->
-                    <li class="active"><img src="<%=goodsinfo.get(0).getIcon()%>" data-bigimg="<%=goodsinfo.get(0).getIcon()%>"></li>                                                                                                          </ul>
+                    <li class="active"><img src="<%=goodsinfo.get(0).getCover()%>" data-bigimg="<%=goodsinfo.get(0).getCover()%>"></li>                                                                                                          </ul>
             </div>
         </div>
         <div class="info">

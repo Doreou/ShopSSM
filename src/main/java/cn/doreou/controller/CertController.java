@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpSession;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,24 +30,53 @@ public class CertController {
             if (!certService.isExist(id)) {
                 Cert cert = new Cert();
                 String code = session.getAttribute("CertPic").toString();
-                cert.setUser_id(id);
-                cert.setUsername(name);
-                Date now = new Date();
-                Date jointime = null;
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                System.out.println(sdf);
-                try {
-                    jointime = sdf.parse(sdf.format(now));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                //截断无用前缀
+                String PicCode=code.substring(22);
+                System.out.println(PicCode);
+                //对base64解码 转存为图片
+                BASE64Decoder decoder = new BASE64Decoder();
+                try
+                {
+                    //Base64解码
+                    byte[] b = decoder.decodeBuffer(PicCode);
+                    for(int i=0;i<b.length;++i)
+                    {
+                        if(b[i]<0)
+                        {
+                            //调整异常数据
+                            b[i]+=256;
+                        }
+                    }
+                    //生成png图片
+                    String imgFilePath="D:\\img\\certpic\\"+System.currentTimeMillis()+".png";
+                    OutputStream out = new FileOutputStream(imgFilePath);
+                    cert.setUser_id(id);
+                    cert.setUsername(name);
+                    Date now = new Date();
+                    Date jointime = null;
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    System.out.println(sdf);
+                    try {
+                        jointime = sdf.parse(sdf.format(now));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    cert.setUp_time(jointime);
+                    cert.setCert_pic(imgFilePath.substring(2));
+                    //0未认证 1 已认证
+                    cert.setStatus(0);
+                    certService.insertNewCert(cert);
+                    String errmsg = "提交成功，请等待管理员审核";
+                    session.setAttribute("errmsg", errmsg);
+                    out.write(b);
+                    out.flush();
+                    out.close();
                 }
-                cert.setUp_time(jointime);
-                cert.setCert_pic(code);
-                //0未认证 1 已认证
-                cert.setStatus(0);
-                certService.insertNewCert(cert);
-                String errmsg = "提交成功，请等待管理员审核";
-                session.setAttribute("errmsg", errmsg);
+                catch (Exception e)
+                {
+                    System.out.println(e);
+                    return "500";
+                }
             } else {
                 String errmsg = "您已提交过申请，请等待管理员审核";
                 session.setAttribute("errmsg", errmsg);

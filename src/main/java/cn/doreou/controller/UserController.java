@@ -16,6 +16,7 @@ import sun.misc.BASE64Decoder;
 
 
 import javax.imageio.ImageIO;
+import javax.jws.WebParam;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -208,18 +209,46 @@ public class UserController {
     }
 
     @RequestMapping("upload")
-    public String upload(HttpSession session,@RequestParam("code") String code) {
-        List<User> userList = (List<User>) session.getAttribute("user");
-        User user = new User();
-        user.setUser_id(userList.get(0).getUser_id());
-        user.setIcon(code);
-        userService.updateHeadPic(user);
-        //更新用户信息
-        userList=userService.getById(userList.get(0).getUser_id());
-        session.setAttribute("user",userList);
-        String errmsg="上传成功";
-        session.setAttribute("errmsg",errmsg);
-        return "redirect:/Page/info";
+    @ResponseBody
+    public String upload(HttpSession session, @RequestParam("code") String code) {
+        String PicCode=code.substring(22);
+        System.out.println(PicCode);
+        BASE64Decoder decoder = new BASE64Decoder();
+        try
+        {
+            //Base64解码
+            byte[] b = decoder.decodeBuffer(PicCode);
+            for(int i=0;i<b.length;++i)
+            {
+                if(b[i]<0)
+                {
+                    //调整异常数据
+                    b[i]+=256;
+                }
+            }
+            //生成png图片
+            String imgFilePath="D:\\img\\headpic\\"+System.currentTimeMillis()+".png";
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(b);
+            out.flush();
+            out.close();
+            List<User> userList = (List<User>) session.getAttribute("user");
+            User user = new User();
+            user.setUser_id(userList.get(0).getUser_id());
+            user.setIcon(imgFilePath.substring(2));
+            userService.updateHeadPic(user);
+            //更新用户信息
+            userList=userService.getById(userList.get(0).getUser_id());
+            session.setAttribute("user",userList);
+            String errmsg="上传成功";
+            session.setAttribute("errmsg",errmsg);
+            return "true";
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return "500";
+        }
     }
 
     @RequestMapping("applyjob")

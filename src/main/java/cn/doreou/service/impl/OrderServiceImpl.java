@@ -92,4 +92,10 @@ public class OrderServiceImpl implements OrderService {
     public List<Goods> orderByPrice(int start,int pagesize,String way){
         return orderMapper.orderByPrice(start,pagesize,way);
     }
+    public void refresh(Goods goods){
+        orderMapper.refresh(goods);
+    }
+    public void refreshbuy(Goods goods){
+        orderMapper.refreshbuy(goods);
+    }
 }

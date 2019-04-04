@@ -1,10 +1,12 @@
 <%@ page import="cn.doreou.model.Book" %>
 <%@ page import="java.util.List" %>
-<%@ page import="cn.doreou.model.User" %><%--
+<%@ page import="cn.doreou.model.User" %>
+<%@ page import="cn.doreou.model.GoodAndUser" %>
+<%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/3/5
-  Time: 16:18
+  Date: 2019/4/4
+  Time: 19:11
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,15 +23,12 @@
     <link href="/css/salegoods.css" rel="stylesheet">
     <link href="/css/chosen.css" rel="stylesheet">
     <link href="/css/salestyle.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
     <link href="/css/common.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/css/ImgCropping.css">
     <link href="/css/layer.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
-    <link href="/css/layui.css" rel="stylesheet">
-    <script src="/js/cropper.min.js"></script>
     <script src="/js/layer.js"></script>
+    <link href="/css/layui.css" rel="stylesheet">
     <style>
         .layui-carousel {
             margin: auto;
@@ -41,6 +40,7 @@
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     List<User> userList =(List<User>) session.getAttribute("user");
+    List<GoodAndUser> nowbuyinfo=(List<GoodAndUser>) session.getAttribute("nowbuyinfo");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -172,57 +172,26 @@
 <div class="main">
     <div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5>发布二手信息</h5>
+            <h5>发布求购信息</h5>
         </div>
         <div class="ibox-content">
-            <form action="" class="form-horizontal m-t" id="saleForm" method="post"
-                  novalidate="novalidate">
+            <form action="/Order/refreshbuy?goods_id=<%=nowbuyinfo.get(0).getGoods_id()%>" class="form-horizontal m-t" id="buyForm" method="post" novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">标题：</label>
                     <div class="col-sm-8">
-                        <input id="title" name="title" class="required form-control" type="text" placeholder="请输入标题"
-                               aria-required="true" value="<%=session.getAttribute("title")%>">
+                        <input id="title" value="<%=nowbuyinfo.get(0).getGoods_title()%>" name="title" class="required form-control" type="text" placeholder="请输入标题" aria-required="true">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">详情：</label>
                     <div class="col-sm-8">
-                        <input id="detail" name="detail" placeholder="请输入详情" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("detail")%>"></input>
+                        <textarea id="detail" value="<%=nowbuyinfo.get(0).getIntroduce()%>" name="detail" placeholder="请输入详情" class="form-control" type="text" aria-required="true" aria-invalid="false"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">封面：
-                        <!-- <span class="badge badge-warning " id="tip1">？</span> --></label>
-                    <div class="col-sm-8" <%if(session.getAttribute("code")!=null){%>
-                         style="display: none;"<%}
-                    else {%>
-
-                            <%}%>>
-                        <div data-toggle="modal" id="modal1" data-target="#myModal1"
-                             class="modal-btn btn btn-default btn-block">点击上传
-                        </div>
-                    </div>
-
-                    <div class="str" <%if(session.getAttribute("code")!=null){%>
-                         style="text-align: center"<%}
-                    else {%>
-                         style="display: none;"
-                    <%}%>>
-                        <img id="finalImg" src="<%=session.getAttribute("code")%>" width="20%">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">数量：</label>
+                    <label class="col-sm-3 control-label">交易地点：</label>
                     <div class="col-sm-8">
-                        <input id="count" name="count" placeholder="请输入您拥有的商品数量" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("count")%>">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-3 control-label">商品原价：</label>
-                    <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="pricost" name="pricost" type="text" class="form-control" value="<%=session.getAttribute("pricost")%>">
+                        <input id="address" name="address" value="宿舍" class="form-control" placeholder="宿舍、教学楼、食堂等" type="text" aria-required="true" aria-invalid="true">
                     </div>
                 </div>
                 <div class="form-group">
@@ -241,34 +210,30 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control" value="<%=session.getAttribute("price")%>">
+                        <input id="price" value="<%=nowbuyinfo.get(0).getExpt_price()%>" name="price" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">交易地点：</label>
+                    <label class="col-sm-3 control-label">所需数量：</label>
                     <div class="col-sm-8">
-                        <input id="address" name="address" class="form-control" placeholder="宿舍、教学楼、食堂等" type="text"
-                               aria-required="true" aria-invalid="true" value="<%=session.getAttribute("address")%>">
+                        <input id="count" name="count" placeholder="请输入您需要的商品数量" class="form-control" type="text"
+                               aria-required="true" value="<%=nowbuyinfo.get(0).getNumber()%>" aria-invalid="false">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">分类：</label>
                     <div class="col-sm-8">
-                        <select id="type" name="type" data-placeholder="选择分类..." class="chosen-select form-control"
-                                style="width: 100%;" tabindex="-1">
-                            <% for(Book b:bookList){ %>
+                        <select id="type" name="type" data-placeholder="选择分类..." class="chosen-select form-control" style="width: 100%;" tabindex="-1">
+                            <% for (Book b:bookList){%>
                             <option value="<%=b.getSubject()%>"><%=b.getSubject()%></option>
                             <%}%>
                         </select>
                     </div>
                 </div>
-                <div class="form-group" style="text-align: center">
-                    <label class="control-label">Tips:当您发布商品后系统将向所有人展示您的预留信息，请注意隐私安全哦~</label>
-                </div>
                 <%--<div class="form-group">--%>
                 <%--<label class="col-sm-3 control-label">手机：</label>--%>
                 <%--<div class="col-sm-8">--%>
-                <%--<input id="" name="tel" class="form-control" placeholder="宿舍、教学楼、食堂等" type="text" aria-required="true" aria-invalid="true">--%>
+                <%--<input id="username" name="tel" class="form-control" placeholder="宿舍、教学楼、食堂等" type="text" aria-required="true" aria-invalid="true">--%>
                 <%--</div>--%>
                 <%--</div>--%>
                 <%--<div class="form-group">--%>
@@ -285,42 +250,12 @@
                 <%--</div>--%>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-3">
-                        <button class="btn btn-primary btn-block" onclick="return adddata()">提交</button>
+                        <button type="submit" class="btn btn-primary btn-block">提交</button>
                     </div>
                 </div>
+            </form>
         </div>
     </div>
-    <div style="display: none" class="tailoring-container">
-            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
-                <div class="tailoring-content-one">
-                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
-                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
-                               class="hidden" onchange="selectImg(this)">
-                        选择图片
-                    </label>
-                    <div class="close-tailoring">×</div>
-                </div>
-                <div class="tailoring-content-two">
-                    <div class="tailoring-box-parcel">
-                        <img id="tailoringImg">
-                    </div>
-                    <div class="preview-box-parcel">
-                        <p>图片预览：</p>
-                        <div class="square previewImg"></div>
-                        <div class="circular previewImg"></div>
-                    </div>
-                </div>
-                <textarea style="display: none" name="code" id="code"></textarea>
-                <div class="tailoring-content-three">
-                    <button class="l-btn cropper-reset-btn">复位</button>
-                    <button class="l-btn cropper-rotate-btn">旋转</button>
-                    <button class="l-btn cropper-scaleX-btn">换向</button>
-                    <button class="l-btn sureCut" id="sureCut">确定</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
     <div class="common-footer">
         <div class="footerNav">
             <ul class="fn">
@@ -358,7 +293,6 @@
     </div>
 
 </div>
-<script src="/js/upload.js"></script>
 <script>
     $(document).ready(function () {
         var errmsg="";
@@ -390,30 +324,6 @@
             , arrow: 'always'
         });
     });
-    function adddata() {
-        if(<%=session.getAttribute("code")!=null%>){
-        $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/salegoods');
-        $('#saleForm').submit();
-        }else{
-            layer.msg("你至少需要上传一张照片哦");
-            return false;
-        }
-    }
-
-    $("#sureCut").on("click", function () {
-        if ($("#tailoringImg").attr("src") == null) {
-            return false;
-        } else {
-            var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
-            var base64 = cas.toDataURL('image/png'); // 转换为base64
-            $('#code').html(base64);
-            $('.tailoring-container').attr("style", "display:none");
-            $("#saleForm").attr("action","${pageContext.request.contextPath}/Order/upload");
-            $("#saleForm").submit();
-
-        }
-    });
 </script>
 </body>
 </html>
-

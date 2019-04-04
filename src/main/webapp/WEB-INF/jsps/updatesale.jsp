@@ -1,12 +1,14 @@
 <%@ page import="cn.doreou.model.Book" %>
+<%@ page import="cn.doreou.model.User" %>
 <%@ page import="java.util.List" %>
-<%@ page import="cn.doreou.model.User" %><%--
+<%@ page import="cn.doreou.model.GoodAndUser" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/3/5
-  Time: 16:18
+  Date: 2019/4/3
+  Time: 17:15
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -41,6 +43,7 @@
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     List<User> userList =(List<User>) session.getAttribute("user");
+    List<GoodAndUser> nowinfo=(List<GoodAndUser>)session.getAttribute("nowinfo");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -181,48 +184,48 @@
                     <label class="col-sm-3 control-label">标题：</label>
                     <div class="col-sm-8">
                         <input id="title" name="title" class="required form-control" type="text" placeholder="请输入标题"
-                               aria-required="true" value="<%=session.getAttribute("title")%>">
+                               aria-required="true" value="<%=nowinfo.get(0).getGoods_title()%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">详情：</label>
                     <div class="col-sm-8">
                         <input id="detail" name="detail" placeholder="请输入详情" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("detail")%>"></input>
+                               aria-required="true" aria-invalid="false" value="<%=nowinfo.get(0).getIntroduce()%>"></input>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">封面：
                         <!-- <span class="badge badge-warning " id="tip1">？</span> --></label>
-                    <div class="col-sm-8" <%if(session.getAttribute("code")!=null){%>
-                         style="display: none;"<%}
-                    else {%>
-
-                            <%}%>>
+                    <div class="col-sm-8">
                         <div data-toggle="modal" id="modal1" data-target="#myModal1"
-                             class="modal-btn btn btn-default btn-block">点击上传
+                             class="modal-btn btn btn-default btn-block">点击修改
                         </div>
                     </div>
 
-                    <div class="str" <%if(session.getAttribute("code")!=null){%>
+                    <div class="str" <%if(nowinfo.get(0).getCover()!=null||session.getAttribute("newcode")!=null){%>
                          style="text-align: center"<%}
                     else {%>
                          style="display: none;"
-                    <%}%>>
-                        <img id="finalImg" src="<%=session.getAttribute("code")%>" width="20%">
+                            <%}%>>
+                        <img id="finalImg" <%if(session.getAttribute("newcode")!=null){%>
+                             src="<%=session.getAttribute("newcode")%>"
+                        <%}else{%>
+                                src="<%=nowinfo.get(0).getCover()%>"
+                        <%}%>  width="20%">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">数量：</label>
                     <div class="col-sm-8">
                         <input id="count" name="count" placeholder="请输入您拥有的商品数量" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("count")%>">
+                               aria-required="true" aria-invalid="false" value="<%=nowinfo.get(0).getNumber()%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">商品原价：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="pricost" name="pricost" type="text" class="form-control" value="<%=session.getAttribute("pricost")%>">
+                        <input id="pricost" name="pricost" type="text" class="form-control" value="<%=nowinfo.get(0).getPri_cost()%>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -241,14 +244,14 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control" value="<%=session.getAttribute("price")%>">
+                        <input id="price" name="price" type="text" class="form-control" value="<%=nowinfo.get(0).getExpt_price()%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">交易地点：</label>
                     <div class="col-sm-8">
                         <input id="address" name="address" class="form-control" placeholder="宿舍、教学楼、食堂等" type="text"
-                               aria-required="true" aria-invalid="true" value="<%=session.getAttribute("address")%>">
+                               aria-required="true" aria-invalid="true" value="宿舍">
                     </div>
                 </div>
                 <div class="form-group">
@@ -291,33 +294,33 @@
         </div>
     </div>
     <div style="display: none" class="tailoring-container">
-            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
-                <div class="tailoring-content-one">
-                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
-                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
-                               class="hidden" onchange="selectImg(this)">
-                        选择图片
-                    </label>
-                    <div class="close-tailoring">×</div>
+        <div class="tailoring-content" style="top: 100px; left: 365.5px;">
+            <div class="tailoring-content-one">
+                <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
+                           class="hidden" onchange="selectImg(this)">
+                    选择图片
+                </label>
+                <div class="close-tailoring">×</div>
+            </div>
+            <div class="tailoring-content-two">
+                <div class="tailoring-box-parcel">
+                    <img id="tailoringImg">
                 </div>
-                <div class="tailoring-content-two">
-                    <div class="tailoring-box-parcel">
-                        <img id="tailoringImg">
-                    </div>
-                    <div class="preview-box-parcel">
-                        <p>图片预览：</p>
-                        <div class="square previewImg"></div>
-                        <div class="circular previewImg"></div>
-                    </div>
-                </div>
-                <textarea style="display: none" name="code" id="code"></textarea>
-                <div class="tailoring-content-three">
-                    <button class="l-btn cropper-reset-btn">复位</button>
-                    <button class="l-btn cropper-rotate-btn">旋转</button>
-                    <button class="l-btn cropper-scaleX-btn">换向</button>
-                    <button class="l-btn sureCut" id="sureCut">确定</button>
+                <div class="preview-box-parcel">
+                    <p>图片预览：</p>
+                    <div class="square previewImg"></div>
+                    <div class="circular previewImg"></div>
                 </div>
             </div>
+            <textarea style="display: none" name="code" id="code"></textarea>
+            <div class="tailoring-content-three">
+                <button class="l-btn cropper-reset-btn">复位</button>
+                <button class="l-btn cropper-rotate-btn">旋转</button>
+                <button class="l-btn cropper-scaleX-btn">换向</button>
+                <button class="l-btn sureCut" id="sureCut">确定</button>
+            </div>
+        </div>
         </form>
     </div>
 
@@ -391,9 +394,9 @@
         });
     });
     function adddata() {
-        if(<%=session.getAttribute("code")!=null%>){
-        $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/salegoods');
-        $('#saleForm').submit();
+        if(<%=nowinfo.get(0).getCover()!=null%>||<%=session.getAttribute("newcode")!=null%>){
+            $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/refresh?goods_id=<%=nowinfo.get(0).getGoods_id()%>');
+            $('#saleForm').submit();
         }else{
             layer.msg("你至少需要上传一张照片哦");
             return false;
@@ -408,12 +411,19 @@
             var base64 = cas.toDataURL('image/png'); // 转换为base64
             $('#code').html(base64);
             $('.tailoring-container').attr("style", "display:none");
-            $("#saleForm").attr("action","${pageContext.request.contextPath}/Order/upload");
-            $("#saleForm").submit();
-
+            $.ajax({
+                type:'POST',
+                url:'${pageContext.request.contextPath}/Order/update_upload',
+                data:$('#saleForm').serialize(),
+                success:function (data) {
+                    alert(data);
+                    if(data=='true'){
+                        location.reload();
+                    }
+                }
+            })
         }
     });
 </script>
 </body>
 </html>
-

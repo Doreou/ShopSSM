@@ -96,7 +96,16 @@
             <ul class="nav navbar-nav navbar-right login-box" id="login_show">
                 <li>
                     <a class="headpic-link" target="_blank" href="/Page/info">
-                        <img class="headpic" src="/images/default3.png">
+                        <img class="headpic" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                            <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                             src="<%=user.get(0).getIcon()%>"
+                            <%}else {%>
+                             src="/images/default3.png"
+                            <%}
+                                    %>
+                            <%}%>>
                     </a>
                 </li>
                 <li>
@@ -164,7 +173,16 @@
 <div class="main center">
     <div class="top clearfix">
         <div id="user_photo" class="pull-left">
-            <img id="origin_ph" src="/images/default3.png" alt="头像" style="">
+            <img id="origin_ph" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
+                <%}else {
+                                List<User> user=(List<User>) session.getAttribute("user");
+                                if(user.get(0).getIcon()!=null){%>
+                 src="<%=user.get(0).getIcon()%>"
+                <%}else {%>
+                 src="/images/default3.png"
+                <%}
+                                    %>
+                <%}%> alt="头像" style="">
             <img data-toggle="modal" data-target="#myModal" id="change_ph" src="/images/mkhead_hover.png" alt="头像"
                  style="display: none;">
         </div>
@@ -250,7 +268,7 @@
                     </p>
                     <div class="enshr_state">
                         <div class="btn-group">
-                            <a href="/user/reflashbuy/buyid/348">
+                            <a href="/Order/getnowgoodsinfo?goods_id=<%=g.getGoods_id()%>">
                                 <span value="" class="btn btn-info btn-sm">擦亮</span>
                             </a>
                             <%if (g.getIsundercarriage() == 1) {%>
@@ -323,9 +341,12 @@
 <script language="JavaScript" src="/js/mydo.js"></script>
 <script>
     $(document).ready(function () {
-        if (<%=userList.get(0).getIcon()!=null%>) {
-            $('#origin_ph').attr("src", "<%=userList.get(0).getIcon()%>");
-            $(".headpic").attr("src", "<%=userList.get(0).getIcon()%>");
+        var errmsg="";
+        errmsg="<%=session.getAttribute("errmsg")%>";
+        if(errmsg!=""&&errmsg!="null"){
+            layer.msg(errmsg.toString());
+            //提示后重置errmsg
+            <%session.setAttribute("errmsg","");%>
         }
         if (!${mysalecount}) {
             $("#sold_out_pro").hide();
@@ -386,6 +407,27 @@
             }
 
         });
+    });
+    $("#sureCut").on("click", function () {
+        if ($("#tailoringImg").attr("src") == null) {
+            return false;
+        } else {
+            var cas = $('#tailoringImg').cropper('getCroppedCanvas');// 获取被裁剪后的canvas
+            var base64 = cas.toDataURL('image/png'); // 转换为base64
+            $('#code').html(base64);
+            $('.tailoring-container').attr("style", "display:none");
+            $.ajax({
+                type:'POST',
+                url:'${pageContext.request.contextPath}/User/upload',
+                data:$('#upload').serialize(),
+                success:function (data) {
+                    if(data=='true'){
+                        location.reload();
+                    }
+                }
+            })
+
+        }
     });
 </script>
 

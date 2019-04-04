@@ -166,5 +166,9 @@ public class PageController {
             return "login";
         }
     }
+    @RequestMapping("updatesale")
+    public String updatesale(){
+        return  "updatesale";
+    }
 
 }
