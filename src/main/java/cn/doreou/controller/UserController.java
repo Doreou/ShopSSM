@@ -7,6 +7,7 @@ import cn.doreou.model.User;
 import cn.doreou.service.BookService;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -276,6 +277,20 @@ public class UserController {
             return "redirect:/Page/apply";
         }
     }
+
+    //收藏
+    @RequestMapping("collect")
+    @ResponseBody
+    public String collectThis(HttpSession session,@Param("id") String id){
+        if(session.getAttribute("user")!=null) {
+            List<User> user = (List<User>) session.getAttribute("user");
+            userService.collectThis(id, user.get(0).getUser_id(), new Date());
+            return "收藏成功!";
+        }else {
+            return "请先登录";
+        }
+    }
+
 
 
 

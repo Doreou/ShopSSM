@@ -13,7 +13,11 @@
     Object userList = session.getAttribute("user");
     List<GoodAndUser> usersinfo = (List<GoodAndUser>) session.getAttribute("userinfo");
 %>
-<div class="list clearfix" id="dataform">
+    <input id="page-way" style="display: none" <%if(session.getAttribute("way")!=null){%>
+           value="<%=session.getAttribute("way")%>"
+        <%}else{%>
+           value="asc"
+        <%}%>>
     <% for (Goods g : (List<Goods>) goodslist) {%>
     <div class="itemlist clearfix">
         <div class="itembox clearfix">
@@ -107,4 +111,3 @@
     </div>
 
     <%}%>
-</div>

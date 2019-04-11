@@ -1,6 +1,7 @@
 <%@ page import="cn.doreou.model.Book" %>
 <%@ page import="cn.doreou.model.User" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="cn.doreou.model.Goods" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/3/4
@@ -38,6 +39,7 @@
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     List<User> userList=(List<User>) session.getAttribute("user");
+    Object mycollect=(List<Goods>) session.getAttribute("mycollect");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -228,7 +230,7 @@
             <li class="item-info col-lg-2"><a href="/Page/info">个人资料</a></li>
             <li class="item-goods col-lg-2 "><a href="/Order/getMySale">我发布的商品</a></li>
             <li class="item-buy col-lg-2 "><a href="/Order/getMyBuy">我发布的求购</a></li>
-            <li class="item-favor col-lg-2 current"><a href="/Page/mycollect">我的收藏</a></li>
+            <li class="item-favor col-lg-2 current"><a href="/Order/getMycollect">我的收藏</a></li>
             <li class="item-message col-lg-2 "><a href="/Page/mynews">消息中心</a></li>
             <li class="item-cert col-lg-2 "><a href="/Page/checkinfo">认证信息</a></li>
             <li class="back" style="left: 595px; width: 198px;">
@@ -239,15 +241,33 @@
 
     <div class="favor-box">
         <div id="my_enshrine">
-            <div class="no-data">
-                <p class="text">您暂时还没有收藏的二手物品呃！你可以</p>
-                <a href="/Page/salegoods" target="_blank">
-                    <p class="btn">发布商品</p>
-                </a>
-                <a href="/Page/sale" target="_blank">
-                    <p class="btn">浏览商城商品</p>
-                </a>
-            </div>
+            <%if(mycollect==null){%>
+                <div class="no-data">
+                    <p class="text">您暂时还没有收藏的二手物品呃！你可以</p>
+                    <a href="/Page/salegoods" target="_blank">
+                        <p class="btn">发布商品</p>
+                    </a>
+                    <a href="/Page/sale" target="_blank">
+                        <p class="btn">浏览商城商品</p>
+                    </a>
+                </div>
+            <%}else{
+                for(Goods g:(List<Goods>)mycollect){%>
+                    <div class="enshr_each <%=g.getGoods_id()%>">
+                        <a class="clearfix pull-left" target="_blank" href="/Order/getgoodsinfo?id=<%=g.getGoods_id()%>">
+                            <img alt="<%=g.getGoods_title()%>" src="<%=g.getCover()%>" class="enshr_ph">
+                        </a>
+                        <div class="enshr_info">
+                            <h2><a target="_blank" href="/Order/getgoodsinfo?id=<%=g.getGoods_id()%>"><%=g.getGoods_title()%></a></h2>
+                            <p></p>
+                            <div class="enshr_state">
+                                <a href="/Order/undocollect?id=<%=g.getGoods_id()%>"><span class="pull-right btn btn-warning btn-sm">取消收藏</span></a>
+                                <span class="onsaling">出售中</span>
+                            </div>
+                        </div>
+                    </div>
+                <%}
+            }%>
         </div>
     </div>
     <div class="common-footer">
@@ -289,6 +309,14 @@
 <script src="/js/upload.js"></script>
 <script>
     $(document).ready(function(){
+        var errmsg="";
+        errmsg="<%=session.getAttribute("errmsg")%>";
+        if(errmsg!=""&&errmsg!="null"){
+            layer.msg(errmsg.toString());
+            //提示后重置errmsg
+            <%session.setAttribute("errmsg","");%>
+        }
+
         if (<%=userList!=null%>) {
             //隐藏登陆/注册
             $("#js_visible").hide();

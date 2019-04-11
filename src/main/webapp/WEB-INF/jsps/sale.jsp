@@ -133,7 +133,7 @@
         </a>
         <% for (Book b : bookList) {
         %>
-        <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
+        <a href="/Order/querysalebysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
                     <span class="iconfont <%=b.getIcon()%>"></span>
@@ -174,7 +174,28 @@
                 </div>
             </div>
         </div>
-        <ul class="goodsbox clearfix">
+        <div class="school-box">
+            <div class="outer-school">
+                <div class="inner-box">
+                    <div class="order">
+                        <div class="order-line">
+                            <input id="way" style="display: none" value="asc">
+                            <input id="hiddentype" style="display: none" value="出售">
+                            <%--<a><span class="iconfont icon-px-" id="random" style="font-size: 14px;color: #F10;">推荐</span></a>--%>
+                            <a onclick="orderByTime($('#way').val())"><span class="iconfont icon-px-" id="time" style="font-size: 14px;color: #F10">发布时间</span></a>
+                            <a onclick="orderByPrice($('#way').val())"><span class="iconfont icon-px-" id="price" style="font-size: 14px;color: black">价格</span></a>
+                            <a onclick="orderByHot($('#way').val())"><span class="iconfont icon-px-" id="hot" style="font-size: 14px;color: black">热度</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="goodsbox clearfix" id="dataform">
+            <input id="page-way" style="display: none;" <%if(session.getAttribute("way")!=null){%>
+                   value="<%=session.getAttribute("way")%>"
+                <%}else{%>
+                   value="asc"
+                <%}%>>
             <%
                 if(goodslist!=null){
                 for(Goods g:(List<Goods>)goodslist){%>
@@ -250,6 +271,7 @@
 
     </div>
 </div>
+<script src="/js/sort.js"></script>
 <script>
     $(document).ready(function () {
         <%--if(<%=userList!=null%>){--%>
@@ -278,11 +300,21 @@
     });
 
     function getData(curr){
+        var way=$('#page-way').val();
+        var type=$('#hiddentype').val();
+        var url='${pageContext.request.contextPath}/Order/searchsalebypage?page='+curr;
+        if(window.getComputedStyle(document.getElementById("time"),null).color=="rgb(255, 17, 0)"){
+            url='${pageContext.request.contextPath}/Order/orderbytime?page='+curr+'&way='+way+'&type='+type;
+        }else if(window.getComputedStyle(document.getElementById("hot"),null).color=="rgb(255, 17, 0)"){
+            url='${pageContext.request.contextPath}/Order/orderbyhot?page='+curr+'&way='+way+'&type='+type;
+        }else if(window.getComputedStyle(document.getElementById("price"),null).color=="rgb(255, 17, 0)"){
+            url='${pageContext.request.contextPath}/Order/orderbyprice?page='+curr+'&way='+way+'&type='+type;
+        }
         $.ajax({
             type:'POST',
-            url:'${pageContext.request.contextPath}/Order/searchsalebypage?page='+curr,
-            success:function () {
-                window.location.href='${pageContext.request.contextPath}/Order/searchsalebypage?page='+curr;
+            url:url,
+            success:function (msg) {
+                $('#dataform').html(msg);
             }
         })
     }

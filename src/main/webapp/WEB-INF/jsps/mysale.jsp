@@ -235,7 +235,7 @@
             <li class="item-info col-lg-2"><a href="/Page/info">个人资料</a></li>
             <li class="item-goods col-lg-2 current"><a href="/Order/getMySale">我发布的商品</a></li>
             <li class="item-buy col-lg-2 "><a href="/Order/getMyBuy">我发布的求购</a></li>
-            <li class="item-favor col-lg-2 "><a href="/Page/mycollect">我的收藏</a></li>
+            <li class="item-favor col-lg-2 "><a href="/Order/getMycollect">我的收藏</a></li>
             <li class="item-message col-lg-2 "><a href="/Page/mynews">消息中心</a></li>
             <li class="item-cert col-lg-2 "><a href="/Page/checkinfo">认证信息</a></li>
             <li class="back" style="left: 198px; width: 198px;">

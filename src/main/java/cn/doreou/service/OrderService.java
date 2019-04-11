@@ -2,6 +2,8 @@ package cn.doreou.service;
 
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,9 +32,12 @@ public interface OrderService {
     void isundercarriage(int goods_id,int choice);
     int goodsStatus(int goods_id);
     void deleteGoods(int goods_id);
-    List<Goods> orderByTime(int start,int pagesize,String way);
-    List<Goods> orderByHot(int start,int pagesize,String way);
-    List<Goods> orderByPrice(int start,int pagesize,String way);
+    List<Goods> orderByTime(int start,int pagesize,String way,String type,String sub);
+    List<Goods> orderByHot(int start,int pagesize,String way,String type,String sub);
+    List<Goods> orderByPrice(int start,int pagesize,String way,String type,String sub);
     void refresh(Goods goods);
     void refreshbuy(Goods goods);
+    List<Goods> getMyCollect(String userid);
+    void undoCollect(String userid,int goods_id);
+    boolean isCollected(String userid,int goods_id);
 }

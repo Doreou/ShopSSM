@@ -8,6 +8,7 @@ import cn.doreou.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -21,5 +22,5 @@ public interface UserMapper {
     List<GoodAndUser> getInfoByGoods();
     void applyJob(Applyer applyer);
     List<Applyer> checkApply(@Param("user_id") String user_id);
-
+    void collectThis(@Param("goods_id") String goods_id, @Param("user_id") String userid, @Param("collect_time") Date collect_time);
 }

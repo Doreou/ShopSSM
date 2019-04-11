@@ -265,7 +265,7 @@
                         <a target="_blank" class="jiathis_button_weixin" title="分享到微信"></a>
                         <a target="_blank" class="jiathis_button_renren" title="分享到人人网"></a>
                         <a target="_blank" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" href="http://www.jiathis.com/share" id="goods_button_more" style=""></a>
-                        <button type="button" islogin="3713" class="btn btn-success" data-id="2666" onclick="saleFavor(this)">收藏</button>
+                        <button type="button" class="btn btn-success" data-id="2666" onclick="saleFavor(<%=goodsinfo.get(0).getGoods_id()%>)">${isCollected}</button>
                         <button type="button" class="btn btn-warning" onclick="saleReport(2666)">举报</button>
                     </div>
                     <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
@@ -437,6 +437,22 @@
 
 </div>
 <script>
+    function saleFavor(id){
+        var text="${isCollected}";
+        if(text=="收藏"){
+            var url="${pageContext.request.contextPath}/User/collect?id="+id;
+            $.ajax({
+                type:'post',
+                url:url,
+                success:function (msg) {
+                    layer.msg(msg);
+                }
+            })
+        }else{
+            layer.msg("您已收藏过");
+        }
+    }
+
     $(document).ready(function () {
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出

@@ -7,6 +7,7 @@ import cn.doreou.model.User;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,6 +96,7 @@ public class OrderController {
         goods.setStatus(status);
         goods.setNumber(number);
         goods.setOwner_id(userList.get(0).getUser_id());
+        goods.setCover("\\img\\auto\\logo.png");
         goods.setExpt_price(expt_price);
         goods.setSubject(subject);
         Date now = new Date();
@@ -164,6 +166,7 @@ public class OrderController {
         List<Goods> result = orderService.getSaleBySub(subject, (start - 1) * 8, 8);
         model.addAttribute("salecount", orderService.getCountBySub(subject));
         model.addAttribute("currpage", start);
+        session.setAttribute("subject",subject);
         session.setAttribute("AllSaleGoodsList", result);
         return "sale";
     }
@@ -173,6 +176,7 @@ public class OrderController {
         List<Goods> result = orderService.getBuyBySub(subject, (start - 1) * 10, 10);
         model.addAttribute("buycount", orderService.getCountBySub(subject));
         model.addAttribute("currpage", start);
+        session.setAttribute("subject",subject);
         session.setAttribute("AllBuyGoodsList", result);
         return "buy";
     }
@@ -192,9 +196,19 @@ public class OrderController {
     }
 
     @RequestMapping("getgoodsinfo")
-    public String getGoodsInfo(HttpSession session, @RequestParam("id") String id) {
+    public String getGoodsInfo(HttpSession session, Model model,@RequestParam("id") String id) {
         List<GoodAndUser> ResultList = orderService.getInfoById(id);
         session.setAttribute("goodsinfo", ResultList);
+        List<User> user=(List<User>) session.getAttribute("user");
+        if(user!=null){
+            if(orderService.isCollected(user.get(0).getUser_id(),Integer.parseInt(id))){
+                model.addAttribute("isCollected","已收藏");
+            }else {
+                model.addAttribute("isCollected","收藏");
+            }
+        }else {
+            model.addAttribute("isCollected","收藏");
+        }
         return "goodsinfo";
     }
 
@@ -221,8 +235,11 @@ public class OrderController {
         List<Goods> result = orderService.SearchAllBuyByPage((start - 1) * 10, 10);
         model.addAttribute("currpage", start);
         model.addAttribute("buycount", orderService.getBuyCount());
+        if(session.getAttribute("subject")!=null) {
+            session.removeAttribute("subject");
+        }
         session.setAttribute("AllBuyGoodsList", result);
-        return "buyPart";
+        return "buy";
     }
 
     @RequestMapping("searchsalebypage")
@@ -253,36 +270,50 @@ public class OrderController {
         return "true";
     }
 
+    public String AllOrderBychoice(HttpSession session, Model model, String way, String type,int start,List<Goods> result){
+        if(type.equals("出售")) {
+            model.addAttribute("currpage", start);
+            model.addAttribute("salecount", orderService.getSaleCount());
+            session.setAttribute("AllSaleGoodsList", result);
+            return "salePart";
+        }else{
+            model.addAttribute("currpage", start);
+            model.addAttribute("buycount", orderService.getBuyCount());
+            session.setAttribute("AllBuyGoodsList", result);
+            return "buyPart";
+        }
+    }
+
+    public int getPageSize(String type){
+        if(type.equals("出售")) {
+           return 8;
+        }else{
+            return 10;
+        }
+    }
+
     //按时间排序
     @RequestMapping("orderbytime")
-    public String orderByTime(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
-        List<Goods> result = orderService.orderByTime((start - 1) * 10, 10, way);
+    public String orderByTime(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type,@RequestParam(value = "page", required = false, defaultValue = "1") int start) {
+        List<Goods> result = orderService.orderByTime((start - 1) * getPageSize(type), getPageSize(type), way,type,(String) session.getAttribute("subject"));
         session.setAttribute("way", way);
-        model.addAttribute("currpage", start);
-        model.addAttribute("buycount", orderService.getBuyCount());
-        session.setAttribute("AllBuyGoodsList", result);
-        return "buyPart";
+        return AllOrderBychoice(session,model,way,type,start,result);
     }
+
 
     //按热度排序
     @RequestMapping("orderbyhot")
-    public String orderByHot(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
-        List<Goods> result = orderService.orderByHot((start - 1) * 10, 10, way);
+    public String orderByHot(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type,@RequestParam(value = "page", required = false, defaultValue = "1") int start) {
+        List<Goods> result = orderService.orderByHot((start - 1) * getPageSize(type), getPageSize(type), way,type,(String) session.getAttribute("subject"));
         session.setAttribute("way", way);
-        model.addAttribute("currpage", start);
-        model.addAttribute("buycount", orderService.getBuyCount());
-        session.setAttribute("AllBuyGoodsList", result);
-        return "buyPart";
+        return AllOrderBychoice(session,model,way,type,start,result);
     }
 
     @RequestMapping("orderbyprice")
-    public String orderByPrice(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
-        List<Goods> result = orderService.orderByPrice((start - 1) * 10, 10, way);
+    public String orderByPrice(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type,@RequestParam(value = "page", required = false, defaultValue = "1") int start) {
+        List<Goods> result = orderService.orderByPrice((start - 1) * getPageSize(type), getPageSize(type), way,type,(String) session.getAttribute("subject"));
         session.setAttribute("way", way);
-        model.addAttribute("currpage", start);
-        model.addAttribute("buycount", orderService.getBuyCount());
-        session.setAttribute("AllBuyGoodsList", result);
-        return "buyPart";
+        return AllOrderBychoice(session,model,way,type,start,result);
     }
 
     //获取要更新的商品当前信息
@@ -372,6 +403,25 @@ public class OrderController {
         session.setAttribute("mybuy", mybuy);
         return "mybuy";
     }
+
+
+    @RequestMapping("getMycollect")
+    public String getMyCollect(HttpSession session){
+        List<User> user = (List<User>) session.getAttribute("user");
+        List<Goods> result=orderService.getMyCollect(user.get(0).getUser_id());
+        session.setAttribute("mycollect",result);
+        return "mycollect";
+    }
+
+    @RequestMapping("undocollect")
+    public String undoCollect(HttpSession session,@Param("id") int id){
+        List<User> user = (List<User>) session.getAttribute("user");
+        orderService.undoCollect(user.get(0).getUser_id(),id);
+        String errmsg = "取消收藏成功";
+        session.setAttribute("errmsg", errmsg);
+        return getMyCollect(session);
+    }
+
 
 
 }

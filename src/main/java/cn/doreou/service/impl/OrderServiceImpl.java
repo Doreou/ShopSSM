@@ -4,6 +4,7 @@ import cn.doreou.mapper.OrderMapper;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.service.OrderService;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,19 +84,33 @@ public class OrderServiceImpl implements OrderService {
     public void deleteGoods(int goods_id){
         orderMapper.deleteGoods(goods_id);
     }
-    public List<Goods> orderByTime(int start,int pagesize,String way){
-        return orderMapper.orderByTime(start,pagesize,way);
+    public List<Goods> orderByTime(int start,int pagesize,String way,String type,String sub){
+        return orderMapper.orderByTime(start,pagesize,way,type,sub);
     }
-    public List<Goods> orderByHot(int start,int pagesize,String way){
-        return orderMapper.orderByHot(start,pagesize,way);
+    public List<Goods> orderByHot(int start,int pagesize,String way,String type,String sub){
+        return orderMapper.orderByHot(start,pagesize,way,type,sub);
     }
-    public List<Goods> orderByPrice(int start,int pagesize,String way){
-        return orderMapper.orderByPrice(start,pagesize,way);
+    public List<Goods> orderByPrice(int start,int pagesize,String way,String type,String sub){
+        return orderMapper.orderByPrice(start,pagesize,way,type,sub);
     }
     public void refresh(Goods goods){
         orderMapper.refresh(goods);
     }
     public void refreshbuy(Goods goods){
         orderMapper.refreshbuy(goods);
+    }
+
+    public List<Goods> getMyCollect(String userid){
+        return orderMapper.getMyCollect(userid);
+    }
+    public void undoCollect(String user_id,int goods_id){
+        orderMapper.undoCollect(user_id,goods_id);
+    }
+    public boolean isCollected(String userid,int goods_id){
+        if(orderMapper.isCollected(userid,goods_id).size()>0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

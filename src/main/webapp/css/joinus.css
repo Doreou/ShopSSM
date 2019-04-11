@@ -151,7 +151,7 @@
 }
 
 .bottom .text2{
-    background: rgba(0, 0, 0, 0) url("../../../images/joinus/text2.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/images/text2.png") no-repeat scroll 0 0;
     width: 125px;
     height: 130px;
 }

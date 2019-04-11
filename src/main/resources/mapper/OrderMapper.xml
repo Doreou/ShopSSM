@@ -79,15 +79,27 @@
     </delete>
 
     <select id="orderByTime" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='购入' and isundercarriage=1 order by `time` ${way} limit #{start},#{pagesize}
+        select * from t_goods where type=#{type} and isundercarriage=1
+        <if test="sub !=null">
+            and subject=#{sub}
+        </if>
+        order by `time` ${way} limit #{start},#{pagesize}
     </select>
 
     <select id="orderByHot" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='购入' and isundercarriage=1 order by `clickcount` ${way} limit #{start},#{pagesize}
+        select * from t_goods where type=#{type} and isundercarriage=1
+        <if test="sub !=null">
+            and subject=#{sub}
+        </if>
+        order by `clickcount` ${way} limit #{start},#{pagesize}
     </select>
 
     <select id="orderByPrice" resultType="cn.doreou.model.Goods">
-        select * from t_goods where type='购入' and isundercarriage=1 order by `expt_price` ${way} limit #{start},#{pagesize}
+        select * from t_goods where type=#{type} and isundercarriage=1
+         <if test="sub !=null">
+             and subject=#{sub}
+         </if>
+         order by `expt_price` ${way} limit #{start},#{pagesize}
     </select>
 
     <update id="refresh" parameterType="cn.doreou.model.Goods">
@@ -97,5 +109,17 @@
     <update id="refreshbuy" parameterType="cn.doreou.model.Goods">
         update t_goods set goods_title=#{goods_title},introduce=#{introduce},expt_price=#{expt_price},status=#{status},subject=#{subject},`number`=#{number} where goods_id=#{goods_id}
     </update>
+
+    <select id="getMyCollect" parameterType="STRING" resultType="cn.doreou.model.Goods">
+        select * from t_focandcol,t_goods where userid=#{user_id} and mycollect_id=goods_id
+    </select>
+
+    <delete id="undoCollect">
+        delete from t_focandcol where userid=#{user_id} and mycollect_id=#{goods_id}
+    </delete>
+    <select id="isCollected" resultType="cn.doreou.model.Goods">
+        select * from t_focandcol where userid=#{user_id} and mycollect_id=#{goods_id}
+    </select>
+
 
 </mapper>

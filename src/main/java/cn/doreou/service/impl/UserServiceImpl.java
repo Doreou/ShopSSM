@@ -8,6 +8,7 @@ import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,5 +62,8 @@ public class UserServiceImpl implements UserService {
         }else{
             return true;
         }
+    }
+    public void collectThis(String goods_id, String userid, Date collect_time){
+        userMapper.collectThis(goods_id,userid,collect_time);
     }
 }

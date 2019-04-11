@@ -1,3 +1,5 @@
+var type=$('#hiddentype').val();
+
 $('.icon-px-').on('click',function () {
     //取消选中
     $('.icon-px-').attr('style','font-size: 14px;color:black');
@@ -6,7 +8,7 @@ $('.icon-px-').on('click',function () {
 })
 
 function orderByTime(way) {
-    var url='/Order/orderbytime?way='+way;
+    var url='/Order/orderbytime?way='+way+'&type='+type;
     $.ajax({
         type:'post',
         url:url,
@@ -22,7 +24,7 @@ function orderByTime(way) {
 
 }
 function orderByHot(way) {
-    var url='/Order/orderbyhot?way='+way;
+    var url='/Order/orderbyhot?way='+way+'&type='+type;
     $.ajax({
         type:'post',
         url:url,
@@ -39,7 +41,7 @@ function orderByHot(way) {
 
 }
 function orderByPrice(way) {
-    var url='/Order/orderbyprice?way='+way;
+    var url='/Order/orderbyprice?way='+way+'&type='+type;
     $.ajax({
         type:'post',
         url:url,

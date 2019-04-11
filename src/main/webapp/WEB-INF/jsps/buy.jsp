@@ -26,6 +26,7 @@ To change this template use File | Settings | File Templates.
     <link href="/css/showsale.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
+    <script src="/layui.all.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
     <link href="/css/layer.css" rel="stylesheet">
     <style>
@@ -182,12 +183,14 @@ To change this template use File | Settings | File Templates.
             </div>
         </div>
         <div class="school-box">
-            <div class="outer-school" style="padding-left: 66px;padding-right: 66px;">
+            <div class="outer-school">
                 <div class="inner-box">
                     <div class="order">
                         <div class="order-line">
-                            <a><span class="iconfont icon-px-" id="random" style="font-size: 14px;color: #F10;">随机</span></a>
-                            <a onclick="orderByTime($('#way').val())"><span class="iconfont icon-px-" id="time" style="font-size: 14px;color: black">时间</span></a>
+                            <input id="way" style="display: none" value="asc">
+                            <input id="hiddentype" style="display: none" value="购入">
+                            <%--<a><span class="iconfont icon-px-" id="random" style="font-size: 14px;color: #F10;">推荐</span></a>--%>
+                            <a onclick="orderByTime($('#way').val())"><span class="iconfont icon-px-" id="time" style="font-size: 14px;color: #F10">发布时间</span></a>
                             <a onclick="orderByPrice($('#way').val())"><span class="iconfont icon-px-" id="price" style="font-size: 14px;color: black">价格</span></a>
                             <a onclick="orderByHot($('#way').val())"><span class="iconfont icon-px-" id="hot" style="font-size: 14px;color: black">热度</span></a>
                         </div>
@@ -196,6 +199,11 @@ To change this template use File | Settings | File Templates.
             </div>
         </div>
         <div class="list clearfix" id="dataform">
+            <input id="page-way" style="display: none" <%if(session.getAttribute("way")!=null){%>
+                   value="<%=session.getAttribute("way")%>"
+                <%}else{%>
+                   value="asc"
+                <%}%>>
             <%Object goodslist = session.getAttribute("AllBuyGoodsList");%>
             <% for (Goods g : (List<Goods>) goodslist) {%>
             <div class="itemlist clearfix">
@@ -332,7 +340,7 @@ To change this template use File | Settings | File Templates.
 
     </div>
 </div>
-<script src="/js/buy.js"></script>
+<script src="/js/sort.js"></script>
 <script>
     $(document).ready(function () {
 
@@ -355,19 +363,21 @@ To change this template use File | Settings | File Templates.
         carousel.render({
             elem: '#test1'
             ,anim:'fade'
+
         });
     });
 
 
     function getData(curr){
         var way=$('#page-way').val();
+        var type=$('#hiddentype').val();
         var url='${pageContext.request.contextPath}/Order/searchbuybypage?page='+curr;
         if(window.getComputedStyle(document.getElementById("time"),null).color=="rgb(255, 17, 0)"){
-            url='${pageContext.request.contextPath}/Order/orderbytime?page='+curr+'&way='+way;
+            url='${pageContext.request.contextPath}/Order/orderbytime?page='+curr+'&way='+way+'&type='+type;
         }else if(window.getComputedStyle(document.getElementById("hot"),null).color=="rgb(255, 17, 0)"){
-            url='${pageContext.request.contextPath}/Order/orderbyhot?page='+curr+'&way='+way;
+            url='${pageContext.request.contextPath}/Order/orderbyhot?page='+curr+'&way='+way+'&type='+type;
         }else if(window.getComputedStyle(document.getElementById("price"),null).color=="rgb(255, 17, 0)"){
-            url='${pageContext.request.contextPath}/Order/orderbyprice?page='+curr+'&way='+way;
+            url='${pageContext.request.contextPath}/Order/orderbyprice?page='+curr+'&way='+way+'&type='+type;
         }
         $.ajax({
             type:'POST',

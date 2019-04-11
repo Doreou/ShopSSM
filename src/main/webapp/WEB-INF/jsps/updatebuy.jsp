@@ -185,7 +185,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">详情：</label>
                     <div class="col-sm-8">
-                        <textarea id="detail" value="<%=nowbuyinfo.get(0).getIntroduce()%>" name="detail" placeholder="请输入详情" class="form-control" type="text" aria-required="true" aria-invalid="false"></textarea>
+                        <textarea id="detail"  name="detail" placeholder="请输入详情" class="form-control" type="text" aria-required="true" aria-invalid="false"><%=nowbuyinfo.get(0).getIntroduce()%></textarea>
                     </div>
                 </div>
                 <div class="form-group">

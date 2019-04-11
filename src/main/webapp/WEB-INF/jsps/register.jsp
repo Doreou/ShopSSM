@@ -72,6 +72,7 @@
         </div>
     </div>
 </div>
+<script src="/js/InputCheck.js"></script>
 <script>
     $(document).ready(function () {
         var errmsg = "";

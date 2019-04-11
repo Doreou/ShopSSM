@@ -28,5 +28,8 @@
         select * from t_apply where user_id=#{user_id}
     </select>
 
+    <insert id="collectThis">
+        insert into t_focandcol(userid,mycollect_id,collect_time) values (#{user_id},#{goods_id},#{collect_time})
+    </insert>
 
 </mapper>

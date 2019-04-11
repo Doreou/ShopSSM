@@ -50,11 +50,16 @@ public interface OrderMapper {
     void deleteGoods(@Param("goods_id") int goods_id);
 
     //排序
-    List<Goods> orderByTime(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
-    List<Goods> orderByHot(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
-    List<Goods> orderByPrice(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way);
+    List<Goods> orderByTime(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way,@Param("type") String type,@Param("sub") String sub);
+    List<Goods> orderByHot(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way,@Param("type") String type,@Param("sub") String sub);
+    List<Goods> orderByPrice(@Param("start") int start,@Param("pagesize") int pagesize,@Param("way") String way,@Param("type") String type,@Param("sub") String sub);
 
     //更新商品信息
     void refresh(Goods goods);
     void refreshbuy(Goods goods);
+
+    //收藏
+    List<Goods> getMyCollect(@Param("user_id") String userid);
+    void undoCollect(@Param("user_id") String userid,@Param("goods_id") int goods_id);
+    List<Goods> isCollected(@Param("user_id") String userid,@Param("goods_id") int goods_id);
 }
