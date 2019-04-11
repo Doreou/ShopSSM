@@ -1,10 +1,9 @@
 var type=$('#hiddentype').val();
-
 $('.icon-px-').on('click',function () {
     //取消选中
-    $('.icon-px-').attr('style','font-size: 14px;color:black');
+    $('.icon-px-').attr('style','font-size: 12px;color:#8C8C8C');
     //更新被选中
-    $(this).attr('style','font-size: 14px;color: #F10');
+    $(this).attr('style','font-size: 12px;color: #F10');
 })
 
 function orderByTime(way) {

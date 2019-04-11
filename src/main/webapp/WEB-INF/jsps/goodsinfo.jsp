@@ -1,8 +1,6 @@
-<%@ page import="cn.doreou.model.Book" %>
 <%@ page import="java.util.List" %>
-<%@ page import="cn.doreou.model.User" %>
-<%@ page import="cn.doreou.model.GoodAndUser" %>
-<%@ page import="java.text.SimpleDateFormat" %><%--
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="cn.doreou.model.*" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/3/12
@@ -45,6 +43,7 @@
     }
     Object goodslist = session.getAttribute("AllBuyGoodsList");
     List<GoodAndUser> goodsinfo = (List<GoodAndUser>) session.getAttribute("goodsinfo");
+    Object AllComment=session.getAttribute("AllComment");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -285,9 +284,6 @@
     <div class="commonbox">
         <div class="commontip">评论</div>
         <div class="box">
-            <ul class="reply-list" id="reply-list">
-            </ul>
-            <p id="reply-to-tips">Doreou 回复 lyc ：</p>
             <div class="common">
 
                 <img id="replyer" <%if(session.getAttribute("user")==null){%>src="/images/default3.png"
@@ -301,9 +297,31 @@
                                     %>
 
                     <%}%>>
-                <textarea id="commoncontent"></textarea>
-                <button id="commonbtn" class="commonbtn" my-name="Doreou" goodsid-id="2666" to-name="lyc" onclick="saleReplyPost(this)" to-id="3708" pid="0">评论</button>
+                <textarea id="commoncontent" name="content"></textarea>
+                <button id="commonbtn" class="commonbtn" onclick="saleReplyPost(<%=goodsinfo.get(0).getGoods_id()%>)">评论</button>
             </div>
+            <%if(AllComment!=null){
+                for(UserComment c:(List<UserComment>)AllComment){%>
+            <ul class="reply-list" id="reply-list">
+                <li class="list-item clearfix">
+                    <div class="head">
+                        <img src="<%=c.getIcon()%>">
+                    </div>
+                    <div class="text">
+                        <div class="user clearfix">
+                            <div class="username" style="color: #8c8c8c">
+                                <%=c.getUsername()%><span class="reply">回复</span><%=goodsinfo.get(0).getUsername()%> :                               </div>
+                            <div class="info">
+                                <span class="reply-time"><%=c.getTime()%></span>
+                                <span onclick="saleReply()" class="reply">回复</span>
+                            </div>
+                        </div>
+                        <p class="detail" style="padding-left: 50px;color: #8c8c8c; font-size: 25px">
+                            <%=c.getContent()%>                           </p>
+                    </div>
+                </li>                </ul>
+                <%}
+            }%>
         </div>
     </div>
 
@@ -437,6 +455,25 @@
 
 </div>
 <script>
+    function saleReplyPost(goodsid) {
+        var url="${pageContext.request.contextPath}/Comment/newComment";
+        $.ajax({
+            type:'post',
+            url:url,
+            data:{"id":goodsid,"content":$('#commoncontent').val()},
+            success:function (msg) {
+                if(msg=="回复成功") {
+                    layer.msg(msg);
+                    setTimeout(function () {
+                        location.reload();
+                    },3000);
+
+                }else{
+                    layer.msg("您尚未登陆，请登陆后再试");
+                }
+            }
+        })
+    }
     function saleFavor(id){
         var text="${isCollected}";
         if(text=="收藏"){

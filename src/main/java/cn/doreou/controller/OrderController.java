@@ -1,9 +1,7 @@
 package cn.doreou.controller;
 
-import cn.doreou.model.GoodAndUser;
-import cn.doreou.model.Goods;
-import cn.doreou.model.PojoToJson;
-import cn.doreou.model.User;
+import cn.doreou.model.*;
+import cn.doreou.service.CommentService;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import com.google.gson.Gson;
@@ -30,7 +28,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserService userService;
+    private CommentService commentService;
 
     @RequestMapping("salegoods")
     public String SaleGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
@@ -198,6 +196,8 @@ public class OrderController {
     @RequestMapping("getgoodsinfo")
     public String getGoodsInfo(HttpSession session, Model model,@RequestParam("id") String id) {
         List<GoodAndUser> ResultList = orderService.getInfoById(id);
+        List<UserComment> commentList = commentService.getAllCommentList(id);
+        session.setAttribute("AllComment",commentList);
         session.setAttribute("goodsinfo", ResultList);
         List<User> user=(List<User>) session.getAttribute("user");
         if(user!=null){
