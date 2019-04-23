@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.doreou.mapper.MessageMapper">
+    <insert id="sendMessage" parameterType="cn.doreou.model.Message">
+        insert into t_message (message_content, message_type, send_time, sender, reciever, isRead) values (#{message_content},#{message_type},#{send_time},#{sender},#{reciever},#{isRead});
+    </insert>
+</mapper>

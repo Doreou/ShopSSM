@@ -44,6 +44,8 @@
     Object goodslist = session.getAttribute("AllBuyGoodsList");
     List<GoodAndUser> goodsinfo = (List<GoodAndUser>) session.getAttribute("goodsinfo");
     Object AllComment=session.getAttribute("AllComment");
+    Object AllReply=session.getAttribute("AllReply");
+    Object IdNameList=session.getAttribute("IdNameList");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -312,14 +314,53 @@
                             <div class="username" style="color: #8c8c8c">
                                 <%=c.getUsername()%><span class="reply">回复</span><%=goodsinfo.get(0).getUsername()%> :                               </div>
                             <div class="info">
-                                <span class="reply-time"><%=c.getTime()%></span>
-                                <span onclick="saleReply()" class="reply">回复</span>
+                                <span class="reply-time" style="color: #8c8c8c">
+                                    <%SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+                                String sdftime=simpleDateFormat.format(c.getTime());%><%=sdftime%></span>
+                                <span id="span_reply" onclick="SaleReply(<%=c.getUser_id()%>,<%=c.getComment_id()%>)" class="reply">回复</span>
                             </div>
                         </div>
                         <p class="detail" style="padding-left: 50px;color: #8c8c8c; font-size: 25px">
                             <%=c.getContent()%>                           </p>
                     </div>
-                </li>                </ul>
+                </li>
+                <% if(AllReply!=null){
+                    for(Reply r:(List<Reply>) AllReply){
+                        //查找对应回复
+                        if(c.getComment_id()==r.getReplyto_id()){
+                %>
+
+                <div class="text" style="padding-left: 125px">
+                    <div class="user clearfix">
+                        <div class="username" style="color: #8c8c8c">
+                            <%for(User user:(List<User>)IdNameList){
+                                if(user.getUser_id().equals(r.getMy_uid())){%>
+                            <label><%=user.getUsername()%></label>
+                                <%break;}
+                            }%><span class="reply">回复</span>
+                            <%for(User user:(List<User>)IdNameList){
+                                System.out.println(user);
+                                System.out.println(r.getTo_uid());
+                                if(user.getUser_id().equals(r.getTo_uid())){%>
+                            <label><%=user.getUsername()%></label>
+                                <%break;}
+                            }%> :
+                        </div>
+                        <div class="info">
+                                <span class="reply-time" style="color: #8c8c8c">
+                                    <%--<%SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");--%>
+                                        <%--String sdftime=simpleDateFormat.format(c.getTime());%><%=sdftime%></span>--%>
+                            <%--<span id="span_reply" onclick="SaleReply(<%=c.getUser_id()%>,<%=c.getComment_id()%>)" class="reply">回复</span>--%>
+                        </div>
+                    </div>
+                    <p class="detail" style="padding-left: 50px;color: #8c8c8c; font-size: 25px">
+                        <%=r.getContent()%>                           </p>
+                </div>
+
+                <%}
+                }
+                }  %>
+            </ul>
                 <%}
             }%>
         </div>
@@ -455,6 +496,37 @@
 
 </div>
 <script>
+    function SaleReply(userid,comment_id){
+        //userid 被回复人的id comment_id 被回复的评论的ID
+    $(document).on('click','.reply',function () {
+        layer.open({
+            type:0,
+            content:'<input id="replyContent" name="replyContent" style="color:#8c8c8c;">' ,
+            btn:['确定','关闭'],
+            yes:function () {
+                $.ajax({
+                    type:'post',
+                    url:'${pageContext.request.contextPath}/Reply/insertNewReply',
+                    data:{"to_uid":userid,"replyContent":$('#replyContent').val(),"replyto_id":comment_id},
+                    success:function (msg) {
+                        if(msg=="回复成功") {
+                            layer.msg(msg);
+                            setTimeout(function () {
+                                location.reload();
+                            },3000);
+
+                        }else{
+                            layer.msg("您尚未登陆，请登陆后再试");
+                        }
+                    }
+
+                })
+
+            }
+        })
+    })
+    }
+
     function saleReplyPost(goodsid) {
         var url="${pageContext.request.contextPath}/Comment/newComment";
         $.ajax({

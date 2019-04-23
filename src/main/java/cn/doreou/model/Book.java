@@ -2,7 +2,7 @@ package cn.doreou.model;
 
 public class Book {
 //      管理分类
-    private int sub_id;
+    private int subject_id;
     private String subject;
     private String icon;
 
@@ -14,12 +14,12 @@ public class Book {
         this.icon = icon;
     }
 
-    public int getSub_id() {
-        return sub_id;
+    public int getSubject_id() {
+        return subject_id;
     }
 
-    public void setSub_id(int sub_id) {
-        this.sub_id = sub_id;
+    public void setSubject_id(int subject_id) {
+        this.subject_id = subject_id;
     }
 
     public String getSubject() {
@@ -33,6 +33,10 @@ public class Book {
 
     @Override
     public String toString() {
-        return "id="+sub_id+"subject="+subject;
+        return "Book{" +
+                "subject_id=" + subject_id +
+                ", subject='" + subject + '\'' +
+                ", icon='" + icon + '\'' +
+                '}';
     }
 }

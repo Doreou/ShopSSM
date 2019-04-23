@@ -1,12 +1,17 @@
 package cn.doreou.controller;
 
 import cn.doreou.model.Cert;
+import cn.doreou.model.PojoToJson;
 import cn.doreou.model.User;
+import cn.doreou.service.AdminService;
 import cn.doreou.service.CertService;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +27,8 @@ import java.util.List;
 public class CertController {
     @Autowired
     private CertService certService;
+    @Autowired
+    private AdminService adminService;
 
     @RequestMapping("newcert")
     public String NewCert(HttpSession session, @RequestParam("name") String name,@RequestParam("cardnum") String id){
@@ -51,7 +58,7 @@ public class CertController {
                     String imgFilePath="D:\\img\\certpic\\"+System.currentTimeMillis()+".png";
                     OutputStream out = new FileOutputStream(imgFilePath);
                     cert.setUser_id(id);
-                    cert.setUsername(name);
+                    cert.setUser_name(name);
                     Date now = new Date();
                     Date jointime = null;
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -95,6 +102,38 @@ public class CertController {
         String errmsg="上传成功";
         session.setAttribute("errmsg",errmsg);
         return "checkinfo_nextstep";
+    }
+
+    @RequestMapping("getAllCert")
+    @ResponseBody
+    public Object gerAllCert(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
+        List certList=adminService.getAllCert((start-1)*pageSize, pageSize);
+        int totalCount=adminService.getCertCount();
+        Gson gson=new Gson();
+        JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,certList)));
+        return jsonObject;
+    }
+
+    @RequestMapping("getOneCert")
+    @ResponseBody
+    public Object getOneCert(@RequestParam("certid") int cert_id){
+        List certInfo=adminService.getOneCert(cert_id);
+        Gson gson=new Gson();
+        JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",1,certInfo)));
+        return jsonObject;
+    }
+    @RequestMapping("deleteCert")
+    @ResponseBody
+    public String deleteCert(@RequestParam("certid") int cert_id){
+        adminService.deleteCert(cert_id);
+        return "您已成功拒绝该用户的请求";
+    }
+
+    @RequestMapping("updateCertStatus")
+    @ResponseBody
+    public String updateCertStatus(@RequestParam("certid") int cert_id){
+        adminService.updateCertStatus(cert_id);
+        return "操作完成";
     }
 
 

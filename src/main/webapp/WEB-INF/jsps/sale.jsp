@@ -136,7 +136,7 @@
         <a href="/Order/querysalebysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <span class="iconfont <%=b.getIcon()%>"></span>
+                    <img style="width: 22px;height: 22px" src="<%=b.getIcon()%>">
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>
@@ -177,14 +177,15 @@
         <div class="school-box">
             <div class="outer-school">
                 <div class="inner-box">
+                    <div style="text-align: center"><span style="color: black">排序方式</span></div>
                     <div class="order">
                         <div class="order-line">
                             <input id="way" style="display: none" value="asc">
                             <input id="hiddentype" style="display: none" value="出售">
                             <%--<a><span class="iconfont icon-px-" id="random" style="font-size: 14px;color: #F10;">推荐</span></a>--%>
-                            <a onclick="orderByTime($('#way').val())"><span class="iconfont icon-px-" id="time" style="font-size: 14px;color: #F10">发布时间</span></a>
-                            <a onclick="orderByPrice($('#way').val())"><span class="iconfont icon-px-" id="price" style="font-size: 14px;color: black">价格</span></a>
-                            <a onclick="orderByHot($('#way').val())"><span class="iconfont icon-px-" id="hot" style="font-size: 14px;color: black">热度</span></a>
+                            <a onclick="orderByTime($('#way').val())"><span class="iconfont icon-px-" id="time" style="font-size: 12px;color: #F10">发布时间</span></a>
+                            <a onclick="orderByPrice($('#way').val())"><span class="iconfont icon-px-" id="price" style="font-size: 12px;color: #8C8C8C">价格</span></a>
+                            <a onclick="orderByHot($('#way').val())"><span class="iconfont icon-px-" id="hot" style="font-size: 12px;color: #8C8C8C">热度</span></a>
                         </div>
                     </div>
                 </div>

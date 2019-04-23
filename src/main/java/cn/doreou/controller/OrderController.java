@@ -3,6 +3,7 @@ package cn.doreou.controller;
 import cn.doreou.model.*;
 import cn.doreou.service.CommentService;
 import cn.doreou.service.OrderService;
+import cn.doreou.service.ReplyService;
 import cn.doreou.service.UserService;
 import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -13,11 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
+import javax.persistence.Id;
 import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +32,10 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ReplyService replyService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("salegoods")
     public String SaleGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
@@ -195,8 +202,19 @@ public class OrderController {
 
     @RequestMapping("getgoodsinfo")
     public String getGoodsInfo(HttpSession session, Model model,@RequestParam("id") String id) {
+        List<User> IdNameList=new ArrayList<>();
         List<GoodAndUser> ResultList = orderService.getInfoById(id);
         List<UserComment> commentList = commentService.getAllCommentList(id);
+        List<Reply> replyList=replyService.getAllReply(id);
+        for(Reply r:replyList){
+            List<User> userinfo=userService.getById(r.getMy_uid());
+            userinfo.add(userService.getById(r.getTo_uid()).get(0));
+            for(int i=0;i<userinfo.size();i++) {
+                IdNameList.add(userinfo.get(i));
+            }
+        }
+        session.setAttribute("IdNameList",IdNameList);
+        session.setAttribute("AllReply",replyList);
         session.setAttribute("AllComment",commentList);
         session.setAttribute("goodsinfo", ResultList);
         List<User> user=(List<User>) session.getAttribute("user");

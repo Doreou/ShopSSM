@@ -1,14 +1,14 @@
 package cn.doreou.model;
 
-import java.awt.*;
+import java.util.List;
 
 public class PojoToJson {
-    private String code;
+    private int code;
     private String msg;
-    private String count;
+    private int count;
     private List data;
 
-    public PojoToJson(String code, String msg, String count, List data) {
+    public PojoToJson(int code, String msg, int count, List data) {
         this.code = code;
         this.msg = msg;
         this.count = count;
@@ -18,9 +18,9 @@ public class PojoToJson {
     @Override
     public String toString() {
         return "PojoToJson{" +
-                "code='" + code + '\'' +
+                "code=" + code +
                 ", msg='" + msg + '\'' +
-                ", count='" + count + '\'' +
+                ", count=" + count +
                 ", data=" + data +
                 '}';
     }

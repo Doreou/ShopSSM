@@ -11,10 +11,8 @@ import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -169,6 +167,26 @@ public class PageController {
     @RequestMapping("updatesale")
     public String updatesale(){
         return  "updatesale";
+    }
+    @RequestMapping("admin_Subject")
+    public String Admin_Subject(){
+        return "admin_Subject";
+    }
+    @RequestMapping("admin_Carousel")
+    public String Admin_Carousel(){
+        return "admin_Carousel";
+    }
+    @RequestMapping("admin_Job")
+    public String Admin_Job(){
+        return "admin_Job";
+    }
+    @RequestMapping("admin_Cert")
+    public String Admin_Cert(){
+        return "admin_Cert";
+    }
+    @RequestMapping("admin_Message")
+    public String Admin_Message(){
+        return "admin_Message";
     }
 
 }
