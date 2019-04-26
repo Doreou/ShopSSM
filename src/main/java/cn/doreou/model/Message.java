@@ -4,12 +4,22 @@ import java.util.Date;
 
 public class Message {
     private int message_id;
-    private String mesage_content;
+    private String message_content;
     private String message_type;
     private String sender;
     private String reciever;
     private int isRead;
     private Date send_time;
+
+    public String getMessage_title() {
+        return message_title;
+    }
+
+    public void setMessage_title(String message_title) {
+        this.message_title = message_title;
+    }
+
+    private String message_title;
 
     public int getMessage_id() {
         return message_id;
@@ -19,12 +29,12 @@ public class Message {
         this.message_id = message_id;
     }
 
-    public String getMesage_content() {
-        return mesage_content;
+    public String getMessage_content() {
+        return message_content;
     }
 
-    public void setMesage_content(String mesage_content) {
-        this.mesage_content = mesage_content;
+    public void setMessage_content(String message_content) {
+        this.message_content = message_content;
     }
 
     public String getMessage_type() {

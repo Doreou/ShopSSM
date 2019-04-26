@@ -1,6 +1,9 @@
 <%@ page import="cn.doreou.model.Book" %>
 <%@ page import="cn.doreou.model.User" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="cn.doreou.model.Message" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/3/4
@@ -28,9 +31,9 @@
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
     <link rel="stylesheet" href="/css/layer.css">
-    <script src="/layui.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
+    <script src="/layui.js"></script>
     <script src="/js/cropper.min.js"></script>
 </head>
 <body class="  pace-done">
@@ -38,6 +41,7 @@
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     List<User> userList=(List<User>) session.getAttribute("user");
+    Object myNewsList=session.getAttribute("myNewsList");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -242,6 +246,35 @@
             未读消息列表
             <span class="enshrine_it">全部消息</span>
         </h1>
+        <%if(myNewsList!=null){
+            for(Message m:(List<Message>) myNewsList) {
+                if(m.getSend_time().compareTo(new Date())<0){
+        %>
+        <div class="clearfix each_msg unread" >
+            <div class="ensh_tips sold_out_yours" >
+                <p class="msgtitle" > <%=m.getMessage_title()%> </p >
+                <p class="msgbody" > <%=m.getMessage_content()%></p >
+                <p class="time" > <%SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+                    String time=sdf.format(m.getSend_time());
+                %><%=time%></p >
+                <%if(m.getIsRead()==0){%>
+                <a>
+                    <input style="display: none;" id="read" value="<%=m.getMessage_id()%>">
+                    <div class="readbtn" id="readbtn"> 标为已读 </div >
+                </a>
+                <%}else{%>
+                <a>
+                    <input style="display: none;" id="unread" value="<%=m.getMessage_id()%>">
+                    <div class="readbtn" id="unreadbtn"> 标为未读 </div >
+                </a>
+                <%}%>
+            </div >
+            <img alt = "<%=m.getMessage_title()%>" src = "/img/auto/logo.png" >
+            <div class="msg_border" ></div >
+        </div >
+            <%}
+            }
+        }%>
     </div>
     <div class="common-footer">
         <div class="footerNav">
@@ -280,6 +313,7 @@
 
 </div>
 <script src="/js/upload.js"></script>
+<script src="/js/Message.js"></script>
 <script>
     $(document).ready(function(){
         if (<%=userList!=null%>) {
@@ -324,6 +358,7 @@
 
         }
     });
+
 </script>
 
 </body>

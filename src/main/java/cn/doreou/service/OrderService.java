@@ -2,6 +2,7 @@ package cn.doreou.service;
 
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
+import cn.doreou.model.Message;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface OrderService {
     List<Goods> getMyCollect(String userid);
     void undoCollect(String userid,int goods_id);
     boolean isCollected(String userid,int goods_id);
+    List<Message> getMyNews(String user_id);
+    void AlreadyRead(int message_id,int status);
 }

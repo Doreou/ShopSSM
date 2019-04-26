@@ -228,7 +228,7 @@
             <li class="item-goods col-lg-2 "><a href="/Order/getMySale">我发布的商品</a></li>
             <li class="item-buy col-lg-2 "><a href="/Order/getMyBuy">我发布的求购</a></li>
             <li class="item-favor col-lg-2 "><a href="/Order/getMycollect">我的收藏</a></li>
-            <li class="item-message col-lg-2 "><a href="/Page/mynews">消息中心</a></li>
+            <li class="item-message col-lg-2 "><a href="/Order/getMyNews">消息中心</a></li>
             <li class="item-cert col-lg-2 "><a href="/Page/checkinfo">认证信息</a></li>
             <li class="back" style="left: 0px; width: 198px;">
                 <div class="left"></div>
@@ -269,6 +269,13 @@
                     <input value="<%=userList.get(0).getAge()%>" id="age" name="age" type="text">
                 </li>
             </ul>
+                <ul class="infos">
+                    <li>性别</li>
+                    <li class="right_info">
+                        <span id="sex_span"><%=userList.get(0).getSex()%></span>
+                        <input value="<%=userList.get(0).getSex()%>" id="sex" name="sex" type="text">
+                    </li>
+                </ul>
             <ul class="infos">
                 <li>签名</li>
                 <li class="right_info">

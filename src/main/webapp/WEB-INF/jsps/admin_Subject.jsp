@@ -62,13 +62,13 @@
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户信息列表</a></dd>
                         <dd><a href="javascript:;">被举报列表</a></dd>
-                        <dd class=""><a href="javascript:;">消息中心</a>
+                        <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
-                                <dd><a href="javascript:;">&ensp;&ensp;向个人用户发送</a></dd>
-                                <dd><a href="javascript:;">&ensp;&ensp;向全服发送</a></dd>
+                                <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
+                                <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
                             </dl>
                         </dd>
-                        <dd><a lay-href="/Page/admin_Job">兼职申请列表</a></dd>
+                        <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
                         <dd><a href="/Page/admin_Cert">认证申请列表</a></dd>
                     </dl>
                 </li>

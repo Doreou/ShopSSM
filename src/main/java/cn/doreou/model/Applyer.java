@@ -1,5 +1,7 @@
 package cn.doreou.model;
 
+import java.util.Date;
+
 public class Applyer {
     private int apply_id;
     private String name;
@@ -9,6 +11,25 @@ public class Applyer {
     private String info;
     private String conn_way;
     private String conn_type;
+    private Date up_time;
+
+    public Date getUp_time() {
+        return up_time;
+    }
+
+    public void setUp_time(Date up_time) {
+        this.up_time = up_time;
+    }
+
+    public Date getCheck_time() {
+        return check_time;
+    }
+
+    public void setCheck_time(Date check_time) {
+        this.check_time = check_time;
+    }
+
+    private Date check_time;
 
     public String getConn_type() {
         return conn_type;

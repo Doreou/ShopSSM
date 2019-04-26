@@ -5,10 +5,7 @@ import cn.doreou.model.Book;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.model.User;
-import cn.doreou.service.BookService;
-import cn.doreou.service.CertService;
-import cn.doreou.service.OrderService;
-import cn.doreou.service.UserService;
+import cn.doreou.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +27,14 @@ public class PageController {
     private UserService userService;
     @Autowired
     private CertService certService;
+    @Autowired
+    private AdminService adminService;
+    @Autowired
+    HttpSession session;
+    @RequestMapping("index")
+    public String Goindex(){
+        return "index";
+    }
 //    购买二手
     @RequestMapping("buy")
     public String Gobuy(HttpSession session,Model model){
@@ -168,25 +173,57 @@ public class PageController {
     public String updatesale(){
         return  "updatesale";
     }
+    public boolean isLogin(){
+        if(session.getAttribute("admin")==null){
+            return false;
+        }
+        return true;
+    }
     @RequestMapping("admin_Subject")
     public String Admin_Subject(){
-        return "admin_Subject";
+        if(isLogin())
+            return "admin_Subject";
+        else
+            return "admin_login";
     }
     @RequestMapping("admin_Carousel")
     public String Admin_Carousel(){
-        return "admin_Carousel";
+        if(isLogin())
+            return "admin_Carousel";
+        else
+            return "admin_login";
     }
     @RequestMapping("admin_Job")
     public String Admin_Job(){
-        return "admin_Job";
+        if(isLogin())
+            return "admin_Job";
+        else
+            return "admin_login";
     }
     @RequestMapping("admin_Cert")
     public String Admin_Cert(){
-        return "admin_Cert";
+        if(isLogin())
+            return "admin_Cert";
+        else
+            return "admin_login";
     }
-    @RequestMapping("admin_Message")
-    public String Admin_Message(){
-        return "admin_Message";
+    @RequestMapping("admin_MessageToUser")
+    public String admin_MessageToUser(){
+        if(isLogin())
+            return "admin_MessageToUser";
+        else
+            return "admin_login";
+    }
+    @RequestMapping("admin_MessageToAll")
+    public String admin_MessageToAll(){
+        if(isLogin())
+            return "admin_MessageToAll";
+        else
+            return "admin_login";
+    }
+    @RequestMapping("adminlogin")
+    public String admin_login(){
+        return "admin_login";
     }
 
 }

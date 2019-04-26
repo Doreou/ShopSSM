@@ -3,6 +3,7 @@ package cn.doreou.service.impl;
 import cn.doreou.mapper.OrderMapper;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
+import cn.doreou.model.Message;
 import cn.doreou.service.OrderService;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +113,11 @@ public class OrderServiceImpl implements OrderService {
         }else {
             return false;
         }
+    }
+    public List<Message> getMyNews(String user_id){
+        return orderMapper.getMyNews(user_id);
+    }
+    public void AlreadyRead(int message_id,int status){
+        orderMapper.AlreadyRead(message_id,status);
     }
 }

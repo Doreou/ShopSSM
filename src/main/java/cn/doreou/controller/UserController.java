@@ -188,18 +188,18 @@ public class UserController {
     }
 
     @RequestMapping("editinfo")
-    public String updateInfo(HttpSession session,@RequestParam("nickname") String username,@RequestParam("age") int age,@RequestParam("qq") String qq,@RequestParam("wechat") String wechat,@RequestParam("phone") String phone,@RequestParam("qianming") String label,@RequestParam("email") String email){
+    public String updateInfo(HttpSession session,@RequestParam("sex") String sex,@RequestParam("nickname") String username,@RequestParam("age") int age,@RequestParam("qq") String qq,@RequestParam("wechat") String wechat,@RequestParam("phone") String phone,@RequestParam("qianming") String label,@RequestParam("email") String email){
         List<User> userList=(List<User>) session.getAttribute("user");
         User user=new User();
         user.setUser_id(userList.get(0).getUser_id());
         user.setUsername(username);
+        user.setSex(sex);
         user.setEmail(email);
         user.setAge(age);
         user.setPhone(phone);
         user.setQq(qq);
         user.setWechat(wechat);
         user.setLabel(label);
-        System.out.println(user.toString());
         userService.updateInfoById(user);
         //更新用户当前信息
         userList=userService.getById(userList.get(0).getUser_id());
@@ -267,6 +267,7 @@ public class UserController {
             applyer.setConn_way(conn_way);
             applyer.setLocation(school);
             applyer.setStatus(0);
+            applyer.setUp_time(new Date());
             userService.applyJob(applyer);
             errmsg= "提交成功，你将在个人信息页--我的消息或通过您留下的联系方式查看管理员的回复";
             session.setAttribute("errmsg", errmsg);
@@ -278,6 +279,7 @@ public class UserController {
         }
     }
 
+
     //收藏
     @RequestMapping("collect")
     @ResponseBody
@@ -288,6 +290,16 @@ public class UserController {
             return "收藏成功!";
         }else {
             return "请先登录";
+        }
+    }
+    @RequestMapping("getById")
+    @ResponseBody
+    public String getById(@RequestParam("id") String id){
+        List<User> users=userService.getById(id);
+        if(users!=null) {
+            return users.get(0).getUsername();
+        }else {
+            return "未找到!";
         }
     }
 

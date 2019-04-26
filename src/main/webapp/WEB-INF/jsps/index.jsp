@@ -177,7 +177,7 @@
             <a class="fwx tips">微信二维码</a>
         </div>
     </div>
-    <p class="copyright">版权所有 © All Rights Reserved
+    <p class="copyright">版权所有 © All Rights Reserved   <a style="color: #999999" href="/Page/adminlogin">后台管理</a>
     </p>
 </div>
 </div>

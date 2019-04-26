@@ -120,6 +120,12 @@
     <select id="isCollected" resultType="cn.doreou.model.Goods">
         select * from t_focandcol where userid=#{user_id} and mycollect_id=#{goods_id}
     </select>
+    <select id="getMyNews" parameterType="STRING" resultType="cn.doreou.model.Message">
+      select * from t_message where reciever=#{user_id}
+    </select>
+    <update id="AlreadyRead" parameterType="INT">
+        update t_message set isRead=#{status} where message_id=#{message_id}
+    </update>
 
 
 </mapper>

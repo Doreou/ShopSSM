@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>轮播图管理</title>
     <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/layer.css">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -57,34 +58,34 @@
                         <dd><a href="/Page/admin_Carousel">轮播图管理</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户信息列表</a></dd>
                         <dd><a href="javascript:;">被举报列表</a></dd>
-                        <dd class=""><a href="javascript:;">消息中心</a>
+                        <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
-                                <dd><a href="javascript:;">&ensp;&ensp;向个人用户发送</a></dd>
-                                <dd><a href="javascript:;">&ensp;&ensp;向全服发送</a></dd>
+                                <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
+                                <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
                             </dl>
                         </dd>
                         <dd class="layui-this"><a href="/Page/admin_Job">兼职申请列表</a></dd>
                         <dd><a href="/Page/admin_Cert">认证申请列表</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="javascript:;">查询系统</a>
+                <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">查询系统</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户信息查询</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="javascript:;">数据分析</a>
+                <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">数据分析</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户数据</a></dd>
                         <dd><a href="javascript:;">图书数据</a></dd>
                         <dd><a href="javascript;">热度数据</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="javascript:;">管理员</a>
+                <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">管理员列表</a></dd>
                         <dd><a href="javascript:;">注册管理员</a></dd>
@@ -97,7 +98,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
-        <button style="display: block;margin-left: 70%" onclick="addNewSubject()" class="layui-btn layui-btn-normal">添加分类信息</button>
+
     </div>
 
     <div class="layui-footer">
@@ -105,13 +106,12 @@
         © localhost:8080 - 校园二手书交易平台
     </div>
 </div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+</script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
-<script>
-    layui.use('element', function () {
-        var element = layui.element;
-    });
-</script>
+<script src="/js/Job.js"></script>
 
 </body>
 </html>

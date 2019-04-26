@@ -13,7 +13,7 @@
         select * from t_user where user_id=#{_parameter};
     </select>
     <update id="updateInfoById" parameterType="cn.doreou.model.User">
-        update t_user set username=#{username},age=#{age},qq=#{qq},wechat=#{wechat},phone=#{phone},label=#{label},email=#{email} where user_id=#{user_id}
+        update t_user set username=#{username},age=#{age},sex=#{sex},qq=#{qq},wechat=#{wechat},phone=#{phone},label=#{label},email=#{email} where user_id=#{user_id}
     </update>
     <update id="updateHeadPic" parameterType="cn.doreou.model.User">
         update t_user set icon=#{icon} where user_id=#{user_id}

@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.doreou.mapper.AdminMapper">
+    <select id="isLogin" resultType="cn.doreou.model.Admin">
+      select * from t_admin where admin_id=#{admin_id} and admin_password=#{admin_password}
+    </select>
+    <select id="getByAdminID" resultType="cn.doreou.model.Admin">
+      select * from t_admin where admin_id=#{admin_id}
+    </select>
     <select id="getAllSubject" resultType="cn.doreou.model.Book">
       select * from t_book limit #{start},#{pageSize}
     </select>
@@ -34,5 +40,14 @@
     <update id="updateCertStatus" parameterType="INT">
         update t_cert set status=1,adm_id='1111',adm_time='2019-4-22' where cert_id=#{cert_id}
     </update>
+    <select id="getAllApply" resultType="cn.doreou.model.Applyer">
+        select * from t_apply limit #{start},#{pageSize};
+    </select>
+    <select id="getAllApplyCount" resultType="INT">
+        select count(*) from t_apply
+    </select>
+    <select id="getAllUser" resultType="cn.doreou.model.User">
+        select * from t_user;
+    </select>
 
 </mapper>

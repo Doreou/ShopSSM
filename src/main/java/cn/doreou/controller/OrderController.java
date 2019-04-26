@@ -440,6 +440,22 @@ public class OrderController {
         return getMyCollect(session);
     }
 
-
+    @RequestMapping("getMyNews")
+    public String getMyNews(HttpSession session){
+        List<User> user = (List<User>) session.getAttribute("user");
+        List<Message> myNewsList=orderService.getMyNews(user.get(0).getUser_id());
+        session.setAttribute("myNewsList",myNewsList);
+        return "mynews";
+    }
+    @RequestMapping("AlreadyRead")
+    @ResponseBody
+    public String AdleadyRead(HttpSession session,@RequestParam("message_id") int message_id,@RequestParam("status") int status){
+        orderService.AlreadyRead(message_id,status);
+        getMyNews(session);
+        if(status==1)
+            return "已标记为已读";
+        else
+            return "以标记为未读";
+    }
 
 }

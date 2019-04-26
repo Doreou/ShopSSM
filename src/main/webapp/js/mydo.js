@@ -7,7 +7,7 @@ function deleteGoods(id) {
                 url: url,
                 success: function (data) {
                     if (data == "true") {
-                        layer.msg("开票成功!", {
+                        layer.msg("下架成功!", {
                             icon: 6,
                             time: 1000
                         }, function () {

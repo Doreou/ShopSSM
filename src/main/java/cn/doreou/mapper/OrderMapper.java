@@ -2,10 +2,13 @@ package cn.doreou.mapper;
 
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
+import cn.doreou.model.Message;
 import cn.doreou.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -62,4 +65,8 @@ public interface OrderMapper {
     List<Goods> getMyCollect(@Param("user_id") String userid);
     void undoCollect(@Param("user_id") String userid,@Param("goods_id") int goods_id);
     List<Goods> isCollected(@Param("user_id") String userid,@Param("goods_id") int goods_id);
+
+    //消息
+    List<Message> getMyNews(@Param("user_id") String user_id);
+    void AlreadyRead(@Param("message_id") int Message_id, @Param("status") int status);
 }

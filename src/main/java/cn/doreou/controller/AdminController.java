@@ -1,8 +1,6 @@
 package cn.doreou.controller;
 
-import cn.doreou.model.Book;
-import cn.doreou.model.Cert;
-import cn.doreou.model.PojoToJson;
+import cn.doreou.model.*;
 import cn.doreou.service.AdminService;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +23,32 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    @Autowired
+    HttpSession session;
+
+    @RequestMapping("adminLogin")
+    @ResponseBody
+    public String login(@RequestParam("admin_id") String id,@RequestParam("admin_pwd") String pwd){
+        Admin admin=new Admin();
+        admin.setAdmin_id(id);
+        admin.setAdmin_password(pwd);
+        if(adminService.getByAdminID(id)!=null) {
+            if (adminService.isLogin(admin)) {
+                //存放管理员信息
+                session.setAttribute("admin",adminService.getByAdminID(id));
+                return "success";
+            } else {
+                return "用户名或密码错误";
+            }
+        }else{
+            return "账号不存在";
+        }
+    }
 
     @RequestMapping("getAllSubject")
     @ResponseBody
     public Object getAllSubject(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List bookList=adminService.getAllSubject(start,pageSize);
+        List bookList=adminService.getAllSubject((start-1)*pageSize,pageSize);
         int totalCount=adminService.getSubjectCount();
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,bookList)));
@@ -76,6 +96,16 @@ public class AdminController {
         book.setIcon(fileLocation);
         adminService.addNewSubject(book);
         return "上传成功";
+    }
+
+    @RequestMapping("getAllApply")
+    @ResponseBody
+    public Object getAllApply(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
+        List applyList=adminService.getAllApply((start-1)*pageSize, pageSize);
+        int totalCount=adminService.getAllApplyCount();
+        Gson gson=new Gson();
+        JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,applyList)));
+        return jsonObject;
     }
 
 }

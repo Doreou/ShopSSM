@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Date" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/4/23
@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>消息中心</title>
     <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/layer.css">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -62,10 +63,10 @@
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户信息列表</a></dd>
                         <dd><a href="javascript:;">被举报列表</a></dd>
-                        <dd class=""><a href="javascript:;">消息中心</a>
+                        <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
                                 <dd class="layui-this"><a href="javascript:;">&ensp;&ensp;向个人用户发送</a></dd>
-                                <dd><a href="javascript:;">&ensp;&ensp;向全服发送</a></dd>
+                                <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
                             </dl>
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
@@ -95,8 +96,61 @@
     </div>
 
     <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <table id="demo" lay-filter="test"></table>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header"><span>消息中心</span>&nbsp;/&nbsp;<span style="color: #8c8c8c">向用户发送消息</span></div>
+                        <div class="layui-card-body">
+
+                            <div class="layui-form" wid100="" lay-filter="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">消息标题</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="messageTitle" id="messageTitle" value="" placeholder="请输入标题" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">10字以内</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">消息内容</label>
+                                    <div class="layui-input-inline" style="height: 105px;width: 420px">
+                                        <textarea type="text" maxlength="140" style="resize: none; height: 105px;width: 420px" name="messageContent" id="messageContent" value="" class="layui-input"></textarea>
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">140字以内</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">收件人ID</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="reciever" onblur="getUserName()" id="reciever" value="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div id="warn" class="layui-form-mid layui-word-aux">输入ID后请确认用户信息</div>
+                                </div>
+                                <div class="layui-form-item" id="usernamebox">
+                                    <label class="layui-form-label">用户姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly="readonly" name="username" id="username" value="" placeholder="此项自动填充" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请确认用户姓名</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">送达时间</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="sendTime" name="sendTime" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">今日以前的日期您将无法选中</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit id="sendMessage">确认发送</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="layui-footer">
@@ -106,11 +160,24 @@
 </div>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
+<script src="/js/layer.js"></script>
+<script src="/js/Message.js"></script>
 <script>
-    layui.use('element', function () {
-        var element = layui.element;
-    });
+    $('#sendMessage').on('click',function () {
+        alert($('#sendTime').val());
+        $.ajax({
+            type:'POST',
+            url:'/Message/sendMessageToOne',
+            data:{messageTitle:$('#messageTitle').val().toString(),messageContent:$('#messageContent').val(),reciever:$('#reciever').val().toString(),sendTime:$('#sendTime').val()},
+            success:function (msg) {
+                if(msg=='发送成功'){
+                    layer.msg(msg);
+                }else{
+                    layer.msg("发送未完成");
+                }
+            }
+        })
+    })
 </script>
-
 </body>
 </html>
