@@ -64,7 +64,7 @@
                         <dd><a href="javascript:;">被举报列表</a></dd>
                         <dd class=""><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
-                                <dd><a href="javascript:;">&ensp;&ensp;向个人用户发送</a></dd>
+                                <dd class="layui-this"><a href="javascript:;">&ensp;&ensp;向个人用户发送</a></dd>
                                 <dd><a href="javascript:;">&ensp;&ensp;向全服发送</a></dd>
                             </dl>
                         </dd>
