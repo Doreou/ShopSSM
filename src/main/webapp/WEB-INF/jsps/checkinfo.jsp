@@ -132,7 +132,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <span class="iconfont <%=b.getIcon()%>"></span>
+                    <img style="width: 22px;height: 22px" src="<%=b.getIcon()%>">
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>

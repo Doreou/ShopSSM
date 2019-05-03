@@ -8,7 +8,7 @@ $('#btn').on('click',function () {
                 layer.msg("登陆成功");
                 setTimeout(function () {
                     location.href='/Page/admin_Subject';
-                },3000)
+                },2000)
             }else{
                 layer.msg(msg);
             }

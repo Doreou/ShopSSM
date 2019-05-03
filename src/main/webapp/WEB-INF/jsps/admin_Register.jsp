@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/4/26
-  Time: 10:52
+  Date: 2019/4/29
+  Time: 12:17
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,14 +11,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>消息中心</title>
-    <%----%>
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/layer.css">
-    <style>
-        span{
-            height: 24px !important;
-        }
-    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -72,7 +66,7 @@
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
                                 <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
-                                <dd class="layui-this"><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
+                                <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
                                 <dd><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
                             </dl>
                         </dd>
@@ -95,7 +89,7 @@
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
                     <dl class="layui-nav-child">
                         <dd><a href="/Page/admin_AdmList">管理员列表</a></dd>
-                        <dd><a href="/Page/admin_Register">注册管理员</a></dd>
+                        <dd class="layui-this"><a href="/Page/admin_Register">注册管理员</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -107,45 +101,85 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
-                        <div class="layui-card-header"><span>消息中心</span>&nbsp;/&nbsp;<span style="color: #8c8c8c">向全服发送消息</span></div>
+                        <div class="layui-card-header"><span>管理员</span>&nbsp;/&nbsp;<span style="color: #8c8c8c">注册管理员</span></div>
                         <div class="layui-card-body">
 
-                            <div class="layui-form" wid100="" lay-filter="">
+                            <div class="layui-form" wid100="">
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">消息标题</label>
+                                    <label class="layui-form-label">请输入ID</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="messageTitle" id="messageTitle" value="" placeholder="请输入标题" class="layui-input">
+                                        <input type="text" name="admin_id" id="admin_id" value="" placeholder="请输入ID" class="layui-input">
                                     </div>
-                                    <div class="layui-form-mid layui-word-aux">10字以内</div>
+                                    <div class="layui-form-mid layui-word-aux">ID即登录ID，注册后ID无法更改</div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">消息内容</label>
-                                    <div class="layui-input-inline" style="height: 105px;width: 420px">
-                                        <textarea type="text" maxlength="140" style="resize: none; height: 105px;width: 420px" name="messageContent" id="messageContent" value="" class="layui-input"></textarea>
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">140字以内</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">送达人群</label>
-                                    <div class="layui-input-block">
-                                        <input type="radio" name="classify" value="全服" title="全服" checked="checked">
-                                        <input type="radio" name="classify" value="男" title="男">
-                                        <input type="radio" name="classify" value="女" title="女">
-                                        <input type="checkbox" name="" title="仅已认证用户" lay-skin="primary" checked="">
-                                        <input id="people" value="" style="display: none">
-                                        <input id="ischeck" value="true" style="display: none">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">送达时间</label>
+                                    <label class="layui-form-label">请输入密码</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="sendTime" name="sendTime" autocomplete="off" class="layui-input">
+                                        <input type="text" name="admin_pwd" id="admin_pwd" value="" placeholder="请输入密码" class="layui-input">
                                     </div>
-                                    <div class="layui-form-mid layui-word-aux">今日以前的日期您将无法选中</div>
+                                    <div class="layui-form-mid layui-word-aux">请输入密码</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">请确认密码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="admin_pwd_again" id="admin_pwd_again" value="" placeholder="请再次输入密码" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请再次输入密码</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">真实姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" maxlength="140" placeholder="请输入真实姓名" name="admin_name" id="admin_name" value="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入真实姓名</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">管理员级别</label>
+                                    <div class="layui-input-inline">
+                                        <select name="admin_type" id="admin_type">
+                                            <option value="">请选择一个级别</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入真实姓名</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">所在地</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" maxlength="140" placeholder="请输入所在地" name="admin_location" id="admin_location" value="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入所在地</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">请输入性别</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="admin_sex" id="admin_sex" placeholder="请输入性别" value="" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div id="warn" class="layui-form-mid layui-word-aux">请输入性别</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">联系电话</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="admin_phone" id="admin_phone" value="" placeholder="请输入联系电话" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入联系电话</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">电子邮箱</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="email" name="email" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入电子邮箱</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">微信</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="wechat" name="wechat" placeholder="请输入微信号" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入微信号</div>
                                 </div>
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit id="sendMessage">确认发送</button>
+                                        <button class="layui-btn" lay-submit onclick="GoRegister()">确认注册</button>
                                     </div>
                                 </div>
                             </div>
@@ -165,22 +199,7 @@
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
 <script src="/js/layer.js"></script>
-<script src="/js/Message.js"></script>
-<script>
-    $('#sendMessage').on('click',function () {
-        $.ajax({
-            type:'POST',
-            url:'/Message/sendMessageToAll',
-            data:{messageTitle:$('#messageTitle').val().toString(),messageContent:$('#messageContent').val(),reciever:$('#people').val().toString(),sendTime:$('#sendTime').val(),ischeck:$("#ischeck").val()},
-            success:function (msg) {
-                if(msg=='发送成功'){
-                    layer.msg(msg);
-                }else{
-                    layer.msg("发送未完成");
-                }
-            }
-        })
-    })
-</script>
+<script src="/js/adm.js"></script>
+
 </body>
 </html>

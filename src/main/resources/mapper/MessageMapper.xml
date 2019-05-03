@@ -4,6 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.doreou.mapper.MessageMapper">
     <insert id="sendMessage" parameterType="cn.doreou.model.Message">
-        insert into t_message (message_title,message_content, message_type, send_time, sender, reciever, isRead) values (#{message_title},#{message_content},#{message_type},#{send_time},#{sender},#{reciever},#{isRead});
+        insert into t_message (message_title,message_content, message_type, send_time, sender, reciever, isRead,tip) values (#{message_title},#{message_content},#{message_type},#{send_time},#{sender},#{reciever},#{isRead},#{tip});
     </insert>
+    <select id="getAllMessage" resultType="cn.doreou.model.Message">
+        select * from t_message limit #{start},#{pageSize};
+    </select>
+    <select id="getAllMessageCount" resultType="INT">
+        select count(*) from t_message
+    </select>
+    <delete id="deleteMessage" parameterType="INT">
+        delete from t_message where message_id=#{message_id}
+    </delete>
 </mapper>

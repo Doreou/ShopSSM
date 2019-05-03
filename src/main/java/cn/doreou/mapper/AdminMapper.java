@@ -10,19 +10,30 @@ import java.util.List;
 public interface AdminMapper {
     List<Admin> isLogin(Admin admin);
     Admin getByAdminID(String id);
+    void RegisterAdmin(Admin admin);
     List<Book> getAllSubject(@Param("start") int start,@Param("pageSize") int pageSize);
     int getSubjectCount();
     void deleteSubject(@Param("subject") String subject);
     void updateSubject(Book book);
     void addNewSubject(Book book);
 
-    List<Cert> getAllCert(@Param("start") int start,@Param("pageSize") int pageSize);
-    int getCertCount();
-    List<Cert> getOneCert(@Param("cert_id") int cert_id);
-    void deleteCert(@Param("cert_id") int cert_id);
-    void updateCertStatus(@Param("cert_id") int cert_id);
     List<Applyer> getAllApply(@Param("start") int start,@Param("pageSize") int pageSize);
     int getAllApplyCount();
 
     List<User> getAllUser();
+    List<Applyer> getOneApply(@Param("apply_id") int apply_id);
+    //-1拒绝 0待审核 1通过
+    void ApplyPass(Applyer applyer);
+    void ApplyRefused(Applyer applyer);
+
+    List<Admin> getAllAdmin(@Param("start") int start,@Param("pageSize") int pageSize);
+    int getAllAdminCount();
+
+    List<AdminType> getAllAdminType();
+    List<Carousel> getAllCarousel(@Param("start") int start,@Param("pageSize") int pageSize);
+    int getAllCarouselCount();
+    void addNewCarousel(Carousel carousel);
+
+    void deleteCarousel(@Param("carousel_id") int carousel_id);
+    void updateCarousel(Carousel carousel);
 }

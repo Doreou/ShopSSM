@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.doreou.mapper.ReportMapper">
+    <select id="getAllReportType" resultType="cn.doreou.model.ReportType">
+        select * from t_reporttype;
+    </select>
+    <insert id="NewReport" parameterType="cn.doreou.model.Report">
+        insert into t_report(report_userid,bereported_goodsid,bereported_userid, report_time, report_type, report_content, report_pic) value (#{report_userid},#{bereported_goodsid},#{bereported_userid},#{report_time},#{report_type},#{report_content},#{report_pic})
+    </insert>
+    <select id="getAllReport" resultType="cn.doreou.model.Report">
+        select * from t_report limit #{start},#{pageSize}
+    </select>
+    <select id="getAllReportCount" resultType="INT">
+        select count(*) from t_report;
+    </select>
+</mapper>

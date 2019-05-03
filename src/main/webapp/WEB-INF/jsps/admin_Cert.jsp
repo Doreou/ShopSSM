@@ -49,7 +49,7 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <ul class="layui-nav layui-nav-tree" lay-shrink="" lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">网页设置</a>
                     <dl class="layui-nav-child">
@@ -61,11 +61,12 @@
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户信息列表</a></dd>
-                        <dd><a href="javascript:;">被举报列表</a></dd>
+                        <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
                                 <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
                                 <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
+                                <dd><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
                             </dl>
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
@@ -86,17 +87,12 @@
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">管理员列表</a></dd>
-                        <dd><a href="javascript:;">注册管理员</a></dd>
+                        <dd><a href="/Page/admin_AdmList">管理员列表</a></dd>
+                        <dd><a href="/Page/admin_Register">注册管理员</a></dd>
                     </dl>
                 </li>
             </ul>
         </div>
-    </div>
-
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <table id="demo" lay-filter="test"></table>
     </div>
 
     <div class="layui-footer">
@@ -148,6 +144,38 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+<div class="layui-row" id="popMessage" style="display:none;">
+    <div class="layui-col-md10">
+        <form id="popform2" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">消息标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="message_title" id="message_title" style="width: 200px" required lay-verify="required"
+                           autocomplete="off"  placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">消息内容</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="message_content" id="message_content" style="width: 200px" required lay-verify="required"
+                              autocomplete="off"  placeholder="" class="layui-input"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">备注</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="message_tip" id="message_tip" style="width: 200px" required lay-verify="required"
+                              autocomplete="off" placeholder="" class="layui-input"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:19891017;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;">
+        <img id="big" style="border:5px solid #fff;" src="" />
     </div>
 </div>
 </body>

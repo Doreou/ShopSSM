@@ -2,9 +2,12 @@ package cn.doreou.controller;
 
 import cn.doreou.model.Admin;
 import cn.doreou.model.Message;
+import cn.doreou.model.PojoToJson;
 import cn.doreou.model.User;
 import cn.doreou.service.AdminService;
 import cn.doreou.service.MessageService;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,12 +51,25 @@ public class MessageController {
         messageService.sendMessage(message);
         return "发送成功";
     }
+    @RequestMapping("AutoSend")
+    @ResponseBody
+    public String AutoSend(){
+        Message message=(Message) session.getAttribute("message");
+        if(message!=null){
+            messageService.sendMessage(message);
+            return "操作完成";
+        }else{
+            return "请求失败";
+        }
+
+    }
 
     @RequestMapping(value = "sendMessageToAll")
     @ResponseBody
     public String sendMessageToAll(@RequestParam("messageTitle") String messageTitle, @RequestParam("messageContent") String messageContent, @RequestParam("reciever") String reviever,@RequestParam("sendTime") String sendTime,@RequestParam("ischeck") String ischecked){
         List<User> userList = adminService.getAllUser();
         System.out.println(ischecked);
+        //如果勾选仅发送已认证
         if(ischecked.equals("true")){
             for(int i=userList.size()-1;i>=0;i--){
                 if(userList.get(i).getMember_status()==0){
@@ -62,6 +78,7 @@ public class MessageController {
             }
             System.out.println(userList.size());
         }
+        //移除所有女性和未填写性别的人
         if(reviever.equals("男")){
             for(int i=userList.size()-1;i>=0;i--){
                 if(userList.get(i).getSex().equals("女")){
@@ -69,6 +86,7 @@ public class MessageController {
                 }
             }
         }else if(reviever.equals("女")){
+            //移除所有男性和未填写性别的人
             for(int i=userList.size()-1;i>=0;i--){
                 if(userList.get(i).getSex().equals("男")){
                     userList.remove(i);
@@ -96,5 +114,21 @@ public class MessageController {
         }
         return "发送成功";
     }
+    @RequestMapping("getAllMessage")
+    @ResponseBody
+    public Object getAllMessage(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
+        List messageList=messageService.getAllMessage((start-1)*pageSize, pageSize);
+        int totalCount=messageService.getAllMessageCount();
+        Gson gson=new Gson();
+        JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,messageList)));
+        return jsonObject;
+    }
+    @RequestMapping("deleteMessage")
+    @ResponseBody
+    public String deleteMessage(@RequestParam("message_id") int message_id){
+        messageService.deleteMessage(message_id);
+        return "消息已撤回";
+    }
+
 
 }

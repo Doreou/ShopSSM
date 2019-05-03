@@ -10,6 +10,15 @@ public class Message {
     private String reciever;
     private int isRead;
     private Date send_time;
+    private String tip;
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
+    }
 
     public String getMessage_title() {
         return message_title;

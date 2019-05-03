@@ -22,6 +22,9 @@ public class AdminServiceImpl implements AdminService {
     public Admin getByAdminID(String id){
         return adminMapper.getByAdminID(id);
     }
+    public void RegisterAdmin(Admin admin){
+        adminMapper.RegisterAdmin(admin);
+    }
     public int getSubjectCount(){
         return adminMapper.getSubjectCount();
     }
@@ -39,21 +42,6 @@ public class AdminServiceImpl implements AdminService {
     public void addNewSubject(Book book){
         adminMapper.addNewSubject(book);
     }
-    public List<Cert> getAllCert(int start, int pageSize){
-       return adminMapper.getAllCert(start,pageSize);
-    }
-    public int getCertCount(){
-        return adminMapper.getCertCount();
-    }
-    public List<Cert> getOneCert(int cert_id){
-        return adminMapper.getOneCert(cert_id);
-    }
-    public void deleteCert(int cert_id){
-        adminMapper.deleteCert(cert_id);
-    }
-    public void updateCertStatus(int cert_id){
-        adminMapper.updateCertStatus(cert_id);
-    }
     public List<Applyer> getAllApply(int start,int pageSize){
         return adminMapper.getAllApply(start, pageSize);
     }
@@ -62,5 +50,39 @@ public class AdminServiceImpl implements AdminService {
     }
     public List<User> getAllUser(){
         return adminMapper.getAllUser();
+    }
+    public List<Applyer> getOneApply(int apply_id){
+        return adminMapper.getOneApply(apply_id);
+    }
+    public void ApplyPass(Applyer applyer){
+        adminMapper.ApplyPass(applyer);
+    }
+    public void ApplyRefused(Applyer applyer){
+        adminMapper.ApplyRefused(applyer);
+    }
+
+    public List<Admin> getAllAdmin(int start,int pageSize){
+        return adminMapper.getAllAdmin(start, pageSize);
+    }
+    public int getAllAdminCount(){
+        return adminMapper.getAllAdminCount();
+    }
+    public List<AdminType> getAllAdminType(){
+        return adminMapper.getAllAdminType();
+    }
+    public List<Carousel> getAllCarousel(int start,int pageSize){
+        return adminMapper.getAllCarousel(start, pageSize);
+    }
+    public int getAllCarouselCount(){
+        return adminMapper.getAllCarouselCount();
+    }
+    public void addNewCarousel(Carousel carousel){
+        adminMapper.addNewCarousel(carousel);
+    }
+    public void deleteCarousel(int carousel_id){
+        adminMapper.deleteCarousel(carousel_id);
+    }
+    public void updateCarousel(Carousel carousel){
+        adminMapper.updateCarousel(carousel);
     }
 }

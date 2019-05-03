@@ -12,6 +12,9 @@
     <select id="getAllSubject" resultType="cn.doreou.model.Book">
       select * from t_book limit #{start},#{pageSize}
     </select>
+    <insert id="RegisterAdmin" parameterType="cn.doreou.model.Admin">
+        insert into t_admin(admin_id, admin_name, admin_sex, admin_location, admin_phone, admin_wechat, admin_password, admin_icon, admin_email, admin_type) value (#{admin_id},#{admin_name},#{admin_sex},#{admin_location},#{admin_phone},#{admin_wechat},#{admin_password},#{admin_icon},#{admin_email},#{admin_type})
+    </insert>
     <select id="getSubjectCount" resultType="INT">
       select count(*) from t_book
     </select>
@@ -24,30 +27,48 @@
     <insert id="addNewSubject" parameterType="cn.doreou.model.Book">
         insert into t_book (subject_id,subject, icon) value (#{subject_id},#{subject},#{icon})
     </insert>
-    <!--Cert-->
-    <select id="getAllCert" resultType="cn.doreou.model.Cert">
-      select * from t_cert limit #{start},#{pageSize}
-    </select>
-        <select id="getCertCount" resultType="INT">
-      select count(*) from t_cert
-    </select>
-    <select id="getOneCert" parameterType="INT" resultType="cn.doreou.model.Cert">
-        select * from t_cert where cert_id=#{cert_id};
-    </select>
-    <delete id="deleteCert" parameterType="INT">
-        delete from t_cert where cert_id=#{cert_id}
-    </delete>
-    <update id="updateCertStatus" parameterType="INT">
-        update t_cert set status=1,adm_id='1111',adm_time='2019-4-22' where cert_id=#{cert_id}
-    </update>
     <select id="getAllApply" resultType="cn.doreou.model.Applyer">
         select * from t_apply limit #{start},#{pageSize};
     </select>
     <select id="getAllApplyCount" resultType="INT">
         select count(*) from t_apply
     </select>
+    <select id="getOneApply" resultType="cn.doreou.model.Applyer">
+        select * from t_apply where apply_id=#{apply_id}
+    </select>
     <select id="getAllUser" resultType="cn.doreou.model.User">
         select * from t_user;
     </select>
+    <update id="ApplyPass">
+        update t_apply set status=1,apply_adm=#{apply_adm},reply_title=#{reply_title},reply=#{reply},check_time=#{check_time} where apply_id=#{apply_id}
+    </update>
+    <update id="ApplyRefused">
+        update t_apply set status=-1,apply_adm=#{apply_adm},reply_title=#{reply_title},reply=#{reply},check_time=#{check_time} where apply_id=#{apply_id}
+    </update>
+    <select id="getAllAdmin" resultType="cn.doreou.model.Admin">
+        select * from t_admin limit #{start},#{pageSize}
+    </select>
+    <select id="getAllAdminCount" resultType="INT">
+        select count(*) from t_admin
+    </select>
+    <select id="getAllAdminType" resultType="cn.doreou.model.AdminType">
+        select * from t_admintype;
+    </select>
+    <select id="getAllCarousel" resultType="cn.doreou.model.Carousel">
+      select * from t_carousel limit #{start},#{pageSize};
+    </select>
+    <select id="getAllCarouselCount" resultType="INT">
+      select count(*) from t_carousel;
+    </select>
+    <insert id="addNewCarousel" parameterType="cn.doreou.model.Carousel">
+        insert into t_carousel (carousel_pic, carousel_info, carousel_start, carousel_end, carousel_visible) values (#{carousel_pic},#{carousel_info},#{carousel_start},#{carousel_end},#{carousel_visible});
+    </insert>
+    <delete id="deleteCarousel" parameterType="INT">
+        delete from t_carousel where carousel_id=#{carousel_id}
+    </delete>
+    <update id="updateCarousel" parameterType="cn.doreou.model.Carousel">
+        update t_carousel set carousel_start=#{carousel_start},carousel_end=#{carousel_end},carousel_pic=#{carousel_pic},carousel_info=#{carousel_info},carousel_visible=#{carousel_visible} where carousel_id=#{carousel_id}
+    </update>
+
 
 </mapper>

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/4/26
-  Time: 10:52
+  Date: 2019/4/27
+  Time: 11:26
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -14,11 +14,6 @@
     <%----%>
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/layer.css">
-    <style>
-        span{
-            height: 24px !important;
-        }
-    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -72,8 +67,8 @@
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
                                 <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
-                                <dd class="layui-this"><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
-                                <dd><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
+                                <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
+                                <dd class="layui-this"><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
                             </dl>
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
@@ -101,60 +96,9 @@
             </ul>
         </div>
     </div>
-
     <div class="layui-body">
-        <div class="layui-fluid">
-            <div class="layui-row layui-col-space15">
-                <div class="layui-col-md12">
-                    <div class="layui-card">
-                        <div class="layui-card-header"><span>消息中心</span>&nbsp;/&nbsp;<span style="color: #8c8c8c">向全服发送消息</span></div>
-                        <div class="layui-card-body">
-
-                            <div class="layui-form" wid100="" lay-filter="">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">消息标题</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" name="messageTitle" id="messageTitle" value="" placeholder="请输入标题" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">10字以内</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">消息内容</label>
-                                    <div class="layui-input-inline" style="height: 105px;width: 420px">
-                                        <textarea type="text" maxlength="140" style="resize: none; height: 105px;width: 420px" name="messageContent" id="messageContent" value="" class="layui-input"></textarea>
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">140字以内</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">送达人群</label>
-                                    <div class="layui-input-block">
-                                        <input type="radio" name="classify" value="全服" title="全服" checked="checked">
-                                        <input type="radio" name="classify" value="男" title="男">
-                                        <input type="radio" name="classify" value="女" title="女">
-                                        <input type="checkbox" name="" title="仅已认证用户" lay-skin="primary" checked="">
-                                        <input id="people" value="" style="display: none">
-                                        <input id="ischeck" value="true" style="display: none">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">送达时间</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" id="sendTime" name="sendTime" autocomplete="off" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">今日以前的日期您将无法选中</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit id="sendMessage">确认发送</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- 内容主体区域 -->
+        <table id="demo" lay-filter="test"></table>
     </div>
 
     <div class="layui-footer">
@@ -162,25 +106,12 @@
         © localhost:8080 - 校园二手书交易平台
     </div>
 </div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">撤回</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
-<script src="/js/layer.js"></script>
 <script src="/js/Message.js"></script>
-<script>
-    $('#sendMessage').on('click',function () {
-        $.ajax({
-            type:'POST',
-            url:'/Message/sendMessageToAll',
-            data:{messageTitle:$('#messageTitle').val().toString(),messageContent:$('#messageContent').val(),reciever:$('#people').val().toString(),sendTime:$('#sendTime').val(),ischeck:$("#ischeck").val()},
-            success:function (msg) {
-                if(msg=='发送成功'){
-                    layer.msg(msg);
-                }else{
-                    layer.msg("发送未完成");
-                }
-            }
-        })
-    })
-</script>
 </body>
 </html>

@@ -24,14 +24,14 @@
     <link href="/css/showsale.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
     <script src="/layui.js"></script>
-    <link href="/css/layui.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/zzsc.css">
     <link rel="stylesheet" href="/css/goodsdis.css">
     <style>
-        .layui-carousel {
-            margin: auto;
+        body{
+            color: black!important;
         }
     </style>
+    <link href="/css/layui.css" rel="stylesheet">
 </head>
 <body class="  pace-done">
 <%
@@ -145,7 +145,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <span class="iconfont <%=b.getIcon()%>"></span>
+                    <img style="width: 22px;height: 22px" src="<%=b.getIcon()%>">
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>
@@ -267,7 +267,7 @@
                         <a target="_blank" class="jiathis_button_renren" title="分享到人人网"></a>
                         <a target="_blank" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" href="http://www.jiathis.com/share" id="goods_button_more" style=""></a>
                         <button type="button" class="btn btn-success" data-id="2666" onclick="saleFavor(<%=goodsinfo.get(0).getGoods_id()%>)">${isCollected}</button>
-                        <button type="button" class="btn btn-warning" onclick="saleReport(2666)">举报</button>
+                        <button type="button" class="btn btn-warning" onclick="SaleReport(<%=goodsinfo.get(0).getGoods_id()%>)">举报</button>
                     </div>
                     <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
                 </li>
@@ -495,6 +495,7 @@
     </div>
 
 </div>
+<script src="/js/GoodsInfo.js"></script>
 <script>
     function SaleReply(userid,comment_id){
         //userid 被回复人的id comment_id 被回复的评论的ID
@@ -574,17 +575,43 @@
         }
 
     })
-
-    layui.use(['carousel', 'form'], function () {
-        var carousel = layui.carousel
-            , form = layui.form;
-
-        //常规轮播
-        carousel.render({
-            elem: '#test1'
-            , arrow: 'always'
-        });
-    });
 </script>
+<div class="layui-row" id="popReport" style="display:none;">
+    <div class="layui-col-md10">
+        <form id="popform2" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <input style="display: none" value="" id="fileLocation" name="fileLocation">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;">举报类型</label>
+                <div class="layui-input-inline">
+                    <select name="report_type" id="report_type">
+                        <option value="">请选择类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;color: black">举报详情</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="report_content" id="report_content" style="width: 200px" required lay-verify="required"
+                              autocomplete="off"  placeholder="" class="layui-input"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px ;color: black">截图举证</label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" id="uploadIcon">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">预览</label>
+                <div class="layui-input-block">
+                    <img style="display: none" src="" id="priviewIcon">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

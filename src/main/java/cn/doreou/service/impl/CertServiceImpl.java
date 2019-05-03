@@ -23,4 +23,19 @@ public class CertServiceImpl implements CertService {
         }
         return false;
     }
+    public List<Cert> getAllCert(int start, int pageSize){
+        return certMapper.getAllCert(start,pageSize);
+    }
+    public int getCertCount(){
+        return certMapper.getCertCount();
+    }
+    public List<Cert> getOneCert(int cert_id){
+        return certMapper.getOneCert(cert_id);
+    }
+    public void deleteCert(int cert_id){
+        certMapper.deleteCert(cert_id);
+    }
+    public void updateCertStatus(Cert cert){
+        certMapper.updateCertStatus(cert);
+    }
 }

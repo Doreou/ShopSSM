@@ -49,7 +49,7 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <ul class="layui-nav layui-nav-tree" lay-shrink="" lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">网页设置</a>
                     <dl class="layui-nav-child">
@@ -61,11 +61,12 @@
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">用户信息列表</a></dd>
-                        <dd><a href="javascript:;">被举报列表</a></dd>
+                        <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
                                 <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
                                 <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
+                                <dd><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
                             </dl>
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
@@ -86,8 +87,8 @@
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">管理员列表</a></dd>
-                        <dd><a href="javascript:;">注册管理员</a></dd>
+                        <dd><a href="/Page/admin_AdmList">管理员列表</a></dd>
+                        <dd><a href="/Page/admin_Register">注册管理员</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -97,7 +98,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
-        <button style="display: block;margin-left: 70%" onclick="addNewSubject()" class="layui-btn layui-btn-normal">添加分类信息</button>
+        <button style="display: block;margin-left: 70%" onclick="addNewCarousel()" class="layui-btn layui-btn-normal">添加新的轮播图</button>
     </div>
 
     <div class="layui-footer">
@@ -105,13 +106,108 @@
         © localhost:8080 - 校园二手书交易平台
     </div>
 </div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
-<script>
-    layui.use('element', function () {
-        var element = layui.element;
-    });
-</script>
-
+<script src="/js/Carousel.js"></script>
+<div class="layui-row" id="popInsert" style="display:none;">
+    <div class="layui-col-md10">
+        <form id="popform" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <input style="display: none;" name="fileLocation" id="fileLocation" value="">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">轮播图描述</label>
+                <div class="layui-input-block">
+                    <input type="text" name="carousel_info" id="carousel_info" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" placeholder="请输入轮播图描述" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">开始日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="start" id="start" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">结束日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="end" id="end" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">轮播图</label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" id="uploadIcon">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">预览</label>
+                <div class="layui-input-block">
+                    <img style="display: none" src="" id="priviewIcon">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="layui-row" id="popUpdate" style="display:none;">
+    <div class="layui-col-md10">
+        <form id="popform1" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <input style="display: none;" name="fileLocation1" id="fileLocation1" value="">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">轮播图编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="carousel_id" id="carousel_id" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" readonly="readonly" placeholder="请输入轮播图描述" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">轮播图描述</label>
+                <div class="layui-input-block">
+                    <input type="text" name="carousel_info1" id="carousel_info1" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" placeholder="请输入轮播图描述" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">开始日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="start1" id="start1" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">结束日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="end1" id="end1" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">轮播图</label>
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" id="uploadIcon1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">预览</label>
+                <div class="layui-input-block">
+                    <img style="display: none" src="" id="priviewIcon1">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:19891017;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;">
+        <img id="big" style="border:5px solid #fff;" src="" />
+    </div>
+</div>
 </body>
 </html>

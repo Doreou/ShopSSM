@@ -9,7 +9,7 @@ public class Admin {
     private String admin_email;
     private String admin_wechat;
     private String admin_password;
-    private String icon;
+    private String admin_icon;
     private String admin_type;
 
     public String getAdmin_id() {
@@ -76,12 +76,12 @@ public class Admin {
         this.admin_password = admin_password;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getAdmin_icon() {
+        return admin_icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setAdmin_icon(String admin_icon) {
+        this.admin_icon = admin_icon;
     }
 
     public String getAdmin_type() {

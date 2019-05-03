@@ -12,8 +12,36 @@ public class Applyer {
     private String conn_way;
     private String conn_type;
     private Date up_time;
+    private String apply_adm;
+    private String reply;
+    private String reply_title;
+
+    public String getReply_title() {
+        return reply_title;
+    }
+
+    public void setReply_title(String reply_title) {
+        this.reply_title = reply_title;
+    }
+
+    public String getApply_adm() {
+        return apply_adm;
+    }
+
+    public void setApply_adm(String apply_adm) {
+        this.apply_adm = apply_adm;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
 
     public Date getUp_time() {
+
         return up_time;
     }
 

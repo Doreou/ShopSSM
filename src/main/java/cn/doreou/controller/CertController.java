@@ -1,10 +1,10 @@
 package cn.doreou.controller;
 
-import cn.doreou.model.Cert;
-import cn.doreou.model.PojoToJson;
-import cn.doreou.model.User;
+import cn.doreou.model.*;
 import cn.doreou.service.AdminService;
 import cn.doreou.service.CertService;
+import cn.doreou.service.MessageService;
+import cn.doreou.service.UserService;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import sun.misc.BASE64Decoder;
 import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +30,12 @@ public class CertController {
     private CertService certService;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    HttpSession session;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("newcert")
     public String NewCert(HttpSession session, @RequestParam("name") String name,@RequestParam("cardnum") String id){
@@ -106,9 +113,9 @@ public class CertController {
 
     @RequestMapping("getAllCert")
     @ResponseBody
-    public Object gerAllCert(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List certList=adminService.getAllCert((start-1)*pageSize, pageSize);
-        int totalCount=adminService.getCertCount();
+    public Object getAllCert(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
+        List certList=certService.getAllCert((start-1)*pageSize, pageSize);
+        int totalCount=certService.getCertCount();
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,certList)));
         return jsonObject;
@@ -117,23 +124,67 @@ public class CertController {
     @RequestMapping("getOneCert")
     @ResponseBody
     public Object getOneCert(@RequestParam("certid") int cert_id){
-        List certInfo=adminService.getOneCert(cert_id);
+        List certInfo=certService.getOneCert(cert_id);
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",1,certInfo)));
         return jsonObject;
     }
     @RequestMapping("deleteCert")
-    @ResponseBody
-    public String deleteCert(@RequestParam("certid") int cert_id){
-        adminService.deleteCert(cert_id);
-        return "您已成功拒绝该用户的请求";
+    public String deleteCert(@RequestParam("certid") int cert_id,
+                             @RequestParam(value = "message_title",required = false,defaultValue = "null") String message_title,
+                             @RequestParam(value = "message_content",required = false,defaultValue = "null") String message_content,
+                             @RequestParam(value = "message_tip",required = false,defaultValue = "null") String message_tip,
+                             @RequestParam("reciever") String reciever){
+        Admin admin=(Admin) session.getAttribute("admin");
+        User user=userService.getById(reciever).get(0);
+        if(message_title.equals("null")&&message_content.equals("null")){
+            message_title="抱歉！您的申请被驳回";
+            message_content="您好！"+user.getUsername()+"，我们很遗憾的通知您，因为一些原因，我们无法认证您的身份。请检查您的身份信息并注意"+"\n"+"1.确保您的学号与学生证身份相对应。"+"\n"+"2.确保您上传的证件信息清晰规范。"+"\n"+"如需帮助，请通过网页下方联系方式联系我们，我们将竭诚为您服务!";
+        }
+        Message message=new Message();
+        message.setTip(message_tip);
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        message.setMessage_type("系统通知");
+        message.setMessage_content(message_content);
+        message.setMessage_title(message_title);
+        message.setSender(admin.getAdmin_id());
+        message.setReciever(reciever);
+        session.setAttribute("message",message);
+        certService.deleteCert(cert_id);
+        return "redirect:/Message/AutoSend";
     }
 
     @RequestMapping("updateCertStatus")
-    @ResponseBody
-    public String updateCertStatus(@RequestParam("certid") int cert_id){
-        adminService.updateCertStatus(cert_id);
-        return "操作完成";
+    public String updateCertStatus(@RequestParam("certid") int cert_id,
+                                   @RequestParam(value = "message_title",required = false,defaultValue = "null") String message_title,
+                                   @RequestParam(value = "message_content",required = false,defaultValue = "null") String message_content,
+                                   @RequestParam(value = "message_tip",required = false,defaultValue = "null") String message_tip,
+                                   @RequestParam("reciever") String reciever){
+        Date time=new Date();
+        Admin admin=(Admin) session.getAttribute("admin");
+        User user=userService.getById(reciever).get(0);
+        if(message_title.equals("null")&&message_content.equals("null")){
+            message_title="恭喜！您已通过认证";
+            message_content="您好！"+user.getUsername()+"，您已通过身份认证！同时请您规范社区行为，违规事件可能会导致您的身份认证被收回。希望您为我们的交易社区的和谐氛围贡献力量！";
+        }
+        Message message=new Message();
+        message.setTip(message_tip);
+        message.setSend_time(time);
+        message.setIsRead(0);
+        message.setMessage_type("系统通知");
+        message.setMessage_content(message_content);
+        message.setMessage_title(message_title);
+        message.setSender(admin.getAdmin_id());
+        message.setReciever(reciever);
+        session.setAttribute("message",message);
+        Cert cert=new Cert();
+        cert.setAdm_id(admin.getAdmin_id());
+        cert.setAdm_time(time);
+        cert.setCert_id(cert_id);
+        //0为未认证 1为已认证
+        certService.updateCertStatus(cert);
+        return "redirect:/Message/AutoSend";
     }
 
 

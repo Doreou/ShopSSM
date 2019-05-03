@@ -4,9 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.doreou.mapper.CertMapper">
     <insert id="insertNewCert" parameterType="cn.doreou.model.Cert">
-        insert into t_cert (user_id,up_time,user_name,cert_pic,status) values(#{user_id},#{up_time},#{username},#{cert_pic},#{status})
+        insert into t_cert (user_id,up_time,user_name,cert_pic,status) values(#{user_id},#{up_time},#{user_name},#{cert_pic},#{status})
     </insert>
     <select id="isExist" parameterType="STRING" resultType="cn.doreou.model.Cert">
         select * from t_cert where user_id=#{_parameter}
     </select>
+    <select id="getAllCert" resultType="cn.doreou.model.Cert">
+      select * from t_cert limit #{start},#{pageSize}
+    </select>
+    <select id="getCertCount" resultType="INT">
+      select count(*) from t_cert
+    </select>
+    <select id="getOneCert" parameterType="INT" resultType="cn.doreou.model.Cert">
+        select * from t_cert where cert_id=#{cert_id};
+    </select>
+    <delete id="deleteCert" parameterType="INT">
+        delete from t_cert where cert_id=#{cert_id}
+    </delete>
+    <update id="updateCertStatus" parameterType="cn.doreou.model.Cert">
+        update t_cert set status=1,adm_id=#{adm_id},adm_time=#{adm_time} where cert_id=#{cert_id}
+    </update>
 </mapper>

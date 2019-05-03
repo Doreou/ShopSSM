@@ -122,13 +122,11 @@ public class UserController {
             Date now = new Date();
             Date jointime = null;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println(sdf);
             try {
                 jointime=sdf.parse(sdf.format(now));
             }catch (ParseException e){
                 e.printStackTrace();
             }
-            System.out.println(jointime);
             user.setEmail(email);
             user.setPassword(password);
             user.setUser_id(stuid);

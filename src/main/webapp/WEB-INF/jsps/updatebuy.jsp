@@ -125,7 +125,7 @@
         <a href="/Order/searchbuybypage?page=1" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <span class="iconfont icon-icon"></span>
+                    <img style="width: 22px;height: 22px" src="<%=b.getIcon()%>">
                 </div>
                 <div class="title pull-left">
                     所有分类

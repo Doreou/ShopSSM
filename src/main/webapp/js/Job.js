@@ -25,7 +25,8 @@ layui.use('table', function () {
             , {field:'conn_type',title:'联系方式',width:100}
             , {field:'conn_way',title:'联系号码',width:100}
             , {field:'location',title:'所在位置',width:100}
-            , {field: 'adm_adm', title: '审核管理员ID', width: 100}
+            , {field: 'apply_adm', title: '审核管理员ID', width: 100}
+            , {field:'reply_title',title:'回复标题',width:100}
             , {field:'reply',title:'回复内容',width:100}
             , {field:'up_time',title:'申请时间',width:100,templet:function (d) {
                     var time=new Date(d.up_time);
@@ -47,7 +48,7 @@ layui.use('table', function () {
                     else if(d.status==1)
                         return "已通过";
                     else
-                        return "待定";
+                        return "已拒绝";
                 }
             }
             , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
@@ -62,57 +63,155 @@ layui.use('table', function () {
         var data = obj.data //获得当前行数据
             , layEvent = obj.event; //获得 lay-event 对应的值
         if (layEvent === 'detail') {
-            var certid=data.cert_id;
+            var id=data.apply_id;
             $.ajax({
                 type:'POST',
-                url:'/Cert/getOneCert?certid='+certid,
+                url:'/Admin/getOneApply?apply_id='+id,
                 success:function (msg) {
-                    $('#cert_id').val(certid);
+                    $('#apply_id').val(id);
                     $('#user_id').val(msg.data[0].user_id);
-                    $('#user_name').val(msg.data[0].user_name);
-                    $('#certPreview').attr('src',msg.data[0].cert_pic);
+                    $('#user_name').val(msg.data[0].name);
+                    $('#major').val(msg.data[0].major);
+                    $('#job').val(msg.data[0].job);
+                    $('#info').val(msg.data[0].info);
+                    $('#reply_title').val(msg.data[0].reply_title);
+                    $('#conn_num').val(msg.data[0].conn_way);
+                    $('#conn_type').val(msg.data[0].conn_type+"  |  "+msg.data[0].conn_way);
+                    $('#location').val(msg.data[0].location);
                     var time=new Date(msg.data[0].up_time);
-                    $('#time').val(time.toLocaleDateString());
+                    $('#up_time').val(time.toLocaleDateString());
                 }
             })
             layer.open({
                 type: 1,
-                title: "查看用户证明",
-                area: ['470px', '470px'],
-                content: $("#popCertInfo"),
-                btn: ['通过', '拒绝','暂不回复'],
+                title: "查看用户资料",
+                area: ['800px', '470px'],
+                content: $("#popApplyInfo"),
+                btn: ['查看回复信息', '通过','拒绝','暂不回复'],
                 yes:function () {
-                    layer.confirm('您将通过该用户的认证请求，请务必确认用户资料!', function (index) {
-                        layer.close(index);
-                        //向服务端发送删除指令
-                        $.ajax({
-                            type: 'post',
-                            url: '/Cert/updateCertStatus?certid=' + certid,
-                            success: function (msg) {
-                                obj.update({
-                                    status:1,
-                                });
-                                layer.closeAll();
-                                layer.msg(msg);
+                    if (data.apply_adm == "" || data.reply == "") {
+                        layer.msg("暂时没有回复信息");
+                    } else {
+                        var check_time=new Date(data.check_time);
+                        $("#id").val(data.apply_adm);
+                        $('#content').val(data.reply);
+                        $('#reply_time').val(check_time.toLocaleDateString());
+                        layer.open({
+                            type: 1,
+                            title: '回复信息',
+                            area: ['470px', '470px'],
+                            content: $('#popReplyInfo'),
+                            btn: ['确定'],
+                            yes: function (index) {
+                                layer.close(index);
                             }
-                        })
-                    });
+                        });
+                    }
                 },
-                btn2:function () {
-                    layer.confirm('您将拒绝该用户的认证请求，确定吗？', function (index) {
-                        obj.del(); //删除对应行（tr）的DOM结构
-                        layer.close(index);
-                        //向服务端发送删除指令
-                        $.ajax({
-                            type: 'post',
-                            url: '/Cert/deleteCert?certid=' + certid,
-                            success: function (msg) {
-                                layer.msg(msg);
-                            }
-                        })
-                    });
+                btn2:function(){
+                    if(data.apply_adm!=null){
+                        layer.msg("已回复!");
+                        return false;
+                    }
+                    layer.open({
+                        async:false,
+                        type:1,
+                        title:'提醒',
+                        content:'通过后，系统将自动向该用户发送通知，您也可以选择自定义通知',
+                        btn:['发送默认通知','自定义通知'],
+                        yes:function () {
+                            layer.confirm('确定通过吗？',function (index) {
+                                $.ajax({
+                                    type:'POST',
+                                    url:'/Admin/ApplyPass',
+                                    data:{apply_id:data.apply_id,reciever:data.user_id},
+                                    success:function (msg) {
+                                        layer.closeAll();
+                                        layer.msg(msg);
+                                    }
+                                })
+                            })
+                        },
+                        btn2:function () {
+                            layer.open({
+                                async:false,
+                                type:1,
+                                title:'自定义通知',
+                                content:$('#popMessage'),
+                                area:['455px','360px'],
+                                btn:["确定","取消"],
+                                yes:function () {
+                                    layer.confirm('确定通过吗？',function (index) {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/Admin/ApplyPass',
+                                            data:'apply_id='+data.apply_id+"&reciever="+data.user_id+"&message_title="+$('#message_title').val()+"&message_content="+$('#message_content').val()+"&message_tip="+$('#message_tip').val(),
+                                            success:function (msg) {
+                                                layer.closeAll();
+                                                layer.msg(msg);
+                                            }
+                                        })
+                                    })
+                                }
+
+                            })
+
+                        }
+                    })
                 },
                 btn3:function () {
+                    if(data.apply_adm!=null){
+                        layer.msg("已回复!");
+                        return false;
+                    }
+                    layer.open({
+                        async:false,
+                        type:1,
+                        title:'提醒',
+                        content:'拒绝后，系统将自动向该用户发送通知，您也可以选择自定义通知',
+                        btn:['发送默认通知','自定义通知'],
+                        yes:function () {
+                            layer.confirm('确定拒绝吗？',function (index) {
+                                $.ajax({
+                                    type:'POST',
+                                    url:'/Admin/ApplyRefused',
+                                    data:{apply_id:data.apply_id,reciever:data.user_id},
+                                    success:function (msg) {
+                                        layer.closeAll();
+                                        layer.msg(msg);
+                                    }
+                                })
+                            })
+                        },
+                        btn2:function () {
+                            layer.open({
+                                async:false,
+                                type:1,
+                                title:'自定义通知',
+                                content:$('#popMessage'),
+                                area:['455px','360px'],
+                                btn:["确定","取消"],
+                                yes:function () {
+                                    layer.confirm('确定拒绝吗？',function (index) {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/Admin/ApplyRefused',
+                                            data:'apply_id='+data.apply_id+"&reciever="+data.user_id+"&message_title="+$('#message_title').val()+"&message_content="+$('#message_content').val()+"&message_tip="+$('#message_tip').val(),
+                                            success:function (msg) {
+                                                layer.closeAll();
+                                                layer.msg(msg);
+                                            }
+                                        })
+                                    })
+                                }
+
+                            })
+
+                        }
+                    })
+                },
+                btn4:function () {
+
                     layer.msg("请在24小时内给予答复!");
                 }
             })

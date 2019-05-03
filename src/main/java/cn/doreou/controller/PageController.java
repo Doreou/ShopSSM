@@ -226,4 +226,35 @@ public class PageController {
         return "admin_login";
     }
 
+    @RequestMapping("admin_MessageCenter")
+    public String admin_MessageCenter(){
+        if(isLogin())
+            return "admin_MessageCenter";
+        else
+            return "admin_login";
+    }
+
+    @RequestMapping("admin_AdmList")
+    public String admin_AdmList(){
+        if(isLogin())
+            return "admin_AdmList";
+        else
+            return "admin_login";
+    }
+
+    @RequestMapping("admin_Register")
+    public String admin_Register(){
+        if(isLogin())
+            return "admin_Register";
+        else
+            return "admin_login";
+    }
+    @RequestMapping("admin_Report")
+    public String admin_Report(){
+        if(isLogin())
+            return "admin_Report";
+        else
+            return "admin_login";
+    }
+
 }
