@@ -1,3 +1,19 @@
+var permission = "";
+$.ajax({
+    type: 'POST',
+    url: '/Admin/getPermission',
+    success: function (msg) {
+        permission = msg.data[0].carousel_permission;
+    }
+})
+layui.use('form', function () {
+    var form = layui.form;
+    form.on('radio', function (data) {
+        $('#visible1').val(data.value);
+        $('#visible').val(data.value);
+    })
+
+});
 layui.use('element', function () {
     var element = layui.element;
 });
@@ -39,8 +55,8 @@ layui.use('table', function () {
             , limitName: 'nums' //每页数据量的参数名，默认：limit
         }
         , cols: [[ //表头
-            {field: 'carousel_id', title: 'ID', width: 80, sort: true, fixed: 'left'}
-            , {field: 'carousel_pic', title: '轮播图', width: 130,templet:'<div><button onclick="Show(this);" class="layui-btn layui-btn-normal" id="table_button">点击查看<img style="display: none" src="{{d.carousel_pic}}"></button></div>'}
+            {field: 'carousel_id',style:'height:38px', title: 'ID', width: 80, sort: true}
+            , {field: 'carousel_pic',style:'height:38px', title: '轮播图', width: 130,templet:'<div><button onclick="Show(this);" class="layui-btn layui-btn-normal" id="table_button">点击查看<img style="display: none" src="{{d.carousel_pic}}"></button></div>'}
             , {field: 'carousel_info', title: '轮播图描述', width: 100}
             , {field: 'carousel_start', title: '开始时间', width: 100,templet:function (d) {
                     var time=new Date(d.carousel_start);
@@ -63,94 +79,116 @@ layui.use('table', function () {
             , type: 'asc'
         }
     });
-    table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        var data = obj.data //获得当前行数据
-            , layEvent = obj.event; //获得 lay-event 对应的值
-        if (layEvent === 'detail') {
-            layer.msg('查看操作');
-        }else if (layEvent === 'del') {
-            layer.confirm('确定删除已轮播图？', function (index) {
-                obj.del(); //删除对应行（tr）的DOM结构
-                layer.close(index);
-                //向服务端发送删除指令
-                $.ajax({
-                    type: 'post',
-                    url: '/Admin/deleteCarousel?carousel_id=' + data.carousel_id,
-                    success: function (msg) {
-                        layer.msg(msg);
-                    }
-
-                })
-            });
-        } else if (layEvent === 'edit') {
-            $('#carousel_id').val(data.carousel_id);
-            layer.open({
-                type: 1,
-                title: "修改分类信息",
-                area: ['450px', '330px'],
-                content: $("#popUpdate"),
-                btn: ['确定', '重置'],
-                yes: function () {
-                    //异步修改
-
+    if(permission==1) {
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                layer.msg('查看操作');
+            } else if (layEvent === 'del') {
+                layer.confirm('确定删除已轮播图？', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                    //向服务端发送删除指令
                     $.ajax({
                         type: 'post',
-                        url: '/Admin/updateCarousel',
-                        data: $('#popform1').serialize(),
+                        url: '/Admin/deleteCarousel?carousel_id=' + data.carousel_id,
                         success: function (msg) {
-                            layer.closeAll();
                             layer.msg(msg);
-                            obj.update({
-
-                            });
                         }
+
                     })
-                },
-                btn2: function () {
-                    $('#carousel_info').val("");
-                    $('#start').val("");
-                    $("#end").val("");
-                    $("#fileLocation").val("");
-                    $("#priviewIcon").attr("src","");
-                    //禁止图层关闭
-                    return false;
-                }
-            });
+                });
+            } else if (layEvent === 'edit') {
+                //修改前显示旧信息
+                $('#carousel_id').val(data.carousel_id);
+                $('#carousel_info1').val(data.carousel_info);
+                $('#start1').val(data.carousel_start);
+                $('#end1').val(data.carousel_end);
+                $('#priviewIcon1').attr('src',data.carousel_pic);
+                $('#fileLocation1').val(data.carousel_pic);
+                layui.use('form',function () {
+                    var form = layui.form;
+                    if(data.carousel_visible==1){
+                        $("input[name='classify'][value='可见']").attr("checked",'true');
+                        $('#visible1').val("可见");
+                    }else {
+                        $("input[name='classify'][value='不可见']").attr("checked",'true');
+                        $('#visible1').val("不可见");
+                    }
+                    form.render();
+                });
+                layer.open({
+                    type: 1,
+                    title: "修改分类信息",
+                    area: ['800px', '700px'],
+                    content: $("#popUpdate"),
+                    btn: ['确定', '重置'],
+                    yes: function () {
+                        //异步修改
+                        $.ajax({
+                            type: 'post',
+                            url: '/Admin/updateCarousel',
+                            data: $('#popform1').serialize(),
+                            success: function (msg) {
+                                layer.closeAll();
+                                layer.msg(msg);
+                                obj.update({});
+                            }
+                        })
+                    },
+                    btn2: function () {
+                        $('#carousel_info').val("");
+                        $('#start').val("");
+                        $("#end").val("");
+                        $("#fileLocation").val("");
+                        $("#priviewIcon").attr("src", "");
+                        //禁止图层关闭
+                        return false;
+                    }
+                });
 
-        }
-    });
+            }
+        });
+    }else {
+        layer.msg('您仅有查看权限');
 
+    }
 })
 
 function addNewCarousel() {
-    layer.open({
-        type:1,
-        title:'添加轮播图',
-        area: ['450px', '330px'],
-        content: $("#popInsert"),
-        btn: ['确定', '重置'],
-        yes:function () {
-            $.ajax({
-                type:'POST',
-                url:'/Admin/addNewCarousel',
-                data:'info='+$('#carousel_info').val()+"&start="+$('#start').val()+
-                "&end="+$('#end').val()+"&fileLocation="+$('#fileLocation').val(),
-                success:function (msg) {
-                    layer.closeAll();
-                    layer.msg(msg+"请刷新后查看");
-                }
-            })
-        },
-        btn2:function () {
-            $('#carousel_info').val("");
-            $('#start').val("");
-            $("#end").val("");
-            $("#fileLocation").val("");
-            $("#priviewIcon").attr("src","");
-            return false;
-        }
+    if(permission==1) {
+        layer.open({
+            type: 1,
+            title: '添加轮播图',
+            area: ['450px', '330px'],
+            content: $("#popInsert"),
+            btn: ['确定', '重置'],
+            yes: function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/addNewCarousel',
+                    data: 'info=' + $('#carousel_info').val() + "&start=" + $('#start').val() +
+                    "&end=" + $('#end').val() +"&visible="+$('#visible').val()+ "&fileLocation=" + $('#fileLocation').val(),
+                    success: function (msg) {
+                        layer.closeAll();
+                        layer.msg(msg + "请刷新后查看");
+                    }
+                })
+            },
+            btn2: function () {
+                $('#carousel_info').val("");
+                $('#start').val("");
+                $("#end").val("");
+                $("#fileLocation").val("");
+                $("#priviewIcon").attr("src", "");
+                return false;
+            }
 
-    })
+        })
+    }else {
+        layer.msg('您无权进行此操作');
+    }
 }
 layui.use('upload', function(){
     var upload = layui.upload;

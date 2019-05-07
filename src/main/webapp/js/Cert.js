@@ -1,3 +1,11 @@
+var permission = "";
+$.ajax({
+    type: 'POST',
+    url: '/Admin/getPermission',
+    success: function (msg) {
+        permission = msg.data[0].cert_permission;
+    }
+})
 layui.use('element', function () {
     var element = layui.element;
 });
@@ -57,149 +65,153 @@ layui.use('table', function () {
         }
 
     });
-    table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        var data = obj.data //获得当前行数据
-            , layEvent = obj.event; //获得 lay-event 对应的值
-        if (layEvent === 'detail') {
-            var certid=data.cert_id;
-            $.ajax({
-                type:'POST',
-                url:'/Cert/getOneCert?certid='+certid,
-                success:function (msg) {
-                    $('#cert_id').val(certid);
-                    $('#user_id').val(msg.data[0].user_id);
-                    $('#user_name').val(msg.data[0].user_name);
-                    $('#certPreview').attr('src',msg.data[0].cert_pic);
-                    var time=new Date(msg.data[0].up_time);
-                    $('#time').val(time.toLocaleDateString());
-                }
-            })
-            layer.open({
-                type: 1,
-                title: "查看用户证明",
-                area: ['470px', '470px'],
-                content: $("#popCertInfo"),
-                btn: ['通过', '拒绝','暂不回复'],
-                yes:function () {
-                    if(data.adm_id!=null){
-                        layer.msg("已回复");
-                        return false;
+    if(permission==1) {
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'detail') {
+                var certid = data.cert_id;
+                $.ajax({
+                    type: 'POST',
+                    url: '/Cert/getOneCert?certid=' + certid,
+                    success: function (msg) {
+                        $('#cert_id').val(certid);
+                        $('#user_id').val(msg.data[0].user_id);
+                        $('#user_name').val(msg.data[0].user_name);
+                        $('#certPreview').attr('src', msg.data[0].cert_pic);
+                        var time = new Date(msg.data[0].up_time);
+                        $('#time').val(time.toLocaleDateString());
                     }
-                    layer.open({
-                        type:1,
-                        title:'提醒',
-                        content:'通过后，系统将自动向该用户发送通知，您也可以选择自定义通知',
-                        btn:['发送默认通知','自定义通知'],
-                        yes:function () {
-                            layer.confirm('您将通过该用户的认证请求，请务必确认用户资料!', function (index) {
-                                layer.close(index);
-                                //向服务端发送删除指令
-                                $.ajax({
-                                    type: 'post',
-                                    url: '/Cert/updateCertStatus?certid=' + certid,
-                                    data:'reciever='+data.user_id,
-                                    success: function (msg) {
-                                        obj.update({
-                                            status:1,
+                })
+                layer.open({
+                    type: 1,
+                    title: "查看用户证明",
+                    area: ['470px', '470px'],
+                    content: $("#popCertInfo"),
+                    btn: ['通过', '拒绝', '暂不回复'],
+                    yes: function () {
+                        if (data.adm_id != null) {
+                            layer.msg("已回复");
+                            return false;
+                        }
+                        layer.open({
+                            type: 1,
+                            title: '提醒',
+                            content: '通过后，系统将自动向该用户发送通知，您也可以选择自定义通知',
+                            btn: ['发送默认通知', '自定义通知'],
+                            yes: function () {
+                                layer.confirm('您将通过该用户的认证请求，请务必确认用户资料!', function (index) {
+                                    layer.close(index);
+                                    //向服务端发送删除指令
+                                    $.ajax({
+                                        type: 'post',
+                                        url: '/Cert/updateCertStatus?certid=' + certid,
+                                        data: 'reciever=' + data.user_id,
+                                        success: function (msg) {
+                                            obj.update({
+                                                status: 1,
+                                            });
+                                            layer.closeAll();
+                                            layer.msg(msg);
+                                        }
+                                    })
+                                });
+                            },
+                            btn2: function () {
+                                layer.open({
+                                    async: false,
+                                    type: 1,
+                                    title: '自定义通知',
+                                    content: $('#popMessage'),
+                                    area: ['455px', '360px'],
+                                    btn: ["确定", "取消"],
+                                    yes: function () {
+                                        layer.confirm('您将通过该用户的认证请求，请务必确认用户资料!', function (index) {
+                                            layer.close(index);
+                                            //向服务端发送删除指令
+                                            $.ajax({
+                                                type: 'post',
+                                                url: '/Cert/updateCertStatus?certid=' + certid,
+                                                data: "message_title=" + $('#message_title').val() + "&message_content=" + $('#message_content').val() + "&message_tip=" + $('#message_tip').val() + "&reciever=" + data.user_id,
+                                                success: function (msg) {
+                                                    obj.update({
+                                                        status: 1,
+                                                    });
+                                                    layer.closeAll();
+                                                    layer.msg(msg);
+                                                }
+                                            })
                                         });
-                                        layer.closeAll();
-                                        layer.msg(msg);
                                     }
                                 })
-                            });
-                        },
-                        btn2:function () {
-                            layer.open({
-                                async:false,
-                                type:1,
-                                title:'自定义通知',
-                                content:$('#popMessage'),
-                                area:['455px','360px'],
-                                btn:["确定","取消"],
-                                yes:function () {
-                                    layer.confirm('您将通过该用户的认证请求，请务必确认用户资料!', function (index) {
-                                        layer.close(index);
-                                        //向服务端发送删除指令
-                                        $.ajax({
-                                            type: 'post',
-                                            url: '/Cert/updateCertStatus?certid=' + certid,
-                                            data:"message_title="+$('#message_title').val()+"&message_content="+$('#message_content').val()+"&message_tip="+$('#message_tip').val()+"&reciever="+data.user_id,
-                                            success: function (msg) {
-                                                obj.update({
-                                                    status:1,
-                                                });
-                                                layer.closeAll();
-                                                layer.msg(msg);
-                                            }
-                                        })
-                                    });
-                                }
-                            })
+                            }
+                        })
+                    },
+                    btn2: function () {
+                        if (data.adm_id != null) {
+                            layer.msg("已回复");
+                            return false;
                         }
-                    })
-                },
-                btn2:function () {
-                    if(data.adm_id!=null){
-                        layer.msg("已回复");
-                        return false;
-                    }
-                    layer.open({
-                        type:1,
-                        title:'提醒',
-                        content:'拒绝后，系统将自动向该用户发送通知，您也可以选择自定义通知',
-                        btn:['发送默认通知','自定义通知'],
-                        yes:function () {
-                            layer.confirm('您将拒绝该用户的认证请求，确定吗？', function (index) {
-                                obj.del(); //删除对应行（tr）的DOM结构
-                                layer.close(index);
-                                //向服务端发送删除指令
-                                $.ajax({
-                                    type: 'post',
-                                    url: '/Cert/deleteCert?certid=' + certid,
-                                    data:'reciever='+data.user_id,
-                                    success: function (msg) {
-                                        layer.msg(msg);
+                        layer.open({
+                            type: 1,
+                            title: '提醒',
+                            content: '拒绝后，系统将自动向该用户发送通知，您也可以选择自定义通知',
+                            btn: ['发送默认通知', '自定义通知'],
+                            yes: function () {
+                                layer.confirm('您将拒绝该用户的认证请求，确定吗？', function (index) {
+                                    obj.del(); //删除对应行（tr）的DOM结构
+                                    layer.close(index);
+                                    //向服务端发送删除指令
+                                    $.ajax({
+                                        type: 'post',
+                                        url: '/Cert/deleteCert?certid=' + certid,
+                                        data: 'reciever=' + data.user_id,
+                                        success: function (msg) {
+                                            layer.msg(msg);
+                                        }
+                                    })
+                                });
+                            },
+                            btn2: function () {
+                                layer.open({
+                                    async: false,
+                                    type: 1,
+                                    title: '自定义通知',
+                                    content: $('#popMessage'),
+                                    area: ['455px', '360px'],
+                                    btn: ["确定", "取消"],
+                                    yes: function () {
+                                        layer.confirm('您将拒绝该用户的认证请求，确定吗？', function (index) {
+                                            obj.del(); //删除对应行（tr）的DOM结构
+                                            layer.close(index);
+                                            //向服务端发送删除指令
+                                            $.ajax({
+                                                type: 'post',
+                                                url: '/Cert/deleteCert?certid=' + certid,
+                                                data: "message_title=" + $('#message_title').val() + "&message_content=" + $('#message_content').val() + "&message_tip=" + $('#message_tip').val() + "&reciever=" + data.user_id,
+                                                success: function (msg) {
+                                                    layer.msg(msg);
+                                                }
+                                            })
+                                        });
                                     }
                                 })
-                            });
-                        },
-                        btn2:function () {
-                            layer.open({
-                                async:false,
-                                type:1,
-                                title:'自定义通知',
-                                content:$('#popMessage'),
-                                area:['455px','360px'],
-                                btn:["确定","取消"],
-                                yes:function () {
-                                    layer.confirm('您将拒绝该用户的认证请求，确定吗？', function (index) {
-                                        obj.del(); //删除对应行（tr）的DOM结构
-                                        layer.close(index);
-                                        //向服务端发送删除指令
-                                        $.ajax({
-                                            type: 'post',
-                                            url: '/Cert/deleteCert?certid=' + certid,
-                                            data:"message_title="+$('#message_title').val()+"&message_content="+$('#message_content').val()+"&message_tip="+$('#message_tip').val()+"&reciever="+data.user_id,
-                                            success: function (msg) {
-                                                layer.msg(msg);
-                                            }
-                                        })
-                                    });
-                                }
-                            })
+                            }
+                        })
+                    },
+                    btn3: function () {
+                        if (data.adm_id != null) {
+                            layer.msg("已回复");
+                            return false;
                         }
-                    })
-                },
-                btn3:function () {
-                    if(data.adm_id!=null){
-                        layer.msg("已回复");
-                        return false;
+                        layer.msg("请在24小时内给予答复!");
                     }
-                    layer.msg("请在24小时内给予答复!");
-                }
-            })
-        }
-    });
+                })
+            }
+        });
+    }else {
+        layer.msg('您仅有查看权限');
+    }
 });
 function Show(param){
     var _this=$(param).find("img");

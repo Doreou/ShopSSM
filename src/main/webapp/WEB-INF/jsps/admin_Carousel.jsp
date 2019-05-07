@@ -13,6 +13,11 @@
     <title>轮播图管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
+<style>
+    .laytable-cell-1-0-1{
+        height: 38px;
+    }
+</style>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -34,8 +39,8 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    <img src="${admin.admin_icon}" class="layui-nav-img">
+                    ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -139,6 +144,14 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">可见性</label>
+                <div class="layui-input-block">
+                    <input type="radio"  name="classify" value="可见" title="可见">
+                    <input type="radio"  name="classify" value="不可见" title="不可见">
+                    <input id="visible" name="visible" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 125px">轮播图</label>
                 <div class="layui-input-block">
                     <button type="button" class="layui-btn" id="uploadIcon">
@@ -188,6 +201,14 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">可见性</label>
+                <div class="layui-input-block">
+                    <input type="radio" id="kejain" name="classify" value="可见" title="可见">
+                    <input type="radio" id="bukejian" name="classify" value="不可见" title="不可见">
+                    <input id="visible1" name="visible1" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 125px">轮播图</label>
                 <div class="layui-input-block">
                     <button type="button" class="layui-btn" id="uploadIcon1">
@@ -198,7 +219,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 125px">预览</label>
                 <div class="layui-input-block">
-                    <img style="display: none" src="" id="priviewIcon1">
+                    <img style="" src="" id="priviewIcon1">
                 </div>
             </div>
         </form>

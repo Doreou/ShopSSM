@@ -35,8 +35,8 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    <img src="${admin.admin_icon}" class="layui-nav-img">
+                    ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -164,21 +164,7 @@
 <script src="/js/layer.js"></script>
 <script src="/js/Message.js"></script>
 <script>
-    $('#sendMessage').on('click',function () {
-        alert($('#sendTime').val());
-        $.ajax({
-            type:'POST',
-            url:'/Message/sendMessageToOne',
-            data:{messageTitle:$('#messageTitle').val().toString(),messageContent:$('#messageContent').val(),reciever:$('#reciever').val().toString(),sendTime:$('#sendTime').val()},
-            success:function (msg) {
-                if(msg=='发送成功'){
-                    layer.msg(msg);
-                }else{
-                    layer.msg("发送未完成");
-                }
-            }
-        })
-    })
+
 </script>
 </body>
 </html>

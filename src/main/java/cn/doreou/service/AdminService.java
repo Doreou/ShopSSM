@@ -29,4 +29,14 @@ public interface AdminService {
     void addNewCarousel(Carousel carousel);
     void deleteCarousel(int carousel_id);
     void updateCarousel(Carousel carousel);
+    void updateAdminInfo(Admin admin);
+    List<AdminType> getPermission(String type);
+    int getUserCountOfMan();
+    int getUserCountOfWoman();
+    int getUserCountOfNoRecord();
+    List<User> getAllUserInfo(int start,int pageSize);
+    int getAllUserInfoOfCount();
+    List<AdminType> getAllAdminTypePage(int start,int pageSize);
+    int getAllCountOfAdminType();
+    void updatePermission(AdminType adminType);
 }

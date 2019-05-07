@@ -126,6 +126,9 @@
     <update id="AlreadyRead" parameterType="INT">
         update t_message set isRead=#{status} where message_id=#{message_id}
     </update>
+    <select id="getAllCarousel" resultType="cn.doreou.model.Carousel">
+        select * from t_carousel where carousel_visible=1
+    </select>
 
 
 </mapper>

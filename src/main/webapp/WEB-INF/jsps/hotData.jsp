@@ -1,20 +1,19 @@
 <%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/4/27
-  Time: 11:26
+  Date: 2019/5/6
+  Time: 16:30
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>消息中心</title>
-    <%----%>
+    <title>数据分析</title>
     <link rel="stylesheet" href="/css/layui.css">
-    <link rel="stylesheet" href="/css/layer.css">
 </head>
+<script src="/js/jquery.js"></script>
+<script src="/layui.js"></script>
+<script src="/js/echarts.min.js"></script>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -40,7 +39,7 @@
                     ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="/Page/admin_info">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
@@ -68,7 +67,7 @@
                             <dl class="layui-nav-child">
                                 <dd><a href="/Page/admin_MessageToUser">&ensp;&ensp;向个人用户发送</a></dd>
                                 <dd><a href="/Page/admin_MessageToAll">&ensp;&ensp;向全服发送</a></dd>
-                                <dd class="layui-this"><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
+                                <dd><a href="/Page/admin_MessageCenter">&ensp;消息管理</a></dd>
                             </dl>
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
@@ -82,9 +81,9 @@
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">数据分析</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户数据</a></dd>
-                        <dd><a href="javascript:;">图书数据</a></dd>
-                        <dd><a href="javascript;">热度数据</a></dd>
+                        <dd><a href="/Page/userData">用户数据</a></dd>
+                        <dd><a href="/Page/bookData">图书数据</a></dd>
+                        <dd class="layui-this"><a href="/Page/hotData">热度数据</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
@@ -98,7 +97,8 @@
     </div>
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <table id="demo" lay-filter="test"></table>
+        <div id="chartline" style="width:50%; height: 400px;"></div>
+        <div id="chartpie" style="width:100%; height: 400px;"></div>
     </div>
 
     <div class="layui-footer">
@@ -106,12 +106,5 @@
         © localhost:8080 - 校园二手书交易平台
     </div>
 </div>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">撤回</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-</script>
-<script src="/js/jquery.js"></script>
-<script src="/layui.js"></script>
-<script src="/js/Message.js"></script>
 </body>
-</html>
+<script src="/js/hotData.js"></script>

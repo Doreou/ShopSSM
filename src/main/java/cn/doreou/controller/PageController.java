@@ -1,10 +1,7 @@
 package cn.doreou.controller;
 
 
-import cn.doreou.model.Book;
-import cn.doreou.model.GoodAndUser;
-import cn.doreou.model.Goods;
-import cn.doreou.model.User;
+import cn.doreou.model.*;
 import cn.doreou.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +50,8 @@ public class PageController {
         session.setAttribute("userinfo",goodAndUsers);
         List<Book> bookList=bookService.getAllSubject();
         session.setAttribute("AllSubject",bookList);
+        List<Carousel> CarouselList=orderService.getAllCarousel();
+        session.setAttribute("Carousel",CarouselList);
         return "buy";
     }
 //    出售二手
@@ -180,44 +179,56 @@ public class PageController {
         return true;
     }
     @RequestMapping("admin_Subject")
-    public String Admin_Subject(){
-        if(isLogin())
+    public String Admin_Subject(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_Subject";
+        }
         else
             return "admin_login";
     }
     @RequestMapping("admin_Carousel")
-    public String Admin_Carousel(){
-        if(isLogin())
+    public String Admin_Carousel(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_Carousel";
+        }
         else
             return "admin_login";
     }
     @RequestMapping("admin_Job")
-    public String Admin_Job(){
-        if(isLogin())
+    public String Admin_Job(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_Job";
+        }
         else
             return "admin_login";
     }
     @RequestMapping("admin_Cert")
-    public String Admin_Cert(){
-        if(isLogin())
+    public String Admin_Cert(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_Cert";
+        }
         else
             return "admin_login";
     }
     @RequestMapping("admin_MessageToUser")
-    public String admin_MessageToUser(){
-        if(isLogin())
+    public String admin_MessageToUser(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_MessageToUser";
+        }
         else
             return "admin_login";
     }
     @RequestMapping("admin_MessageToAll")
-    public String admin_MessageToAll(){
-        if(isLogin())
+    public String admin_MessageToAll(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin", (Admin) session.getAttribute("admin"));
             return "admin_MessageToAll";
+        }
         else
             return "admin_login";
     }
@@ -227,32 +238,95 @@ public class PageController {
     }
 
     @RequestMapping("admin_MessageCenter")
-    public String admin_MessageCenter(){
-        if(isLogin())
+    public String admin_MessageCenter(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_MessageCenter";
+        }
         else
             return "admin_login";
     }
 
     @RequestMapping("admin_AdmList")
-    public String admin_AdmList(){
-        if(isLogin())
+    public String admin_AdmList(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin", (Admin) session.getAttribute("admin"));
             return "admin_AdmList";
+        }
         else
             return "admin_login";
     }
 
     @RequestMapping("admin_Register")
-    public String admin_Register(){
-        if(isLogin())
+    public String admin_Register(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_Register";
+        }
         else
             return "admin_login";
     }
     @RequestMapping("admin_Report")
-    public String admin_Report(){
-        if(isLogin())
+    public String admin_Report(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
             return "admin_Report";
+        }
+        else
+            return "admin_login";
+    }
+    @RequestMapping("admin_info")
+    public String admin_info(Model model){
+        if(isLogin()){
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "admin_info";
+
+        }else{
+            return "admin_login";
+        }
+    }
+    @RequestMapping("bookData")
+    public String bookDataAnalysis(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "bookData";
+        }
+        else
+            return "admin_login";
+    }
+    @RequestMapping("userData")
+    public String userDataAnalysis(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "userData";
+        }
+        else
+            return "admin_login";
+    }
+    @RequestMapping("hotData")
+    public String hotDataAnalysis(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "hotData";
+        }
+        else
+            return "admin_login";
+    }
+    @RequestMapping("admin_userinfo")
+    public String userInfo(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "admin_userinfo";
+        }
+        else
+            return "admin_login";
+    }
+    @RequestMapping("admin_Permission")
+    public String Permission(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "admin_Permission";
+        }
         else
             return "admin_login";
     }

@@ -1,5 +1,6 @@
 package cn.doreou.service;
 
+import cn.doreou.model.Carousel;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.model.Message;
@@ -41,4 +42,5 @@ public interface OrderService {
     boolean isCollected(String userid,int goods_id);
     List<Message> getMyNews(String user_id);
     void AlreadyRead(int message_id,int status);
+    List<Carousel> getAllCarousel();
 }

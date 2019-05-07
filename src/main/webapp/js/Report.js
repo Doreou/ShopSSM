@@ -16,12 +16,12 @@ layui.use('table', function () {
             , limitName: 'nums' //每页数据量的参数名，默认：limit
         }
         , cols: [[ //表头
-            {field: 'report_id', title: 'ID', width: 80, sort: true, fixed: 'left'}
+            {field: 'report_id', style:'height:38px',title: 'ID', width: 80, sort: true}
             , {field: 'report_userid', title: '举报人', width: 100}
             , {field: 'report_content', title: '举报理由', width: 200}
             , {field: 'report_type', title: '举报类型', width: 100}
             , {field: 'bereported_goodsid', title: '被举报商品', width: 100}
-            , {field: 'report_pic', title: '证据', width: 150,templet:'<div><button onclick="Show(this);" class="layui-btn layui-btn-normal" id="table_button">点击查看<img style="display: none" src="{{d.report_pic}}"></button></div>',align:'center'}
+            , {field: 'report_pic',style:'height:38px', title: '证明', width: 150,templet:'<div><button onclick="Show(this);" class="layui-btn layui-btn-normal" id="table_button">点击查看<img style="display: none" src="{{d.report_pic}}"></button></div>',align:'center'}
             , {field: 'bereported_userid', title: '被举报人', width: 100}
             , {field: 'report_time', title: '举报时间', width: 100,templet:function (d) {
                     var time=new Date(d.report_time);

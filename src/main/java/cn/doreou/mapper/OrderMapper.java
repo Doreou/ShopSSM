@@ -1,9 +1,6 @@
 package cn.doreou.mapper;
 
-import cn.doreou.model.GoodAndUser;
-import cn.doreou.model.Goods;
-import cn.doreou.model.Message;
-import cn.doreou.model.User;
+import cn.doreou.model.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,4 +66,6 @@ public interface OrderMapper {
     //消息
     List<Message> getMyNews(@Param("user_id") String user_id);
     void AlreadyRead(@Param("message_id") int Message_id, @Param("status") int status);
+
+    List<Carousel> getAllCarousel();
 }

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/4/20
-  Time: 10:20
+  Date: 2019/5/7
+  Time: 15:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>轮播图管理</title>
+    <title>图书分类管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
 <body class="layui-layout-body">
@@ -25,9 +25,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
+                    <dd class="layui-this"><a href="/Page/admin_Permission">授权管理</a></dd>
                 </dl>
             </li>
         </ul>
@@ -38,7 +36,7 @@
                     ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="/Page/admin_info">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
@@ -70,7 +68,7 @@
                             </dl>
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
-                        <dd class="layui-this"><a href="/Page/admin_Cert">认证申请列表</a></dd>
+                        <dd><a href="/Page/admin_Cert">认证申请列表</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">查询系统</a>
@@ -80,9 +78,9 @@
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">数据分析</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户数据</a></dd>
-                        <dd><a href="javascript:;">图书数据</a></dd>
-                        <dd><a href="javascript;">热度数据</a></dd>
+                        <dd><a href="/Page/userData">用户数据</a></dd>
+                        <dd><a href="/Page/bookData">图书数据</a></dd>
+                        <dd><a href="/Page/hotData">热度数据</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
@@ -94,10 +92,10 @@
             </ul>
         </div>
     </div>
+
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
-
     </div>
 
     <div class="layui-footer">
@@ -106,82 +104,105 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">更新权限</a>
 </script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
-<script src="/js/Cert.js"></script>
-<div class="layui-row" id="popCertInfo" style="display:none;">
+<script src="/js/Permission.js"></script>
+<div class="layui-row" id="popUpdate" style="display:none;">
     <div class="layui-col-md10">
         <form id="popform" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <input id="id" name="id" style="display: none;" value="">
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">认证编号</label>
+                <label class="layui-form-label" style="width: 125px">类型</label>
                 <div class="layui-input-block">
-                    <input type="text" name="cert_id" id="cert_id" style="width: 200px" required
-                           lay-verify="required" readonly="readonly" autocomplete="off" placeholder="" class="layui-input">
+                    <input type="text" name="type" id="type" style="width: 200px" required
+                           lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">用户ID</label>
-                <div class="layui-input-block">
-                    <input type="text" name="user_id" id="user_id" style="width: 200px" required lay-verify="required"
-                           autocomplete="off" readonly="readonly" placeholder="" class="layui-input">
+                <label class="layui-form-label" style="width: 125px">用户管理权</label>
+                <div class="layui-input-block" >
+                    <input type="radio" lay-filter="user" name="user" value="开启" title="开启">
+                    <input type="radio" lay-filter="user" name="user" value="关闭" title="关闭">
+                    <input id="userstatus" name="userstatus" value="" style="display: none">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">用户姓名</label>
+                <label class="layui-form-label" style="width: 125px">轮播图管理权</label>
                 <div class="layui-input-block">
-                    <input type="text" name="user_name" id="user_name" style="width: 200px" required lay-verify="required"
-                           autocomplete="off" readonly="readonly" placeholder="" class="layui-input">
+                    <input type="radio" lay-filter="carousel" name="carousel" value="开启" title="开启">
+                    <input type="radio" lay-filter="carousel" name="carousel" value="关闭" title="关闭">
+                    <input id="carouselstatus" name="carouselstatus" value="" style="display: none">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">用户提交日期</label>
+                <label class="layui-form-label" style="width: 125px">科目管理权</label>
                 <div class="layui-input-block">
-                    <input type="text" name="time" id="time" style="width: 200px" required lay-verify="required"
-                           autocomplete="off" readonly="readonly" placeholder="" class="layui-input">
+                    <input type="radio" lay-filter="subject" name="subject" value="开启" title="开启">
+                    <input type="radio" lay-filter="subject" name="subject" value="关闭" title="关闭">
+                    <input id="subjectstatus" name="subjectstatus" value="" style="display: none">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">证件信息</label>
+                <label class="layui-form-label" style="width: 125px">消息管理权</label>
                 <div class="layui-input-block">
-                    <img style="" src="" id="certPreview">
+                    <input type="radio" lay-filter="message"  name="message" value="开启" title="开启">
+                    <input type="radio" lay-filter="message" name="message" value="关闭" title="关闭">
+                    <input id="messagestatus" name="messagestatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">发送消息权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="sendmsg" name="sendmsg" value="开启" title="开启">
+                    <input type="radio" lay-filter="sendmsg" name="sendmsg" value="关闭" title="关闭">
+                    <input id="sendmsgstatus" name="sendmsgstatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">认证权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="cert"  name="cert" value="开启" title="开启">
+                    <input type="radio" lay-filter="cert" name="cert" value="关闭" title="关闭">
+                    <input id="certstatus" name="certstatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">兼职管理权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="job" name="job" value="开启" title="开启">
+                    <input type="radio" lay-filter="job" name="job" value="关闭" title="关闭">
+                    <input id="jobstatus" name="jobstatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">管理员管理权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="adm" name="adm" value="开启" title="开启">
+                    <input type="radio" lay-filter="adm" name="adm" value="关闭" title="关闭">
+                    <input id="admstatus" name="admstatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">举报管理权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="report" name="report" value="开启" title="开启">
+                    <input type="radio" lay-filter="report" name="report" value="关闭" title="关闭">
+                    <input id="reportstatus" name="reportstatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">权限管理权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="permission" name="permission" value="开启" title="开启">
+                    <input type="radio" lay-filter="permission" name="permission" value="关闭" title="关闭">
+                    <input id="permissionstatus" name="permissionstatus" value="" style="display: none">
                 </div>
             </div>
         </form>
     </div>
 </div>
-<div class="layui-row" id="popMessage" style="display:none;">
-    <div class="layui-col-md10">
-        <form id="popform2" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">消息标题</label>
-                <div class="layui-input-block">
-                    <input type="text" name="message_title" id="message_title" style="width: 200px" required lay-verify="required"
-                           autocomplete="off"  placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">消息内容</label>
-                <div class="layui-input-block">
-                    <textarea type="text" name="message_content" id="message_content" style="width: 200px" required lay-verify="required"
-                              autocomplete="off"  placeholder="" class="layui-input"></textarea>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">备注</label>
-                <div class="layui-input-block">
-                    <textarea type="text" name="message_tip" id="message_tip" style="width: 200px" required lay-verify="required"
-                              autocomplete="off" placeholder="" class="layui-input"></textarea>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:19891017;width:100%;height:100%;display:none;">
-    <div id="innerdiv" style="position:absolute;">
-        <img id="big" style="border:5px solid #fff;" src="" />
-    </div>
-</div>
+
 </body>
 </html>

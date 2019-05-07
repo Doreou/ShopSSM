@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/layer.css">
     <style>
-        span{
+        .layui-form-checkbox[lay-skin=primary]{
             height: 24px !important;
         }
     </style>
@@ -41,8 +41,8 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    <img src="${admin.admin_icon}" class="layui-nav-img">
+                    ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit id="sendMessage">确认发送</button>
+                                        <button class="layui-btn" lay-submit id="sendMessageToAll">确认发送</button>
                                     </div>
                                 </div>
                             </div>
@@ -167,20 +167,7 @@
 <script src="/js/layer.js"></script>
 <script src="/js/Message.js"></script>
 <script>
-    $('#sendMessage').on('click',function () {
-        $.ajax({
-            type:'POST',
-            url:'/Message/sendMessageToAll',
-            data:{messageTitle:$('#messageTitle').val().toString(),messageContent:$('#messageContent').val(),reciever:$('#people').val().toString(),sendTime:$('#sendTime').val(),ischeck:$("#ischeck").val()},
-            success:function (msg) {
-                if(msg=='发送成功'){
-                    layer.msg(msg);
-                }else{
-                    layer.msg("发送未完成");
-                }
-            }
-        })
-    })
+
 </script>
 </body>
 </html>

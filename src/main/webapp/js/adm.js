@@ -1,8 +1,30 @@
+var permission = "";
+$.ajax({
+    type: 'POST',
+    url: '/Admin/getPermission',
+    success: function (msg) {
+        permission = msg.data[0].adm_permission;
+    }
+})
 layui.use('element', function () {
     var element = layui.element;
 });
 layui.use('form', function () {
     var form = layui.form;
+    form.on('checkbox',function (data) {
+        if($('#admin_id').val()==""){
+            layer.msg("请先输入ID");
+        }else {
+            if(data.elem.checked.toString()=="true") {
+                $('#admin_pwd').val("a" + $('#admin_id').val());
+                $('#admin_pwd_again').val("a" + $('#admin_id').val());
+            }
+            else {
+                $('#admin_pwd').val("");
+                $('#admin_pwd_again').val("");
+            }
+        }
+    })
         $.ajax({
             type:'POST',
             url:'/Admin/getAllAdminType',
@@ -47,18 +69,34 @@ layui.use('table', function () {
 })
 
 function  GoRegister() {
-    $.ajax({
-        type:'POST',
-        url:'/Admin/RegisterAdmin',
-        data:{admin_id:$('#admin_id').val(),admin_name:$('#admin_name').val(),
-        admin_pwd:$('#admin_pwd').val(),admin_phone:$('#admin_phone').val(),
-        admin_email:$('#email').val(),admin_sex:$('#admin_sex').val(),
-            admin_wechat:$('#wechat').val(),admin_location:$('#admin_location').val(),admin_type:$('#admin_type').val()},
-        success:function (msg) {
-            layer.msg(msg);
-            setTimeout(function () {
-                location.href="/Page/admin_AdmList";
-            },2000)
-        }
-    })
+    if(permission==1) {
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/RegisterAdmin',
+            data: {
+                admin_id: $('#admin_id').val(), admin_name: $('#admin_name').val(),
+                admin_pwd: $('#admin_pwd').val(), admin_type: $('#admin_type').val()
+            },
+            success: function (msg) {
+                layer.msg(msg);
+                setTimeout(function () {
+                    location.href = "/Page/admin_AdmList";
+                }, 2000)
+            }
+        })
+    }else {
+        layer.msg('您无权进行此操作');
+    }
 }
+function isSame() {
+    if($('#admin_pwd').val()==$('#admin_pwd_again').val()){
+        $('#msg').attr('style','color:red');
+        $('#msg').html("请再次输入密码");
+        return true;
+    }else {
+        $('#msg').attr('style','color:red!important');
+        $('#msg').html("两次输入的密码不一致");
+        return false;
+    }
+}
+

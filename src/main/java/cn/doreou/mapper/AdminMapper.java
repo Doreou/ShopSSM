@@ -36,4 +36,17 @@ public interface AdminMapper {
 
     void deleteCarousel(@Param("carousel_id") int carousel_id);
     void updateCarousel(Carousel carousel);
+
+    void updateAdminInfo(Admin admin);
+    List<AdminType> getPermission(@Param("type") String type);
+    int getUserCountOfMan();
+    int getUserCountOfWoman();
+    int getUserCountOfNoRecord();
+
+    List<User> getAllUserInfo(@Param("start") int start,@Param("pageSize") int pageSize);
+    int getAllUserInfoOfCount();
+
+    List<AdminType> getAllAdminTypePage(@Param("start") int start,@Param("pageSize") int pageSize);
+    int getAllCountOfAdminType();
+    void updatePermission(AdminType adminType);
 }

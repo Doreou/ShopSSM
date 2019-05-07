@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/4/29
-  Time: 12:17
+  Date: 2019/5/4
+  Time: 11:23
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,15 +10,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>消息中心</title>
+    <title>个人资料</title>
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/layer.css">
 </head>
-<style>
-    .layui-form-checkbox[lay-skin=primary]{
-        height: 24px!important;
-    }
-</style>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -44,7 +39,7 @@
                     ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="/Page/admin_info">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
@@ -94,57 +89,24 @@
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">管理员</a>
                     <dl class="layui-nav-child">
                         <dd><a href="/Page/admin_AdmList">管理员列表</a></dd>
-                        <dd class="layui-this"><a href="/Page/admin_Register">注册管理员</a></dd>
+                        <dd><a href="/Page/admin_Register">注册管理员</a></dd>
                     </dl>
                 </li>
             </ul>
         </div>
     </div>
-
+    <!-- 内容主体区域 -->
     <div class="layui-body">
         <div class="layui-fluid">
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
-                        <div class="layui-card-header"><span>管理员</span>&nbsp;/&nbsp;<span style="color: #8c8c8c">注册管理员</span></div>
+                        <div class="layui-card-header"><span>管理员</span>&nbsp;/&nbsp;<span
+                                style="color: #8c8c8c">个人资料</span></div>
                         <div class="layui-card-body">
 
                             <div class="layui-form" wid100="">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">请输入ID</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" name="admin_id" id="admin_id" value="" placeholder="请输入ID" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">ID即登录ID，注册后ID无法更改</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">请输入密码</label>
-                                    <div class="layui-input-inline">
-                                        <input type="password" name="admin_pwd" id="admin_pwd" value="" placeholder="请输入密码" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">请输入密码</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">请确认密码</label>
-                                    <div class="layui-input-inline">
-                                        <input type="password" name="admin_pwd_again" onblur="isSame()" id="admin_pwd_again" value="" placeholder="请再次输入密码" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux" id="msg">请再次输入密码</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">默认密码</label>
-                                    <div class="layui-input-inline">
-                                        <input type="checkbox" name="" title="使用默认密码" lay-skin="primary">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">勾选后密码设置为a+用户ID</div>
-                                </div>
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">真实姓名</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" maxlength="140" placeholder="请输入真实姓名" name="admin_name" id="admin_name" value="" class="layui-input">
-                                    </div>
-                                    <div class="layui-form-mid layui-word-aux">请输入真实姓名</div>
-                                </div>
+                                <input style="display: none;" name="fileLocation" id="fileLocation" value="">
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">管理员级别</label>
                                     <div class="layui-input-inline">
@@ -152,11 +114,81 @@
                                             <option value="">请选择一个级别</option>
                                         </select>
                                     </div>
-                                    <div class="layui-form-mid layui-word-aux">请输入真实姓名</div>
+                                    <div class="layui-form-mid layui-word-aux">此项不可修改</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">ID</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" readonly="readonly" name="admin_id" id="admin_id" value="" placeholder="请输入ID"
+                                               class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">此项不可修改</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">真实姓名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" maxlength="140" readonly="readonly" placeholder="请输入真实姓名" name="admin_name"
+                                               id="admin_name" value="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">此项不可修改</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">头像</label>
+                                    <div class="layui-input-inline">
+                                        <button type="button" class="layui-btn" id="uploadIcon">
+                                            <i class="layui-icon">&#xe67c;</i>上传图片
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">预览</label>
+                                    <div class="layui-input-inline">
+                                        <img style="display: none" src="" id="priviewIcon">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">所在地</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" maxlength="140" placeholder="请输入所在地" name="admin_location"
+                                               id="admin_location" value="" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入所在地</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="classify" value="男" title="男">
+                                        <input type="radio" name="classify" value="女" title="女">
+                                        <input id="people" value="" style="display: none">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">联系电话</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="admin_phone" id="admin_phone" value=""
+                                               placeholder="请输入联系电话" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入联系电话</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">电子邮箱</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="email" name="email" placeholder="请输入电子邮箱"
+                                               autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入电子邮箱</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">微信</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" id="wechat" name="wechat" placeholder="请输入微信号"
+                                               autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">请输入微信号</div>
                                 </div>
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit onclick="GoRegister()">确认注册</button>
+                                        <button class="layui-btn" lay-submit onclick="GoUpdate()">确认修改</button>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +208,6 @@
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
 <script src="/js/layer.js"></script>
-<script src="/js/adm.js"></script>
-
+<script src="/js/adm_info.js"></script>
 </body>
 </html>

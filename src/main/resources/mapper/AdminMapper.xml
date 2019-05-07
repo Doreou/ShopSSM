@@ -69,6 +69,35 @@
     <update id="updateCarousel" parameterType="cn.doreou.model.Carousel">
         update t_carousel set carousel_start=#{carousel_start},carousel_end=#{carousel_end},carousel_pic=#{carousel_pic},carousel_info=#{carousel_info},carousel_visible=#{carousel_visible} where carousel_id=#{carousel_id}
     </update>
-
+    <update id="updateAdminInfo" parameterType="cn.doreou.model.Admin">
+        update t_admin set admin_email=#{admin_email},admin_icon=#{admin_icon},admin_location=#{admin_location},admin_phone=#{admin_phone},admin_sex=#{admin_sex},admin_wechat=#{admin_wechat} where admin_id=#{admin_id}
+    </update>
+    <select id="getPermission" resultType="cn.doreou.model.AdminType">
+        select * from t_admintype where type=#{type}
+    </select>
+    <select id="getUserCountOfMan" resultType="INT">
+        select count(*) from t_user where sex='男'
+    </select>
+    <select id="getUserCountOfWoman" resultType="INT">
+        select count(*) from t_user where sex='女'
+    </select>
+    <select id="getUserCountOfNoRecord" resultType="INT">
+        select count(*) from t_user where sex=''
+    </select>
+    <select id="getAllUserInfo" resultType="cn.doreou.model.User">
+        select user_id,username,label,age,sex,join_time,icon,member_status from t_user limit #{start},#{pageSize};
+    </select>
+    <select id="getAllUserInfoOfCount" resultType="INT">
+        select count(*) from t_user;
+    </select>
+    <select id="getAllAdminTypePage" resultType="cn.doreou.model.AdminType">
+        select * from t_admintype limit #{start},#{pageSize}
+    </select>
+    <select id="getAllCountOfAdminType" resultType="INT">
+        select count(*) from t_admintype
+    </select>
+    <update id="updatePermission" parameterType="cn.doreou.model.AdminType">
+        update t_admintype set type=#{type},user_permission=#{user_permission},subject_permission=#{subject_permission},carousel_permission=#{carousel_permission},cert_permission=#{cert_permission},sendmsg_permission=#{sendmsg_permission},message_permission=#{message_permission},report_permission=#{report_permission},adm_permission=#{adm_permission},permission=#{permission},job_permission=#{job_permission} where type_id=#{type_id}
+    </update>
 
 </mapper>

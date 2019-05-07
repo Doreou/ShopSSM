@@ -1,9 +1,6 @@
-<%@ page import="cn.doreou.model.Book" %>
 <%@ page import="java.util.List" %>
-<%@ page import="cn.doreou.model.User" %>
-<%@ page import="cn.doreou.model.GoodAndUser" %>
-<%@ page import="cn.doreou.model.Goods" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="cn.doreou.model.*" %>
 <%--Created by IntelliJ IDEA.
 User: Holmes
 Date: 2019/2/17
@@ -41,6 +38,7 @@ To change this template use File | Settings | File Templates.
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
     Object userList = session.getAttribute("user");
     List<GoodAndUser> usersinfo = (List<GoodAndUser>) session.getAttribute("userinfo");
+    List<Carousel> carouselList=(List<Carousel>)session.getAttribute("Carousel");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -177,8 +175,9 @@ To change this template use File | Settings | File Templates.
         <div class="adv">
             <div class="layui-carousel" id="test1" lay-filter="test1">
                 <div carousel-item="">
-                    <div><img src="/images/timg.jpg"></div>
-                    <div><img src="/images/lunbo2_600x280.jpg"></div>
+                    <%for(Carousel c:carouselList){%>
+                    <div><img src="<%=c.getCarousel_pic()%>"></div>
+                    <%}%>
                 </div>
             </div>
         </div>

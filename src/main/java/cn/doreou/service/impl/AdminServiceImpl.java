@@ -85,4 +85,34 @@ public class AdminServiceImpl implements AdminService {
     public void updateCarousel(Carousel carousel){
         adminMapper.updateCarousel(carousel);
     }
+    public void updateAdminInfo(Admin admin){
+        adminMapper.updateAdminInfo(admin);
+    }
+    public List<AdminType> getPermission(String type){
+        return adminMapper.getPermission(type);
+    }
+    public int getUserCountOfMan(){
+        return adminMapper.getUserCountOfMan();
+    }
+    public int getUserCountOfWoman(){
+        return adminMapper.getUserCountOfWoman();
+    }
+    public int getUserCountOfNoRecord(){
+        return adminMapper.getUserCountOfNoRecord();
+    }
+    public List<User> getAllUserInfo(int start,int pageSize){
+        return adminMapper.getAllUserInfo(start, pageSize);
+    }
+    public int getAllUserInfoOfCount(){
+        return adminMapper.getAllUserInfoOfCount();
+    }
+    public List<AdminType> getAllAdminTypePage(int start,int pageSize){
+        return adminMapper.getAllAdminTypePage(start,pageSize);
+    }
+    public int getAllCountOfAdminType(){
+        return adminMapper.getAllCountOfAdminType();
+    }
+    public void updatePermission(AdminType adminType){
+        adminMapper.updatePermission(adminType);
+    }
 }

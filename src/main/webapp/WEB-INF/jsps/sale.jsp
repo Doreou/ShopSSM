@@ -1,8 +1,6 @@
-<%@ page import="cn.doreou.model.Book" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
-<%@ page import="cn.doreou.model.User" %>
-<%@ page import="cn.doreou.model.Goods" %>
-<%@ page import="cn.doreou.model.GoodAndUser" %><%--
+<%@ page import="cn.doreou.model.*" %><%--
   Created by IntelliJ IDEA.
   User: Holmes
   Date: 2019/2/17
@@ -40,6 +38,7 @@
     Object userList = session.getAttribute("user");
     Object goodslist=session.getAttribute("AllSaleGoodsList");
     List<GoodAndUser> usersinfo=(List<GoodAndUser>) session.getAttribute("userinfo");
+    List<Carousel> carouselList=(List<Carousel>)session.getAttribute("Carousel");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -168,9 +167,11 @@
     <div class="main clearfix">
         <div class="adv">
             <div class="layui-carousel" id="test1" lay-filter="test1">
-                <div carousel-item="">
-                    <div><img src="/images/timg.jpg"></div>
-                    <div><img src="/images/lunbo2_600x280.jpg"></div>
+                <div id="Carousel_father" carousel-item="">
+                    <%for(Carousel c:carouselList){%>
+                        <div><img src="<%=c.getCarousel_pic()%>"></div>
+                    <%}%>
+
                 </div>
             </div>
         </div>

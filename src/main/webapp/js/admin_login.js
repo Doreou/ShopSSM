@@ -2,7 +2,7 @@ $('#btn').on('click',function () {
     $.ajax({
         type:'POST',
         url:'/Admin/adminLogin',
-        data:{admin_id:$('#loginName').val(),admin_pwd:$('#passWord').val()},
+        data:{admin_id:$('#loginName').val(),admin_pwd:$('#passWord').val(),code:$('#vercode').val()},
         success:function (msg) {
             if(msg=='success'){
                 layer.msg("登陆成功");
@@ -15,3 +15,6 @@ $('#btn').on('click',function () {
         }
     })
 })
+function changeImage(){
+    $('#verifycode').attr('src', '/User/getVerifyCode?t='+(new Date()).valueOf());
+}

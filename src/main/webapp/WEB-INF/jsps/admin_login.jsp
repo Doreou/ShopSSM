@@ -47,7 +47,7 @@
                     </div>
                     <div class="layui-col-xs5">
                         <div style="margin-left: 10px;">
-                            <img style="height: 38px;width: 130px;" src="${pageContext.request.contextPath}/User/getVerifyCode">
+                            <img id="verifycode" style="height: 38px;width: 130px;" onclick="changeImage()" src="${pageContext.request.contextPath}/User/getVerifyCode">
                         </div>
                     </div>
                 </div>

@@ -13,6 +13,11 @@
     <title>图书分类管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
+<style>
+    .laytable-cell-1-0-5{
+        height: 38px;
+    }
+</style>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -34,8 +39,8 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    <img src="${admin.admin_icon}" class="layui-nav-img">
+                    ${admin.admin_name}
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>

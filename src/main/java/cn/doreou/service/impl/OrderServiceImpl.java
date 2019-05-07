@@ -1,6 +1,7 @@
 package cn.doreou.service.impl;
 
 import cn.doreou.mapper.OrderMapper;
+import cn.doreou.model.Carousel;
 import cn.doreou.model.GoodAndUser;
 import cn.doreou.model.Goods;
 import cn.doreou.model.Message;
@@ -9,6 +10,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.CacheRequest;
 import java.util.List;
 
 @Service
@@ -119,5 +121,8 @@ public class OrderServiceImpl implements OrderService {
     }
     public void AlreadyRead(int message_id,int status){
         orderMapper.AlreadyRead(message_id,status);
+    }
+    public List<Carousel> getAllCarousel(){
+        return orderMapper.getAllCarousel();
     }
 }
