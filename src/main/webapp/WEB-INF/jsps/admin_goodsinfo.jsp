@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Holmes
-  Date: 2019/4/15
-  Time: 16:04
+  Date: 2019/5/13
+  Time: 19:18
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,6 +13,17 @@
     <title>图书分类管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
+<style>
+    .laytable-cell-1-0-10{
+        height: 38px;
+    }
+    .laytable-cell-1-0-0{
+        height: 38px;
+    }
+    .laytable-cell-1-0-15{
+        height: 38px;
+    }
+</style>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -51,7 +62,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">网页设置</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this"><a href="/Page/admin_Subject">图书分类管理</a></dd>
+                        <dd><a href="/Page/admin_Subject">图书分类管理</a></dd>
                         <dd><a href="/Page/admin_Carousel">轮播图管理</a></dd>
                     </dl>
                 </li>
@@ -100,76 +111,53 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">管理</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
-<script src="/js/Subject.js"></script>
-
-<div class="layui-row" id="popInsert" style="display:none;">
-    <div class="layui-col-md10">
-        <form id="addNewSbjform" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
-            <input style="display: none;" name="fileLocation" id="fileLocation" value="">
+<script src="/js/goods.js"></script>
+<div class="layui-row" id="popGoodsInfo" style="display:none;">
+    <div class="layui-col-md10 layui-row">
+        <form id="popform" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 783px;">
+            <input id="goods_id" name="goods_id" style="display: none;">
+            <input id="cover" name="cover" style="display: none">
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">图书类型名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="newsubject" id="newsubject" style="width: 200px" required lay-verify="required"
-                           autocomplete="off" placeholder="请输入图书类型名称" class="layui-input">
+                <label class="layui-form-label" style="width: 125px">标题</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="goods_title" id="goods_title" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">图标</label>
-                <div class="layui-input-block">
-                    <button type="button" class="layui-btn" id="uploadIcon">
-                        <i class="layui-icon">&#xe67c;</i>上传图片
-                    </button>
+                <label class="layui-form-label" style="width: 125px">介绍</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="introduce" id="introduce" style="width: 200px" required lay-verify="required"
+                           autocomplete="off" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">预览</label>
-                <div class="layui-input-block">
-                    <img style="display: none" src="" id="priviewIcon">
+                <label class="layui-form-label" style="width: 125px">所属科目</label>
+                <div class="layui-input-inline">
+                    <select name="subject" id="subject">
+                        <option value="">请选择一个科目</option>
+                    </select>
                 </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">封面</label>
+                <div class="layui-input-inline">
+                    <img src="" id="goods_pic" name="goods_pic" class="pimg">
+                </div>
+                <label style="margin-left: 35px" id="updateCover" onclick="updateCover($('#goods_id').val())" class="layui-btn layui-btn-normal">修改封面</label>
             </div>
         </form>
     </div>
 </div>
-
-
-<div class="layui-row" id="popUpdate" style="display:none;">
-    <div class="layui-col-md10">
-        <form id="popform" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
-            <input style="display: none;" name="fileLocation1" id="fileLocation1" value="">
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">图书类型编号</label>
-                <div class="layui-input-block">
-                    <input type="text" name="subject_id" id="subject_id" style="width: 200px" required
-                           lay-verify="required" readonly="readonly" autocomplete="off" placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">图书类型名称</label>
-                <div class="layui-input-block">
-                    <input type="text" name="subject" id="subject" style="width: 200px" required lay-verify="required"
-                           autocomplete="off" placeholder="请输入图书类型名称" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">图标</label>
-                <div class="layui-input-block">
-                    <button type="button" class="layui-btn" id="uploadIcon1">
-                        <i class="layui-icon">&#xe67c;</i>上传图片
-                    </button>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 125px">预览</label>
-                <div class="layui-input-block">
-                    <img style="display: none" src="" id="priviewIcon1">
-                </div>
-            </div>
-        </form>
+<textarea id="underCarriage_Reason" style="height:300px;width: 300px;display: none;"></textarea>
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:19891017;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;">
+        <img id="big" style="border:5px solid #fff;" src="" />
     </div>
 </div>
 </body>

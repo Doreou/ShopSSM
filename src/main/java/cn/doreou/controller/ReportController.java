@@ -81,11 +81,12 @@ public class ReportController {
     @RequestMapping("isLogin")
     @ResponseBody
     public String isLogin(){
-        if(session.getAttribute("user")==null){
-            return "请先登陆";
+        if(session.getAttribute("user")!=null){
+            List<User> users=(List<User>) session.getAttribute("user");
+            return users.get(0).getUser_id();
         }
         else{
-            return "success";
+            return "请先登录";
         }
     }
     @RequestMapping("getAllReport")

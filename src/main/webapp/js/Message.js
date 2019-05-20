@@ -1,11 +1,13 @@
 var permission = "";
-$.ajax({
-    type: 'POST',
-    url: '/Admin/getPermission',
-    success: function (msg) {
-        permission = msg.data[0].sendmsg_permission;
-    }
-})
+if (location.href != "http://localhost:8080/Order/getMyNews") {
+    $.ajax({
+        type: 'POST',
+        url: '/Admin/getPermission',
+        success: function (msg) {
+            permission = msg.data[0].sendmsg_permission;
+        }
+    })
+}
 
 var url = location.search; //获取url中"?"符后的字串
 if (url.indexOf("?") != -1) {    //判断是否有参数
@@ -55,6 +57,50 @@ function getUserName() {
         }
     })
 }
+
+$('#agreebtn').click(function () {
+    var message_id = $('#agree').val();
+    layer.confirm('同意交易后买家将收到提醒，请按照约定见面交易，请注意安全。', function () {
+        $.ajax({
+            type: 'POST',
+            url: '/Order/agree?message_id=' + message_id,
+            success: function (msg) {
+                layer.msg(msg);
+                setTimeout(function () {
+                    location.reload();
+                }, 2000);
+            }
+        })
+    })
+})
+$('#disagreebtn').click(function () {
+    var message_id = $('#agree').val();
+    layer.open({
+        type: 1,
+        content: $('#popRefused'),
+        area: ["500px", "300px"],
+        btn: ['确定', '取消'],
+        yes: function () {
+            layer.confirm('确定拒绝吗？', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Order/disagree?message_id=' + message_id,
+                    data:$('#popform').serialize(),
+                    success: function (msg) {
+                        layer.msg(msg);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                })
+            })
+        },
+        btn2: function () {
+            layer.closeAll();
+        }
+
+    })
+})
 
 $('#readbtn').click(function () {
 
@@ -148,8 +194,9 @@ layui.use('table', function () {
                 }
             })
         } else {
-            layer.msg("您仅有查看权限");
-
+            if (location.href != "http://localhost:8080/Order/getMyNews") {
+                layer.msg("您仅有查看权限");
+            }
         }
     }
 )
@@ -168,7 +215,7 @@ function deleteMessage(obj) {
 }
 
 $('#sendMessage').on('click', function () {
-    if(permission==1) {
+    if (permission == 1) {
         $.ajax({
             type: 'POST',
             url: '/Message/sendMessageToOne',
@@ -181,13 +228,13 @@ $('#sendMessage').on('click', function () {
                 }
             }
         })
-    }else {
+    } else {
         layer.msg('您无权进行此操作');
     }
 })
 
 $('#sendMessageToAll').on('click', function () {
-    if(permission==1) {
+    if (permission == 1) {
         $.ajax({
             type: 'POST',
             url: '/Message/sendMessageToAll',
@@ -200,7 +247,7 @@ $('#sendMessageToAll').on('click', function () {
                 }
             }
         })
-    }else {
+    } else {
         layer.msg('您无权进行此操作');
     }
 })

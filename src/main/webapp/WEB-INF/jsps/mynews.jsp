@@ -68,16 +68,7 @@
                     <a href="/Page/buy">求购</a>
                 </li>
                 <li class="">
-                    <a target="_blank" href="/app">APP</a>
-                </li>
-                <li class="">
-                    <a target="_blank" href="/applyschool">开通学校</a>
-                </li>
-                <li class="">
                     <a target="_blank" href="/Page/joinus">加入我们</a>
-                </li>
-                <li class="">
-                    <a target="_blank" href="/contact">联系我们</a>
                 </li>
                 <li class="back" style="left: 132px; width: 66px;">
                     <div class="left"></div>
@@ -249,6 +240,7 @@
         <%if(myNewsList!=null){
             for(Message m:(List<Message>) myNewsList) {
                 if(m.getSend_time().compareTo(new Date())<0){
+                    if(!m.getMessage_title().equals("有人收购你的书籍啦！")){
         %>
         <div class="clearfix each_msg unread" >
             <div class="ensh_tips sold_out_yours" >
@@ -257,6 +249,7 @@
                 <p class="time" > <%SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
                     String time=sdf.format(m.getSend_time());
                 %><%=time%></p >
+
                 <%if(m.getIsRead()==0){%>
                 <a>
                     <input style="display: none;" id="read" value="<%=m.getMessage_id()%>">
@@ -272,8 +265,32 @@
             <img alt = "<%=m.getMessage_title()%>" src = "/img/auto/logo.png" >
             <div class="msg_border" ></div >
         </div >
-            <%}
-            }
+        <%}
+        else {%>
+        <div class="clearfix each_msg unread" >
+            <div class="ensh_tips sold_out_yours" >
+                <p class="msgtitle" > <%=m.getMessage_title()%> </p >
+                <p class="msgbody" > <%=m.getMessage_content()%></p >
+                <p class="time" > <%SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+                    String time=sdf.format(m.getSend_time());
+                %><%=time%></p>
+                <div>
+                <a>
+                    <input style="display: none;" id="agree" value="<%=m.getMessage_id()%>">
+                    <div class="readbtn" style="right: 115px"  id="agreebtn"> 同意交易 </div >
+                </a>
+                <a>
+                    <input style="display: none;" id="disagree" value="<%=m.getMessage_id()%>">
+                    <div class="readbtn" id="disagreebtn"> 拒绝交易 </div >
+                </a>
+                </div>
+            </div >
+            <img alt = "<%=m.getMessage_title()%>" src = "/img/auto/logo.png" >
+            <div class="msg_border" ></div >
+        </div >
+                    <%}
+        }
+        }
         }%>
     </div>
     <div class="common-footer">
@@ -361,6 +378,19 @@
 
 </script>
 
+<div class="layui-row" id="popRefused" style="display:none;">
+    <div class="layui-col-md10">
+        <form id="popform" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;color: black">拒绝原因</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="content" id="content" style="width: 300px;height: 100px" required lay-verify="required"
+                              autocomplete="off"  placeholder="" class="layui-input"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
 

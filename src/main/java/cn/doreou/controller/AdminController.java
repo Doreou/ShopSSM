@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.faces.annotation.RequestMap;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.ParseException;
@@ -46,7 +47,7 @@ public class AdminController {
         Admin admin = new Admin();
         admin.setAdmin_id(id);
         admin.setAdmin_password(pwd);
-        if (session.getAttribute("verifyCodeValue").toString().equals(code)) {
+        if (session.getAttribute("verifyCodeValue").toString().toUpperCase().equals(code.toUpperCase())) {
             if (adminService.getByAdminID(id) != null) {
                 if (adminService.isLogin(admin)) {
                     //存放管理员信息
@@ -69,6 +70,15 @@ public class AdminController {
         int totalCount = adminService.getSubjectCount();
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", totalCount, bookList)));
+        return jsonObject;
+    }
+
+    @RequestMapping("getSubject")
+    @ResponseBody
+    public Object getAllSubject() {
+        List<Book> bookList = bookService.getAllSubject();
+        Gson gson = new Gson();
+        JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", bookList.size(), bookList)));
         return jsonObject;
     }
 
@@ -98,7 +108,6 @@ public class AdminController {
         try {
             file.transferTo(new File(imgFilePath));
             data.add(imgFilePath.substring(2));
-            model.addAttribute("fileLocation", imgFilePath.substring(2));
         } catch (IOException e) {
             e.printStackTrace();
             return "500";
@@ -247,7 +256,7 @@ public class AdminController {
     @RequestMapping("addNewCarousel")
     @ResponseBody
     public String addNewCarousel(@RequestParam("fileLocation") String fileLocation, @RequestParam("start") String start,
-                                 @RequestParam("end") String end,@RequestParam("visible") String visible, @RequestParam("info") String info) {
+                                 @RequestParam("end") String end, @RequestParam("visible") String visible, @RequestParam("info") String info) {
         Carousel carousel = new Carousel();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -259,9 +268,9 @@ public class AdminController {
             e.printStackTrace();
         }
         carousel.setCarousel_pic(fileLocation);
-        if(visible.equals("可见")) {
+        if (visible.equals("可见")) {
             carousel.setCarousel_visible(1);
-        }else {
+        } else {
             carousel.setCarousel_visible(0);
         }
         carousel.setCarousel_info(info);
@@ -271,13 +280,13 @@ public class AdminController {
 
     @RequestMapping("uploadCarousel")
     @ResponseBody
-    public Object uploadCarousel(@RequestParam("file") MultipartFile file, Model model) { ;
+    public Object uploadCarousel(@RequestParam("file") MultipartFile file, Model model) {
+        ;
         String imgFilePath = "D:\\img\\carouselpic\\" + file.getOriginalFilename();
         List data = new ArrayList();
         try {
             file.transferTo(new File(imgFilePath));
             data.add(imgFilePath.substring(2));
-            model.addAttribute("fileLocation", imgFilePath.substring(2));
         } catch (IOException e) {
             e.printStackTrace();
             return "500";
@@ -297,7 +306,7 @@ public class AdminController {
     @RequestMapping("updateCarousel")
     @ResponseBody
     public String updateCarousel(@RequestParam("carousel_id") int carousel_id, @RequestParam("carousel_info1") String info, @RequestParam("fileLocation1") String fileLocation,
-                                 @RequestParam("start1") String start,@RequestParam("visible1") String visible, @RequestParam("end1") String end) {
+                                 @RequestParam("start1") String start, @RequestParam("visible1") String visible, @RequestParam("end1") String end) {
         Carousel carousel = new Carousel();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -311,9 +320,9 @@ public class AdminController {
         carousel.setCarousel_info(info);
         carousel.setCarousel_id(carousel_id);
         carousel.setCarousel_pic(fileLocation);
-        if(visible.equals("可见")) {
+        if (visible.equals("可见")) {
             carousel.setCarousel_visible(1);
-        }else {
+        } else {
             carousel.setCarousel_visible(0);
         }
         adminService.updateCarousel(carousel);
@@ -322,7 +331,7 @@ public class AdminController {
 
     @RequestMapping("uploadHeadPic")
     @ResponseBody
-    public Object uploadHeadPic(@RequestParam("file") MultipartFile file,Model model){
+    public Object uploadHeadPic(@RequestParam("file") MultipartFile file, Model model) {
         String imgFilePath = "D:\\img\\adminheadpic\\" + file.getOriginalFilename();
         List data = new ArrayList();
         try {
@@ -340,11 +349,11 @@ public class AdminController {
 
     @RequestMapping("updateAdminInfo")
     @ResponseBody
-    public String updateAdminInfo(@RequestParam("fileLocation") String fileLocation,@RequestParam("location") String location,
-                                  @RequestParam("sex") String sex,@RequestParam("phone") String phone,@RequestParam("email") String email,
-                                  @RequestParam("wechat") String wechat){
-        Admin currentAdmin=(Admin) session.getAttribute("admin");
-        Admin admin=new Admin();
+    public String updateAdminInfo(@RequestParam("fileLocation") String fileLocation, @RequestParam("location") String location,
+                                  @RequestParam("sex") String sex, @RequestParam("phone") String phone, @RequestParam("email") String email,
+                                  @RequestParam("wechat") String wechat) {
+        Admin currentAdmin = (Admin) session.getAttribute("admin");
+        Admin admin = new Admin();
         admin.setAdmin_wechat(wechat);
         admin.setAdmin_sex(sex);
         admin.setAdmin_phone(phone);
@@ -355,59 +364,65 @@ public class AdminController {
         adminService.updateAdminInfo(admin);
         return "修改成功";
     }
+
     @RequestMapping("getAdmin")
     @ResponseBody
-    public Object getById(){
-        Admin admin=(Admin) session.getAttribute("admin");
+    public Object getById() {
+        Admin admin = (Admin) session.getAttribute("admin");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type",admin.getAdmin_type());
-        jsonObject.put("username",admin.getAdmin_name());
-        jsonObject.put("id",admin.getAdmin_id());
+        jsonObject.put("type", admin.getAdmin_type());
+        jsonObject.put("username", admin.getAdmin_name());
+        jsonObject.put("id", admin.getAdmin_id());
         return jsonObject;
     }
+
     @RequestMapping("getPermission")
     @ResponseBody
-    public Object getPermission(){
-        Admin admin=(Admin) session.getAttribute("admin");
-        List permissionList=adminService.getPermission(admin.getAdmin_type());
+    public Object getPermission() {
+        Admin admin = (Admin) session.getAttribute("admin");
+        List permissionList = adminService.getPermission(admin.getAdmin_type());
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", permissionList.size(), permissionList)));
         return jsonObject;
+
+
     }
+
     @RequestMapping("getSubjectAnalysis")
     @ResponseBody
-    public Object getSubjectAnalysis(){
-        List subjectList=new ArrayList();
-        List countList=new ArrayList();
-        List<Book> AllSubject=bookService.getAllSubject();
-        JSONObject jsonObject=new JSONObject();
-        JSONObject jsonObject1=new JSONObject();
-        for(int i=0;i<AllSubject.size();i++){
+    public Object getSubjectAnalysis() {
+        List subjectList = new ArrayList();
+        List countList = new ArrayList();
+        List<Book> AllSubject = bookService.getAllSubject();
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject1 = new JSONObject();
+        for (int i = 0; i < AllSubject.size(); i++) {
             subjectList.add(AllSubject.get(i).getSubject());
             countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject()));
         }
-        jsonObject.put("subject",subjectList);
-        jsonObject.put("count",countList);
+        jsonObject.put("subject", subjectList);
+        jsonObject.put("count", countList);
         return jsonObject;
     }
+
     @RequestMapping("getSexCount")
     @ResponseBody
-    public Object getSexCount(){
-        int man=adminService.getUserCountOfMan();
-        int woman=adminService.getUserCountOfWoman();
-        int norecord=adminService.getUserCountOfNoRecord();
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("man",man);
-        jsonObject.put("woman",woman);
-        jsonObject.put("norecord",norecord);
+    public Object getSexCount() {
+        int man = adminService.getUserCountOfMan();
+        int woman = adminService.getUserCountOfWoman();
+        int norecord = adminService.getUserCountOfNoRecord();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("man", man);
+        jsonObject.put("woman", woman);
+        jsonObject.put("norecord", norecord);
         return jsonObject;
     }
 
     @RequestMapping("getAllUserInfo")
     @ResponseBody
-    public Object getAllUserInfo(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List userInfo=adminService.getAllUserInfo((start-1)*pageSize,pageSize);
-        int totalCount=adminService.getAllUserInfoOfCount();
+    public Object getAllUserInfo(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
+        List userInfo = adminService.getAllUserInfo((start - 1) * pageSize, pageSize);
+        int totalCount = adminService.getAllUserInfoOfCount();
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", totalCount, userInfo)));
         return jsonObject;
@@ -415,21 +430,23 @@ public class AdminController {
 
     @RequestMapping("getAllAdminTypePage")
     @ResponseBody
-    public Object getAllAdminType(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List adminTypeList=adminService.getAllAdminTypePage((start-1)*pageSize,pageSize);
-        int totalCount=adminService.getAllCountOfAdminType();
+    public Object getAllAdminType(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
+        List adminTypeList = adminService.getAllAdminTypePage((start - 1) * pageSize, pageSize);
+        int totalCount = adminService.getAllCountOfAdminType();
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", totalCount, adminTypeList)));
         return jsonObject;
     }
+
     @RequestMapping("updatePermission")
     @ResponseBody
-    public String updatePermission(@RequestParam("userstatus") int user,@RequestParam("carouselstatus") int carousel,
-                                   @RequestParam("subjectstatus") int subject,@RequestParam("sendmsgstatus") int sendmsg,@RequestParam("messagestatus") int message,
-                                   @RequestParam("certstatus") int cert,@RequestParam("admstatus") int adm,@RequestParam("reportstatus") int report,
-                                   @RequestParam("permissionstatus") int permission,@RequestParam("jobstatus") int job,@RequestParam("id") int id,@RequestParam("type") String type){
+    public String updatePermission(@RequestParam("userstatus") int user, @RequestParam("carouselstatus") int carousel,
+                                   @RequestParam("subjectstatus") int subject, @RequestParam("sendmsgstatus") int sendmsg, @RequestParam("messagestatus") int message,
+                                   @RequestParam("certstatus") int cert, @RequestParam("admstatus") int adm, @RequestParam("reportstatus") int report,
+                                   @RequestParam("permissionstatus") int permission, @RequestParam("jobstatus") int job, @RequestParam("id") int id, @RequestParam("type") String type,
+                                   @RequestParam("goodsstatus") int goods) {
         System.out.println(user);
-        AdminType adminType=new AdminType();
+        AdminType adminType = new AdminType();
         adminType.setUser_permission(user);
         adminType.setAdm_permission(adm);
         adminType.setCarousel_permission(carousel);
@@ -440,10 +457,97 @@ public class AdminController {
         adminType.setReport_permission(report);
         adminType.setSendmsg_permission(sendmsg);
         adminType.setSubject_permission(subject);
+        adminType.setGoods_permission(goods);
         adminType.setType(type);
         adminType.setType_id(id);
         adminService.updatePermission(adminType);
         return "修改成功";
+    }
+
+    @RequestMapping("getAllGoods")
+    @ResponseBody
+    public Object getAllGoods(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
+        List goodsList = adminService.getAllGoods((start - 1) * pageSize, pageSize);
+        int totalCount = adminService.getAllGoodsCount();
+        Gson gson = new Gson();
+        JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", totalCount, goodsList)));
+        return jsonObject;
+    }
+
+    @RequestMapping("underCarriage")
+    public String underCarriage(@RequestParam("goods_id") int goods_id, @RequestParam("reason") String reason) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        List<GoodAndUser> infoList = orderService.getInfoById(String.valueOf(goods_id));
+        adminService.underCarriage(String.valueOf(goods_id));
+        Message message = new Message();
+        message.setSender(admin.getAdmin_id());
+        message.setIsRead(0);
+        message.setMessage_title("商品下架通知");
+        message.setMessage_content(reason + "，商品名称为：" + infoList.get(0).getGoods_title());
+        message.setMessage_type("下架通知");
+        message.setSend_time(new Date());
+        message.setReciever(infoList.get(0).getUser_id());
+        session.setAttribute("message", message);
+        return "redirect:/Message/AutoSend";
+    }
+
+    @RequestMapping("deleteGoods")
+
+    public String deleteGoods(@RequestParam("goods_id") int goods_id, @RequestParam("reason") String reason) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        List<GoodAndUser> infoList = orderService.getInfoById(String.valueOf(goods_id));
+        adminService.deleteGoods(String.valueOf(goods_id));
+        Message message = new Message();
+        message.setSender(admin.getAdmin_id());
+        message.setIsRead(0);
+        message.setMessage_title("商品删除通知");
+        message.setMessage_content(reason + "，商品名称为：" + infoList.get(0).getGoods_title());
+        message.setMessage_type("删除通知");
+        message.setSend_time(new Date());
+        message.setReciever(infoList.get(0).getUser_id());
+        session.setAttribute("message", message);
+        return "redirect:/Message/AutoSend";
+    }
+
+    @RequestMapping("updateGoodsInfo")
+    public String updateGoodsInfo(@RequestParam("goods_id") int goods_id, @RequestParam("goods_title") String title, @RequestParam("introduce") String introduce,
+                                  @RequestParam("subject") String subject, @RequestParam("cover") String cover, @RequestParam("reason") String reason) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        List<GoodAndUser> infoList = orderService.getInfoById(String.valueOf(goods_id));
+        Goods goods = new Goods();
+        goods.setGoods_title(title);
+        goods.setGoods_id(goods_id);
+        goods.setIntroduce(introduce);
+        goods.setSubject(subject);
+        goods.setCover(cover);
+        adminService.updateGoodsInfo(goods);
+        Message message = new Message();
+        message.setSender(admin.getAdmin_id());
+        message.setIsRead(0);
+        message.setMessage_title("商品修改通知");
+        message.setMessage_content(reason + "，商品名称为：" + infoList.get(0).getGoods_title() + "，已由后台更正！");
+        message.setMessage_type("修改通知");
+        message.setSend_time(new Date());
+        message.setReciever(infoList.get(0).getUser_id());
+        session.setAttribute("message", message);
+        return "redirect:/Message/AutoSend";
+    }
+
+    @RequestMapping("updateGoodsCover")
+    @ResponseBody
+    public Object updateGoodsCover(@RequestParam("file") MultipartFile file, Model model) {
+        String imgFilePath = "D:\\img\\goodspic\\" + file.getOriginalFilename();
+        List data = new ArrayList();
+        try {
+            file.transferTo(new File(imgFilePath));
+            data.add(imgFilePath.substring(2));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "500";
+        }
+        Gson gson = new Gson();
+        JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", data.size(), data)));
+        return jsonObject;
     }
 
 

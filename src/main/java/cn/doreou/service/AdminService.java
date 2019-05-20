@@ -39,4 +39,10 @@ public interface AdminService {
     List<AdminType> getAllAdminTypePage(int start,int pageSize);
     int getAllCountOfAdminType();
     void updatePermission(AdminType adminType);
+    List<Goods> getAllGoods(int start,int pageSize);
+    int getAllGoodsCount();
+    void underCarriage(String goods_id);
+    void deleteGoods(String goods_id);
+    void updateGoodsInfo(Goods goods);
+
 }

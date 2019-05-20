@@ -1,6 +1,7 @@
 package cn.doreou.service.impl;
 
 import cn.doreou.mapper.AdminMapper;
+import cn.doreou.mapper.OrderMapper;
 import cn.doreou.model.*;
 import cn.doreou.service.AdminService;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,8 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
+    @Autowired
+    private OrderMapper orderMapper;
     public boolean isLogin(Admin admin){
         if(adminMapper.isLogin(admin).size()>0){
             return true;
@@ -115,4 +118,21 @@ public class AdminServiceImpl implements AdminService {
     public void updatePermission(AdminType adminType){
         adminMapper.updatePermission(adminType);
     }
+
+    public List<Goods> getAllGoods(int start,int pageSize){
+        return adminMapper.getAllGoods(start, pageSize);
+    }
+    public int getAllGoodsCount(){
+        return adminMapper.getAllGoodsCount();
+    }
+    public void underCarriage(String goods_id){
+        adminMapper.underCarriage(goods_id);
+    }
+    public void deleteGoods(String goods_id){
+        adminMapper.deleteGoods(goods_id);
+    }
+    public void updateGoodsInfo(Goods goods){
+        adminMapper.updateGoodsInfo(goods);
+    }
+
 }

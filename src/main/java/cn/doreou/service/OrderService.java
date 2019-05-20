@@ -1,9 +1,7 @@
 package cn.doreou.service;
 
-import cn.doreou.model.Carousel;
-import cn.doreou.model.GoodAndUser;
-import cn.doreou.model.Goods;
-import cn.doreou.model.Message;
+import cn.doreou.model.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -43,4 +41,9 @@ public interface OrderService {
     List<Message> getMyNews(String user_id);
     void AlreadyRead(int message_id,int status);
     List<Carousel> getAllCarousel();
+    void InsertOrder(Order order);
+    int getMaxMessageID();
+    Order getByMessageID(int message_id);
+    void updateGoodsNumById(int number,int goods_id);
+    void OwnerConfirm(int order_id);
 }

@@ -73,16 +73,7 @@
                     <a href="/Page/buy">求购</a>
                 </li>
                 <li class="">
-                    <a target="_blank" href="/app">APP</a>
-                </li>
-                <li class="">
-                    <a target="_blank" href="/applyschool">开通学校</a>
-                </li>
-                <li class="">
                     <a target="_blank" href="/Page/joinus">加入我们</a>
-                </li>
-                <li class="">
-                    <a target="_blank" href="/Page/contact">联系我们</a>
                 </li>
                 <li class="back" style="left: 132px; width: 66px;">
                     <div class="left"></div>
@@ -232,8 +223,10 @@
                 <li class="school same">
                     <span class=""><span class="iconfont icon-dizhi"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">大连大学</span>
                 </li>
-                <li class="address same">
-                    <span class=""><span class="iconfont icon-youbian"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">120000</span>
+                <li class="number same">
+                    <span class=""><span class="iconfont icon-youbian"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">数量：
+                    <%=goodsinfo.get(0).getNumber()%>
+                </span>
                 </li>
                 <li class="renzheng same">
                     <span class=""><span class="iconfont icon-renzheng"></span>&nbsp;&nbsp;&nbsp;</span><span class="text">
@@ -266,6 +259,7 @@
                         <a target="_blank" class="jiathis_button_weixin" title="分享到微信"></a>
                         <a target="_blank" class="jiathis_button_renren" title="分享到人人网"></a>
                         <a target="_blank" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" href="http://www.jiathis.com/share" id="goods_button_more" style=""></a>
+                        <button type="button" class="btn btn-toolbar" onclick="GoBuy(<%=goodsinfo.get(0).getGoods_id()%>,<%=goodsinfo.get(0).getNumber()%>,<%=goodsinfo.get(0).getUser_id()%>)">购买</button>
                         <button type="button" class="btn btn-success" data-id="2666" onclick="saleFavor(<%=goodsinfo.get(0).getGoods_id()%>)">${isCollected}</button>
                         <button type="button" class="btn btn-warning" onclick="SaleReport(<%=goodsinfo.get(0).getGoods_id()%>)">举报</button>
                     </div>
@@ -562,6 +556,47 @@
             layer.msg("您已收藏过");
         }
     }
+    function GoBuy(goods_id,num,user_id) {
+        $.ajax({
+            type:'POST',
+            url:'/Report/isLogin',
+            success:function (msg) {
+                if(msg!="请先登录"){
+                    if(msg==user_id){
+                        layer.msg("您不可以购买自己的物品");
+                    }else {
+                        layer.open({
+                            type: 1,
+                            title: '交易信息填写',
+                            content: $('#popBuy'),
+                            area: ['470px', '470px'],
+                            btn: ['确定购买', '再想想'],
+                            yes: function () {
+                                if ($('#number').val() > num) {
+                                    layer.msg("你买的太多啦！");
+                                } else {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/Order/Buy',
+                                        data: $('#popform3').serialize() + "&goods_id=" + goods_id,
+                                        success: function (msg) {
+                                            if (msg == "操作完成") {
+                                                layer.msg("我们已通知卖家，请等待卖家确认哦");
+                                            } else {
+                                                layer.msg("发生未知错误！");
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                    }
+                }else {
+                    layer.msg(msg);
+                }
+            }
+        })
+    }
 
     $(document).ready(function () {
         //如果用户已登录 隐藏登陆/注册按钮
@@ -573,6 +608,14 @@
             //隐藏信息div
             $("#login_show").hide();
         }
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#time', //指定元素
+                trigger: 'click',
+                min: 0,//可选中的最早日期限制为今日
+            });
+        });
 
     })
 </script>
@@ -607,6 +650,56 @@
                 <label class="layui-form-label" style="width: 125px">预览</label>
                 <div class="layui-input-block">
                     <img style="display: none" src="" id="priviewIcon">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row" id="popBuy" style="display:none;">
+    <div class="layui-col-md10">
+        <form id="popform3" class="layui-form layui-from-pane" action="" style="margin-top:20px; width: 445px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;">购买数量</label>
+                <div class="layui-input-block">
+                    <input type="text" name="number" id="number" style="width: 200px" required lay-verify="required"
+                              autocomplete="off"  placeholder="" class="layui-input"></input>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;">出价</label>
+                <div class="layui-input-block">
+                    <input type="text" name="price" id="price" style="width: 200px" required lay-verify="required"
+                           autocomplete="off"  placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;">交易地点</label>
+                <div class="layui-input-block">
+                    <input type="text" name="place" id="place" style="width: 200px" required lay-verify="required"
+                           autocomplete="off"  placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;">交易时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="time" id="time" style="width: 200px" required lay-verify="required"
+                           autocomplete="off"  placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px;color: black">留言</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="content" id="content" style="width: 300px;height: 100px" required lay-verify="required"
+                              autocomplete="off"  placeholder="" class="layui-input"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px ;color: black">支付方式</label>
+                <div class="layui-input-inline">
+                    <select id="pay_way" name="pay_way">
+                        <option value="线下支付">线下支付</option>
+                    </select>
                 </div>
             </div>
         </form>

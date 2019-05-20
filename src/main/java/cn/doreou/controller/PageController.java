@@ -330,5 +330,14 @@ public class PageController {
         else
             return "admin_login";
     }
+    @RequestMapping("admin_goodsinfo")
+    public String Goods(Model model){
+        if(isLogin()) {
+            model.addAttribute("admin",(Admin)session.getAttribute("admin"));
+            return "admin_goodsinfo";
+        }
+        else
+            return "admin_login";
+    }
 
 }

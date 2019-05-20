@@ -69,16 +69,7 @@
                     <a href="/Page/buy">求购</a>
                 </li>
                 <li class="">
-                    <a target="_blank" href="/app">APP</a>
-                </li>
-                <li class="">
-                    <a target="_blank" href="/applyschool">开通学校</a>
-                </li>
-                <li class="">
                     <a target="_blank" href="/Page/joinus">加入我们</a>
-                </li>
-                <li class="">
-                    <a target="_blank" href="/contact">联系我们</a>
                 </li>
                 <li class="back" style="left: 132px; width: 66px;">
                     <div class="left"></div>

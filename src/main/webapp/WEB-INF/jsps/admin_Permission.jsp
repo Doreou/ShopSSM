@@ -20,7 +20,7 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="/Page/admin_goodsinfo">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
@@ -69,11 +69,6 @@
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
                         <dd><a href="/Page/admin_Cert">认证申请列表</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">查询系统</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息查询</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">数据分析</a>
@@ -190,6 +185,14 @@
                     <input type="radio" lay-filter="report" name="report" value="开启" title="开启">
                     <input type="radio" lay-filter="report" name="report" value="关闭" title="关闭">
                     <input id="reportstatus" name="reportstatus" value="" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 125px">商品管理权</label>
+                <div class="layui-input-block">
+                    <input type="radio" lay-filter="goods" name="goods" value="开启" title="开启">
+                    <input type="radio" lay-filter="goods" name="goods" value="关闭" title="关闭">
+                    <input id="goodsstatus" name="goodsstatus" value="" style="display: none">
                 </div>
             </div>
             <div class="layui-form-item">

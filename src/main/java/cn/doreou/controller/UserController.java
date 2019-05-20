@@ -131,7 +131,7 @@ public class UserController {
             user.setPassword(password);
             user.setUser_id(stuid);
             user.setUsername(username);
-            user.setJointime(jointime);
+            user.setJoin_time(jointime);
             //注册后完成身份验证
             user.setMember_status(0);
             userService.insertUser(user);

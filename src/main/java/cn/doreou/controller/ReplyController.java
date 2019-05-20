@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Time;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,6 +30,7 @@ public class ReplyController {
             reply.setReplyto_id(replyto_id);
             reply.setTo_uid(to_uid);
             reply.setReply_type("0");
+            reply.setTime(new Date());
             replyService.insertNewReply(reply);
             return "回复成功";
         }else{

@@ -21,14 +21,12 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="/Page/admin_goodsinfo">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
+                    <dd><a href="/Page/admin_Permission">授权管理</a></dd>
                 </dl>
             </li>
         </ul>
@@ -72,11 +70,6 @@
                         </dd>
                         <dd class="layui-this"><a href="/Page/admin_Job">兼职申请列表</a></dd>
                         <dd><a href="/Page/admin_Cert">认证申请列表</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">查询系统</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息查询</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">数据分析</a>

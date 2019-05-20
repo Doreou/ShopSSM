@@ -1,10 +1,7 @@
 package cn.doreou.service.impl;
 
 import cn.doreou.mapper.OrderMapper;
-import cn.doreou.model.Carousel;
-import cn.doreou.model.GoodAndUser;
-import cn.doreou.model.Goods;
-import cn.doreou.model.Message;
+import cn.doreou.model.*;
 import cn.doreou.service.OrderService;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,5 +121,20 @@ public class OrderServiceImpl implements OrderService {
     }
     public List<Carousel> getAllCarousel(){
         return orderMapper.getAllCarousel();
+    }
+    public void InsertOrder(Order order){
+        orderMapper.InsertOrder(order);
+    }
+    public int getMaxMessageID(){
+      return  orderMapper.getMaxMessageID();
+    }
+    public Order getByMessageID(int message_id){
+        return orderMapper.getByMessageID(message_id);
+    }
+    public void updateGoodsNumById(int number,int goods_id){
+        orderMapper.updateGoodsNumById(number, goods_id);
+    }
+    public void OwnerConfirm(int order_id){
+        orderMapper.OwnerConfirm(order_id);
     }
 }

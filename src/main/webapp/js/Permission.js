@@ -49,6 +49,14 @@ layui.use(['element','form'], function () {
         trans(data);
         $('#permissionstatus').val(num);
     })
+    form.on('radio(report)',function (data) {
+        trans(data);
+        $('#reportstatus').val(num);
+    })
+    form.on('radio(goods)',function (data) {
+        trans(data);
+        $('#goodsstatus').val(num);
+    })
 });
 
 
@@ -134,6 +142,13 @@ layui.use('table', function () {
                 }}
             , {field: 'permission', title: '权限管理权', width: 100,align:'center',templet:function (d) {
                     if(d.permission==1){
+                        return "√";
+                    }else {
+                        return "×";
+                    }
+                }}
+            , {field: 'goods_permission', title: '商品管理权', width: 100,align:'center',templet:function (d) {
+                    if(d.goods_permission==1){
                         return "√";
                     }else {
                         return "×";
@@ -227,6 +242,13 @@ layui.use('table', function () {
                         $("input:radio[name='permission'][value='关闭']").attr("checked",'true');
                         $('#permissionstatus').val(0);
                     }
+                    if(data.goods_permission){
+                        $("input:radio[name='goods'][value='开启']").attr("checked",'true');
+                        $('#goodsstatus').val(1);
+                    }else{
+                        $("input:radio[name='goods'][value='关闭']").attr("checked",'true');
+                        $('#goodsstatus').val(0);
+                    }
                     form.render();
                 })
                 layer.open({
@@ -261,6 +283,3 @@ layui.use('table', function () {
         layer.msg("您仅有查看权限");
     }
 })
-function getOldData(data){
-
-}

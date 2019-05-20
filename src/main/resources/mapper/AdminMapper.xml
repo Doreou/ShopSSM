@@ -97,7 +97,22 @@
         select count(*) from t_admintype
     </select>
     <update id="updatePermission" parameterType="cn.doreou.model.AdminType">
-        update t_admintype set type=#{type},user_permission=#{user_permission},subject_permission=#{subject_permission},carousel_permission=#{carousel_permission},cert_permission=#{cert_permission},sendmsg_permission=#{sendmsg_permission},message_permission=#{message_permission},report_permission=#{report_permission},adm_permission=#{adm_permission},permission=#{permission},job_permission=#{job_permission} where type_id=#{type_id}
+        update t_admintype set type=#{type},user_permission=#{user_permission},subject_permission=#{subject_permission},carousel_permission=#{carousel_permission},cert_permission=#{cert_permission},sendmsg_permission=#{sendmsg_permission},message_permission=#{message_permission},report_permission=#{report_permission},adm_permission=#{adm_permission},permission=#{permission},job_permission=#{job_permission},goods_permission=#{goods_permission} where type_id=#{type_id}
     </update>
+    <select id="getAllGoods" resultType="cn.doreou.model.Goods">
+        select * from t_goods limit #{start},#{pageSize}
+    </select>
+    <select id="getAllGoodsCount" resultType="INT">
+        select count(*) from t_goods;
+    </select>
 
+    <update id="underCarriage" parameterType="String">
+        update t_goods set isundercarriage=0 where goods_id=#{goods_id};
+    </update>
+    <delete id="deleteGoods" parameterType="String">
+        delete from t_goods where goods_id=#{goods_id}
+    </delete>
+    <update id="updateGoodsInfo" parameterType="cn.doreou.model.Goods">
+        update t_goods set goods_title=#{goods_title},introduce=#{introduce},cover=#{cover},subject=#{subject} where goods_id=#{goods_id}
+    </update>
 </mapper>

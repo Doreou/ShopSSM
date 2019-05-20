@@ -49,4 +49,13 @@ public interface AdminMapper {
     List<AdminType> getAllAdminTypePage(@Param("start") int start,@Param("pageSize") int pageSize);
     int getAllCountOfAdminType();
     void updatePermission(AdminType adminType);
+
+    List<Goods> getAllGoods(@Param("start") int start,@Param("pageSize") int pageSize);
+    int getAllGoodsCount();
+
+//    商品管理
+    void underCarriage(@Param("goods_id") String goods_id);
+    void deleteGoods(@Param("goods_id") String goods_id);
+
+    void updateGoodsInfo(Goods goods);
 }

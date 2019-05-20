@@ -459,4 +459,110 @@ public class OrderController {
             return "以标记为未读";
     }
 
+    @RequestMapping("Buy")
+    public String Buy(@RequestParam("price") float price,@RequestParam("time") String time,
+                    @RequestParam("number") int number,@RequestParam("content") String content,
+                    @RequestParam("place") String place, @RequestParam("pay_way") String pay_way,
+                    HttpSession session,@RequestParam("goods_id") int goods_id){
+        if(session.getAttribute("user")==null){
+            return "请先登录";
+        }else {
+            List<User> user = (List<User>) session.getAttribute("user");
+            List<GoodAndUser> infoList= orderService.getInfoById(String.valueOf(goods_id));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            int message_id=orderService.getMaxMessageID()+1;
+            Order order = new Order();
+            order.setBuyer_get(0);
+            order.setBuyer_id(user.get(0).getUser_id());
+            order.setGive_place(place);
+            try {
+                order.setGive_time(sdf.parse(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            order.setGoods_id(goods_id);
+            order.setLeavewords(content);
+            order.setNumber(number);
+            order.setMessage_id(message_id);
+//        0进行中 1已达成
+            order.setOrder_status(0);
+            order.setOwner_confirm(0);
+            order.setOrder_time(new Date());
+            order.setPay_type(pay_way);
+            //0未支付 1已支付
+            order.setPay_status(0);
+            order.setPrice(price);
+            order.setOwner_get(0);
+            orderService.InsertOrder(order);
+            //向持有者发送消息
+            Message message=new Message();
+            message.setReciever(infoList.get(0).getUser_id());
+            message.setSend_time(new Date());
+            message.setIsRead(0);
+            message.setMessage_type("购买通知");
+            message.setMessage_title("有人收购你的书籍啦！");
+            message.setMessage_content("您好！"+infoList.get(0).getUsername()+",您的书籍"+infoList.get(0).getGoods_title()+"被"+user.get(0).getUsername()+"购买啦！"+"快去查看交易信息吧！TA还给您留言："+content);
+            message.setSender("root");
+            session.setAttribute("message",message);
+            return "redirect:/Message/AutoSend";
+        }
+    }
+
+    @RequestMapping("agree")
+    public String agree(HttpSession session,@RequestParam("message_id") int message_id){
+//        List<User> user=(List<User>)session.getAttribute("user");
+        Order order= orderService.getByMessageID(message_id);
+        //图书数量减持
+        orderService.updateGoodsNumById(order.getNumber(),order.getGoods_id());
+        //持有人确认
+        orderService.OwnerConfirm(order.getOrder_id());
+        Message message=new Message();
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        message.setReciever(order.getBuyer_id());
+        message.setMessage_type("系统提醒");
+        message.setMessage_content("您好！卖家已经同意了您的购买请求，请按照约定线下交易。请注意安全！");
+        message.setSender("root");
+        message.setMessage_title("卖家确认通知");
+        session.setAttribute("message",message);
+
+        //判断存量是否为0
+//        List<GoodAndUser> infoList=orderService.getInfoById(String.valueOf(order.getGoods_id()));
+//        if(infoList.get(0).getNumber()==0){
+//            //是 应用下架
+//            //发送通知
+//            orderService.isundercarriage(order.getGoods_id(),0);
+//            Message message=new Message();
+//            message.setSender("root");
+//            message.setMessage_title("应用下架通知");
+//            message.setMessage_content("尊敬的"+user.getUsername()+"，我们注意到您的商品在出售后存货量变为0，系统已经对商品做下架处理，如您还有多余，请修改持有量后重新上架商品。感谢您的理解！");
+//            message.setMessage_type("系统提醒");
+//            message.setReciever(user.getUser_id());
+//            message.setIsRead(0);
+//            message.setSend_time(new Date());
+//            session.setAttribute("message",message);
+//            return "redirect:/Message/AutoSend";
+//        }else{
+            return "redirect:/Message/AutoSend";
+//        }
+    }
+    @RequestMapping("disagree")
+    public String disagree(HttpSession session,@RequestParam("message_id") int message_id,@RequestParam("content") String content){
+        Order order= orderService.getByMessageID(message_id);
+        if(content.equals("")){
+           content="卖家未说明原因";
+        }
+        Message message=new Message();
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        message.setReciever(order.getBuyer_id());
+        message.setMessage_type("系统提醒");
+        message.setMessage_content("您好！卖家拒绝您的购买请求！理由为："+content+"，再和卖家谈谈吧！");
+        message.setSender("root");
+        message.setMessage_title("卖家拒绝通知");
+        session.setAttribute("message",message);
+        return "redirect:/Message/AutoSend";
+    }
+
+
 }

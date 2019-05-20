@@ -12,7 +12,16 @@ public class AdminType {
     private int job_permission;
     private int adm_permission;
     private int report_permission;
+    private int goods_permission;
     private int permission;
+
+    public int getGoods_permission() {
+        return goods_permission;
+    }
+
+    public void setGoods_permission(int goods_permission) {
+        this.goods_permission = goods_permission;
+    }
 
     public int getPermission() {
         return permission;

@@ -1,6 +1,7 @@
 package cn.doreou.mapper;
 
 import cn.doreou.model.*;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,4 +69,11 @@ public interface OrderMapper {
     void AlreadyRead(@Param("message_id") int Message_id, @Param("status") int status);
 
     List<Carousel> getAllCarousel();
+
+    void InsertOrder(Order order);
+
+    int getMaxMessageID();
+    Order getByMessageID(@Param("message_id") int message_id);
+    void updateGoodsNumById(@Param("number") int number,@Param("goods_id") int goods_id);
+    void OwnerConfirm(@Param("order_id") int order_id);
 }

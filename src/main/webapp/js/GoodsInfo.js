@@ -38,6 +38,7 @@ layui.use('upload', function(){
         }
     });
 });
+
 function SaleReport(goods_id) {
     $.ajax({
         type:'POST',
@@ -70,3 +71,4 @@ function SaleReport(goods_id) {
         }
     })
 }
+

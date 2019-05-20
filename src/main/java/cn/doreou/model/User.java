@@ -26,7 +26,7 @@ public class User {
         this.user_id = user_id;
     }
 
-    private Date jointime;
+    private Date join_time;
     private String qq;
     private String wechat;
 
@@ -45,12 +45,13 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
-    public Date getJointime() {
-        return jointime;
+
+    public Date getJoin_time() {
+        return join_time;
     }
 
-    public void setJointime(Date jointime) {
-        this.jointime = jointime;
+    public void setJoin_time(Date join_time) {
+        this.join_time = join_time;
     }
 
     public String getQq() {

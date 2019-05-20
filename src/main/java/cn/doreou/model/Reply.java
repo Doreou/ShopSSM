@@ -1,6 +1,8 @@
 package cn.doreou.model;
 
-public class Reply extends Comment{
+import java.util.Date;
+
+public class Reply{
     private int reply_id;
     //回复对应的comment_id
     private int replyto_id;
@@ -8,6 +10,15 @@ public class Reply extends Comment{
     private String my_uid;
     private String to_uid;
     private String reply_type;
+    private Date time;
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
 
     public int getReply_id() {
         return reply_id;

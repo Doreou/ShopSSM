@@ -13,6 +13,15 @@
     <title>图书分类管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
+
+<style>
+    .laytable-cell-1-0-6{
+        height: 38px;
+    }
+    .laytable-cell-1-0-0{
+        height: 38px;
+    }
+</style>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -20,14 +29,12 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="/Page/admin_goodsinfo">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
+                    <dd><a href="/Page/admin_Permission">授权管理</a></dd>
                 </dl>
             </li>
         </ul>
@@ -53,14 +60,14 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">网页设置</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this"><a href="/Page/admin_Subject">图书分类管理</a></dd>
+                        <dd><a href="/Page/admin_Subject">图书分类管理</a></dd>
                         <dd><a href="/Page/admin_Carousel">轮播图管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息列表</a></dd>
+                        <dd class="layui-this"><a href="javascript:;">用户信息列表</a></dd>
                         <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
@@ -71,11 +78,6 @@
                         </dd>
                         <dd><a href="/Page/admin_Job">兼职申请列表</a></dd>
                         <dd><a href="/Page/admin_Cert">认证申请列表</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">查询系统</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息查询</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">数据分析</a>
@@ -112,6 +114,10 @@
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>
 <script src="/js/userinfo.js"></script>
-
+<div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:19891017;width:100%;height:100%;display:none;">
+    <div id="innerdiv" style="position:absolute;">
+        <img id="big" style="border:5px solid #fff;" src="" />
+    </div>
+</div>
 </body>
 </html>
