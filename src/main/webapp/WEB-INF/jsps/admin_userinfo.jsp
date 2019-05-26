@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>图书分类管理</title>
+    <title>用户信息管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
 
@@ -97,7 +97,38 @@
         </div>
     </div>
 
+
+
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">ID</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchID" id="SearchID" required style="width: 200px;" placeholder="请输入ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <select name="SearchSex" id="SearchSex">
+                        <option value="">-请选择-</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">认证状态</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <select name="SearchCert" id="SearchCert">
+                            <option value="">-请选择-</option>
+                            <option value="1">已认证</option>
+                            <option value="0">未认证</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
     </div>

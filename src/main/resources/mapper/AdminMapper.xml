@@ -10,7 +10,13 @@
       select * from t_admin where admin_id=#{admin_id}
     </select>
     <select id="getAllSubject" resultType="cn.doreou.model.Book">
-      select * from t_book limit #{start},#{pageSize}
+      select * from t_book
+        <where>
+            <if test="subject!=null and subject!=''">
+             and subject like CONCAT(CONCAT('%', #{subject}), '%')
+            </if>
+        </where>
+    limit #{start},#{pageSize}
     </select>
     <insert id="RegisterAdmin" parameterType="cn.doreou.model.Admin">
         insert into t_admin(admin_id, admin_name, admin_sex, admin_location, admin_phone, admin_wechat, admin_password, admin_icon, admin_email, admin_type) value (#{admin_id},#{admin_name},#{admin_sex},#{admin_location},#{admin_phone},#{admin_wechat},#{admin_password},#{admin_icon},#{admin_email},#{admin_type})
@@ -28,10 +34,45 @@
         insert into t_book (subject_id,subject, icon) value (#{subject_id},#{subject},#{icon})
     </insert>
     <select id="getAllApply" resultType="cn.doreou.model.Applyer">
-        select * from t_apply limit #{start},#{pageSize};
+        select * from t_apply
+        <where>
+            <if test="searchpojo.user_id!=null and searchpojo.user_id!=''">
+                and user_id like CONCAT(CONCAT('%', #{searchpojo.user_id}), '%')
+            </if>
+            <if test="searchpojo.name!=null and searchpojo.name!=''">
+                and name like CONCAT(CONCAT('%', #{searchpojo.name}), '%')
+            </if>
+            <if test="searchpojo.major!=null and searchpojo.major!=''">
+                and major like CONCAT(CONCAT('%', #{searchpojo.major}), '%')
+            </if>
+            <if test="searchpojo.job!=null and searchpojo.job!=''">
+                and job like CONCAT(CONCAT('%', #{searchpojo.job}), '%')
+            </if>
+            <if test="searchpojo.status!=null and searchpojo.status!=''">
+                and status=#{searchpojo.status}
+            </if>
+        </where>
+        limit #{start},#{pageSize};
     </select>
     <select id="getAllApplyCount" resultType="INT">
         select count(*) from t_apply
+        <where>
+            <if test="searchpojo.user_id!=null and searchpojo.user_id!=''">
+                and user_id like CONCAT(CONCAT('%', #{searchpojo.user_id}), '%')
+            </if>
+            <if test="searchpojo.name!=null and searchpojo.name!=''">
+                and name like CONCAT(CONCAT('%', #{searchpojo.name}), '%')
+            </if>
+            <if test="searchpojo.major!=null and searchpojo.major!=''">
+                and major like CONCAT(CONCAT('%', #{searchpojo.major}), '%')
+            </if>
+            <if test="searchpojo.job!=null and searchpojo.job!=''">
+                and job like CONCAT(CONCAT('%', #{searchpojo.job}), '%')
+            </if>
+            <if test="searchpojo.status!=null and searchpojo.status!=''">
+                and status like CONCAT(CONCAT('%', #{searchpojo.status}), '%')
+            </if>
+        </where>
     </select>
     <select id="getOneApply" resultType="cn.doreou.model.Applyer">
         select * from t_apply where apply_id=#{apply_id}
@@ -54,8 +95,20 @@
     <select id="getAllAdminType" resultType="cn.doreou.model.AdminType">
         select * from t_admintype;
     </select>
-    <select id="getAllCarousel" resultType="cn.doreou.model.Carousel">
-      select * from t_carousel limit #{start},#{pageSize};
+    <select id="getAllCarousel" parameterType="cn.doreou.model.SearchPojo" resultType="cn.doreou.model.Carousel">
+      select * from t_carousel
+       <where>
+           <if test="searchpojo.carousel_info!=null and searchpojo.carousel_info!=''">
+              and carousel_info like CONCAT(CONCAT('%', #{searchpojo.carousel_info}), '%')
+           </if>
+           <if test="searchpojo.carousel_start!=null and searchpojo.carousel_start!=''">
+              and carousel_start like CONCAT(CONCAT('%', #{searchpojo.carousel_start}), '%')
+           </if>
+           <if test="searchpojo.carousel_end!=null and searchpojo.carousel_end!=''">
+               and carousel_end like CONCAT(CONCAT('%', #{searchpojo.carousel_end}), '%')
+           </if>
+       </where>
+       limit #{start},#{pageSize};
     </select>
     <select id="getAllCarouselCount" resultType="INT">
       select count(*) from t_carousel;
@@ -85,7 +138,19 @@
         select count(*) from t_user where sex=''
     </select>
     <select id="getAllUserInfo" resultType="cn.doreou.model.User">
-        select user_id,username,label,age,sex,join_time,icon,member_status from t_user limit #{start},#{pageSize};
+        select user_id,username,label,age,sex,join_time,icon,member_status from t_user
+        <where>
+            <if test="searchpojo.user_id!=null and searchpojo.user_id!=''">
+                and user_id like CONCAT(CONCAT('%', #{searchpojo.user_id}), '%')
+            </if>
+            <if test="searchpojo.sex!=null and searchpojo.sex!=''">
+                and sex like CONCAT(CONCAT('%', #{searchpojo.sex}), '%')
+            </if>
+            <if test="searchpojo.member_status!=null and searchpojo.member_status!=''">
+                and member_status like CONCAT(CONCAT('%', #{searchpojo.member_status}), '%')
+            </if>
+        </where>
+        limit #{start},#{pageSize};
     </select>
     <select id="getAllUserInfoOfCount" resultType="INT">
         select count(*) from t_user;
@@ -100,10 +165,63 @@
         update t_admintype set type=#{type},user_permission=#{user_permission},subject_permission=#{subject_permission},carousel_permission=#{carousel_permission},cert_permission=#{cert_permission},sendmsg_permission=#{sendmsg_permission},message_permission=#{message_permission},report_permission=#{report_permission},adm_permission=#{adm_permission},permission=#{permission},job_permission=#{job_permission},goods_permission=#{goods_permission} where type_id=#{type_id}
     </update>
     <select id="getAllGoods" resultType="cn.doreou.model.Goods">
-        select * from t_goods limit #{start},#{pageSize}
+        select * from t_goods
+        <where>
+            <if test="searchpojo.goods_title!=null and searchpojo.goods_title!=''">
+                and goods_title like CONCAT(CONCAT('%', #{searchpojo.goods_title}), '%')
+            </if>
+            <if test="searchpojo.introduce!=null and searchpojo.introduce!=''">
+                and introduce like CONCAT(CONCAT('%', #{searchpojo.introduce}), '%')
+            </if>
+            <if test="searchpojo.time!=null and searchpojo.time!=''">
+                and time like CONCAT(CONCAT('%', #{searchpojo.time}), '%')
+            </if>
+            <if test="searchpojo.owner_id!=null and searchpojo.owner_id!=''">
+                and owner_id like CONCAT(CONCAT('%', #{searchpojo.owner_id}), '%')
+            </if>
+            <if test="searchpojo.status!=null and searchpojo.status!=''">
+                and status=#{searchpojo.status}
+            </if>
+            <if test="searchpojo.subject!=null and searchpojo.subject!=''">
+                and subject like CONCAT(CONCAT('%', #{searchpojo.subject}), '%')
+            </if>
+            <if test="searchpojo.type!=null and searchpojo.type!=''">
+                and type like CONCAT(CONCAT('%', #{searchpojo.type}), '%')
+            </if>
+            <if test="searchpojo.isundercarriage!=null and searchpojo.isundercarriage!=''">
+                and isundercarriage=#{searchpojo.isundercarriage}
+            </if>
+        </where>
+        limit #{start},#{pageSize}
     </select>
     <select id="getAllGoodsCount" resultType="INT">
-        select count(*) from t_goods;
+        select count(*) from t_goods
+        <where>
+            <if test="searchpojo.goods_title!=null and searchpojo.goods_title!=''">
+                and goods_title like CONCAT(CONCAT('%', #{searchpojo.goods_title}), '%')
+            </if>
+            <if test="searchpojo.introduce!=null and searchpojo.introduce!=''">
+                and introduce like CONCAT(CONCAT('%', #{searchpojo.introduce}), '%')
+            </if>
+            <if test="searchpojo.time!=null and searchpojo.time!=''">
+                and time like CONCAT(CONCAT('%', #{searchpojo.time}), '%')
+            </if>
+            <if test="searchpojo.owner_id!=null and searchpojo.owner_id!=''">
+                and owner_id like CONCAT(CONCAT('%', #{searchpojo.owner_id}), '%')
+            </if>
+            <if test="searchpojo.status!=null and searchpojo.status!=''">
+                and status=#{searchpojo.status}
+            </if>
+            <if test="searchpojo.subject!=null and searchpojo.subject!=''">
+                and subject like CONCAT(CONCAT('%', #{searchpojo.subject}), '%')
+            </if>
+            <if test="searchpojo.type!=null and searchpojo.type!=''">
+                and type like CONCAT(CONCAT('%', #{searchpojo.type}), '%')
+            </if>
+            <if test="searchpojo.isundercarriage!=null and searchpojo.isundercarriage!=''">
+                and isundercarriage=#{searchpojo.isundercarriage}
+            </if>
+        </where>
     </select>
 
     <update id="underCarriage" parameterType="String">

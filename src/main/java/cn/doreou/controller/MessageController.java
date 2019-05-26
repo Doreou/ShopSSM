@@ -1,9 +1,6 @@
 package cn.doreou.controller;
 
-import cn.doreou.model.Admin;
-import cn.doreou.model.Message;
-import cn.doreou.model.PojoToJson;
-import cn.doreou.model.User;
+import cn.doreou.model.*;
 import cn.doreou.service.AdminService;
 import cn.doreou.service.MessageService;
 import com.alibaba.fastjson.JSONObject;
@@ -116,9 +113,9 @@ public class MessageController {
     }
     @RequestMapping("getAllMessage")
     @ResponseBody
-    public Object getAllMessage(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List messageList=messageService.getAllMessage((start-1)*pageSize, pageSize);
-        int totalCount=messageService.getAllMessageCount();
+    public Object getAllMessage(@RequestParam("curr") int start, @RequestParam("nums") int pageSize, SearchPojo searchPojo){
+        List messageList=messageService.getAllMessage((start-1)*pageSize, pageSize,searchPojo);
+        int totalCount=messageService.getAllMessageCount(searchPojo);
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,messageList)));
         return jsonObject;
@@ -128,6 +125,14 @@ public class MessageController {
     public String deleteMessage(@RequestParam("message_id") int message_id){
         messageService.deleteMessage(message_id);
         return "消息已撤回";
+    }
+    @RequestMapping("getMessageType")
+    @ResponseBody
+    public Object getMessageType(){
+        List MessageTypeList=messageService.getMessageType();
+        Gson gson=new Gson();
+        JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",MessageTypeList.size(),MessageTypeList)));
+        return jsonObject;
     }
 
 

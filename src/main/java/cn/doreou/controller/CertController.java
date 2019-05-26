@@ -113,9 +113,9 @@ public class CertController {
 
     @RequestMapping("getAllCert")
     @ResponseBody
-    public Object getAllCert(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List certList=certService.getAllCert((start-1)*pageSize, pageSize);
-        int totalCount=certService.getCertCount();
+    public Object getAllCert(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo){
+        List certList=certService.getAllCert((start-1)*pageSize, pageSize,searchPojo);
+        int totalCount=certService.getCertCount(searchPojo);
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,certList)));
         return jsonObject;

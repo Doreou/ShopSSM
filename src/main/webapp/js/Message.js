@@ -30,6 +30,16 @@ layui.use('form', function () {
     form.on('checkbox', function (data) {
         $('#ischeck').val(data.elem.checked);
     })
+    $.ajax({
+        type: 'POST',
+        url: '/Message/getMessageType',
+        success: function (msg) {
+            for (var i = 0; i < msg.data.length; i++) {
+                $("#SearchMessage_type").append(new Option(msg.data[i].message_type, msg.data[i].message_type));
+            }
+            form.render("select");
+        }
+    })
 
 });
 layui.use('laydate', function () {
@@ -85,7 +95,7 @@ $('#disagreebtn').click(function () {
                 $.ajax({
                     type: 'POST',
                     url: '/Order/disagree?message_id=' + message_id,
-                    data:$('#popform').serialize(),
+                    data: $('#popform').serialize(),
                     success: function (msg) {
                         layer.msg(msg);
                         setTimeout(function () {
@@ -175,6 +185,35 @@ layui.use('table', function () {
                 , type: 'asc'
             }
 
+        });
+        active = {
+            reload: function () {
+                var Title = $('#SearchTitle').val();
+                var Content=$('#SearchContent').val();
+                var Sender=$('#SearchSender').val();
+                var Reciever=$('#SearchReciever').val();
+                var Message_type=$('#SearchMessage_type').val();
+                var SendTime=$('#SearchSend_time').val();
+                var Status=$('#SearchStatus').val();
+                table.reload('demo', {
+                    page: {
+                        curr: 1,
+                    },
+                    where: {
+                        message_title:Title,
+                        message_content:Content,
+                        message_type:Message_type,
+                        send_time:SendTime,
+                        isRead:Status,
+                        sender:Sender,
+                        reciever:Reciever,
+                    }
+                })
+            }
+        };
+        $('#searchBtn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
         if (permission == 1) {
             table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"

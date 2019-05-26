@@ -100,6 +100,70 @@
     </div>
 
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchTitle" id="SearchTitle" required style="width: 200px;" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">介绍</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchContent" id="SearchContent" required style="width: 200px;" placeholder="请输入介绍" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">磨损</label>
+                <div class="layui-input-inline">
+                    <select name="SearchStatus" id="SearchStatus">
+                        <option value="">请选择</option>
+                        <option value="全新">全新</option>
+                        <option value="九五新以上">九五新以上</option>
+                        <option value="八五新-九五新">八五新-九五新</option>
+                        <option value="五成新-八五新">五成新-八五新</option>
+                        <option value="五成新以下">五成新以下</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">上架时间</label>
+                <div class="layui-input-inline" style="margin-bottom: 10px">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchTime" id="SearchTime" required style="width: 200px;" placeholder="请选择时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label" style="display: none">持有人</label>
+                <div class="layui-input-inline" style="margin-bottom: 10px;display: none">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchOwner" id="SearchOwner" required style="width: 200px;" placeholder="请输入持有人ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">科目</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <select name="SearchSubject" id="SearchSubject">
+                            <option value="">请选择科目</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline">
+                    <select name="SearchType" id="SearchType">
+                        <option value="">请选择类型</option>
+                        <option value="出售">出售</option>
+                        <option value="购入">购入</option>
+                    </select>
+                </div>
+                <label class="layui-form-label">是否在架</label>
+                <div class="layui-input-inline" style="margin-bottom: 10px">
+                    <select name="SearchCarriage" id="SearchCarriage">
+                        <option value="">请选择类型</option>
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </select>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px;width: 200px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
         <button style="display: block;margin-left: 70%" onclick="addNewSubject()" class="layui-btn layui-btn-normal">添加分类信息</button>

@@ -7,12 +7,62 @@
         insert into t_message (message_title,message_content, message_type, send_time, sender, reciever, isRead,tip) values (#{message_title},#{message_content},#{message_type},#{send_time},#{sender},#{reciever},#{isRead},#{tip});
     </insert>
     <select id="getAllMessage" resultType="cn.doreou.model.Message">
-        select * from t_message limit #{start},#{pageSize};
+        select * from t_message
+        <where>
+            <if test="searchpojo.message_title!=null and searchpojo.message_title!=''">
+                and message_title like CONCAT(CONCAT('%', #{searchpojo.message_title}), '%')
+            </if>
+            <if test="searchpojo.message_content!=null and searchpojo.message_content!=''">
+                and message_content like CONCAT(CONCAT('%', #{searchpojo.message_content}), '%')
+            </if>
+            <if test="searchpojo.message_type!=null and searchpojo.message_type!=''">
+                and message_type like CONCAT(CONCAT('%', #{searchpojo.message_type}), '%')
+            </if>
+            <if test="searchpojo.sender!=null and searchpojo.sender!=''">
+                and sender like CONCAT(CONCAT('%', #{searchpojo.sender}), '%')
+            </if>
+            <if test="searchpojo.reciever!=null and searchpojo.reciever!=''">
+                and reciever like CONCAT(CONCAT('%', #{searchpojo.reciever}), '%')
+            </if>
+            <if test="searchpojo.isRead!=null and searchpojo.isRead!=''">
+                and isRead like CONCAT(CONCAT('%', #{searchpojo.isRead}), '%')
+            </if>
+            <if test="searchpojo.send_time!=null and searchpojo.send_time!=''">
+                and send_time like CONCAT(CONCAT('%', #{searchpojo.send_time}), '%')
+            </if>
+        </where>
+        limit #{start},#{pageSize};
     </select>
     <select id="getAllMessageCount" resultType="INT">
         select count(*) from t_message
+        <where>
+            <if test="searchpojo.message_title!=null and searchpojo.message_title!=''">
+                and message_title like CONCAT(CONCAT('%', #{searchpojo.message_title}), '%')
+            </if>
+            <if test="searchpojo.message_content!=null and searchpojo.message_content!=''">
+                and message_content like CONCAT(CONCAT('%', #{searchpojo.message_content}), '%')
+            </if>
+            <if test="searchpojo.message_type!=null and searchpojo.message_type!=''">
+                and message_type like CONCAT(CONCAT('%', #{searchpojo.message_type}), '%')
+            </if>
+            <if test="searchpojo.sender!=null and searchpojo.sender!=''">
+                and sender like CONCAT(CONCAT('%', #{searchpojo.sender}), '%')
+            </if>
+            <if test="searchpojo.reciever!=null and searchpojo.reciever!=''">
+                and reciever like CONCAT(CONCAT('%', #{searchpojo.reciever}), '%')
+            </if>
+            <if test="searchpojo.isRead!=null and searchpojo.isRead!=''">
+                and isRead like CONCAT(CONCAT('%', #{searchpojo.isRead}), '%')
+            </if>
+            <if test="searchpojo.send_time!=null and searchpojo.send_time!=''">
+                and send_time like CONCAT(CONCAT('%', #{searchpojo.send_time}), '%')
+            </if>
+        </where>
     </select>
     <delete id="deleteMessage" parameterType="INT">
         delete from t_message where message_id=#{message_id}
     </delete>
+    <select id="getMessageType" resultType="cn.doreou.model.Message">
+        select distinct message_type from t_message
+    </select>
 </mapper>

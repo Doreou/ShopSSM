@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>轮播图管理</title>
+    <title>认证申请管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
 <body class="layui-layout-body">
@@ -58,7 +58,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息列表</a></dd>
+                        <dd><a href="/Page/admin_userinfo">用户信息列表</a></dd>
                         <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
@@ -88,6 +88,37 @@
         </div>
     </div>
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">ID</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchID" id="SearchID" required style="width: 200px;" placeholder="请输入申请人ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchName" id="SearchName" required style="width: 200px;" placeholder="请输入申请人姓名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">提交日期</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchTime" id="SearchTime" required style="width: 200px;" placeholder="请选择时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <select name="SearchStatus" id="SearchStatus">
+                        <option value="">请选择</option>
+                        <option value="0">未认证</option>
+                        <option value="1">已通过</option>
+                    </select>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
 

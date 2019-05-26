@@ -3,6 +3,7 @@ package cn.doreou.service.impl;
 import cn.doreou.mapper.ReportMapper;
 import cn.doreou.model.Report;
 import cn.doreou.model.ReportType;
+import cn.doreou.model.SearchPojo;
 import cn.doreou.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class ReportServiceImpl implements ReportService {
     public void NewReport(Report report){
         reportMapper.NewReport(report);
     }
-    public List<Report> getAllReport(int start,int pageSize){
-        return reportMapper.getAllReport(start,pageSize);
+    public List<Report> getAllReport(int start, int pageSize, SearchPojo searchPojo){
+        return reportMapper.getAllReport(start,pageSize,searchPojo);
     }
     public int getAllReportCount(){
         return reportMapper.getAllReportCount();

@@ -65,8 +65,8 @@ public class AdminController {
 
     @RequestMapping("getAllSubject")
     @ResponseBody
-    public Object getAllSubject(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
-        List bookList = adminService.getAllSubject((start - 1) * pageSize, pageSize);
+    public Object getAllSubject(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,@RequestParam(value = "subject",required = false) String subject) {
+        List bookList = adminService.getAllSubject((start - 1) * pageSize, pageSize,subject);
         int totalCount = adminService.getSubjectCount();
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", totalCount, bookList)));
@@ -129,9 +129,9 @@ public class AdminController {
 
     @RequestMapping("getAllApply")
     @ResponseBody
-    public Object getAllApply(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
-        List applyList = adminService.getAllApply((start - 1) * pageSize, pageSize);
-        int totalCount = adminService.getAllApplyCount();
+    public Object getAllApply(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
+        List applyList = adminService.getAllApply((start - 1) * pageSize, pageSize,searchPojo);
+        int totalCount = adminService.getAllApplyCount(searchPojo);
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", totalCount, applyList)));
         System.out.println(jsonObject);
@@ -245,8 +245,8 @@ public class AdminController {
 
     @RequestMapping("getAllCarousel")
     @ResponseBody
-    public Object getAllCarousel(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
-        List CarouselList = adminService.getAllCarousel((start - 1) * pageSize, pageSize);
+    public Object getAllCarousel(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
+        List CarouselList = adminService.getAllCarousel((start - 1) * pageSize, pageSize,searchPojo);
         int totalCount = adminService.getAllAdminCount();
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", totalCount, CarouselList)));
@@ -420,8 +420,8 @@ public class AdminController {
 
     @RequestMapping("getAllUserInfo")
     @ResponseBody
-    public Object getAllUserInfo(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
-        List userInfo = adminService.getAllUserInfo((start - 1) * pageSize, pageSize);
+    public Object getAllUserInfo(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
+        List userInfo = adminService.getAllUserInfo((start - 1) * pageSize, pageSize,searchPojo);
         int totalCount = adminService.getAllUserInfoOfCount();
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", totalCount, userInfo)));
@@ -466,9 +466,9 @@ public class AdminController {
 
     @RequestMapping("getAllGoods")
     @ResponseBody
-    public Object getAllGoods(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
-        List goodsList = adminService.getAllGoods((start - 1) * pageSize, pageSize);
-        int totalCount = adminService.getAllGoodsCount();
+    public Object getAllGoods(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
+        List goodsList = adminService.getAllGoods((start - 1) * pageSize, pageSize,searchPojo);
+        int totalCount = adminService.getAllGoodsCount(searchPojo);
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", totalCount, goodsList)));
         return jsonObject;

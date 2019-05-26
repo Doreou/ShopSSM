@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>图书分类管理</title>
+    <title>举报管理</title>
     <link rel="stylesheet" href="/css/layui.css">
 </head>
 <style>
@@ -63,7 +63,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息列表</a></dd>
+                        <dd><a href="/Page/admin_userinfo">用户信息列表</a></dd>
                         <dd class="layui-this"><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
@@ -94,6 +94,37 @@
     </div>
 
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">被举报人ID</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchID" id="SearchID" required style="width: 200px;" placeholder="请输入被举报人ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">举报人ID</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchID1" id="SearchID1" required style="width: 200px;" placeholder="请输入举报人ID" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">举报时间</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchReport_time" id="SearchReport_time" required style="width: 200px;" placeholder="请选择时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">举报类型</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <select name="SearchReport_type" id="SearchReport_type">
+                            <option value="">请选择类型</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
     </div>

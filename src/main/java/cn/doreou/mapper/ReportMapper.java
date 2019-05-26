@@ -2,6 +2,7 @@ package cn.doreou.mapper;
 
 import cn.doreou.model.Report;
 import cn.doreou.model.ReportType;
+import cn.doreou.model.SearchPojo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,6 @@ import java.util.List;
 public interface ReportMapper {
     List<ReportType> getAllReportType();
     void NewReport(Report report);
-    List<Report> getAllReport(@Param("start") int start,@Param("pageSize") int pageSize);
+    List<Report> getAllReport(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo")SearchPojo searchPojo);
     int getAllReportCount();
 }

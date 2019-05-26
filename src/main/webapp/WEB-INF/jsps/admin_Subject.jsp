@@ -89,6 +89,17 @@
     </div>
 
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">科目名称</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchSubject" id="SearchSubject" required style="width: 200px;" placeholder="请输入科目名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
         <button style="display: block;margin-left: 70%" onclick="addNewSubject()" class="layui-btn layui-btn-normal">添加分类信息</button>

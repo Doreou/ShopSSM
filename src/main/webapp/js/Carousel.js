@@ -39,6 +39,14 @@ layui.use('laydate', function () {
         trigger:'click',
         min:0,//可选中的最早日期限制为今日
     });
+    laydate.render({
+        elem: '#SearchCarouselBegin', //指定元素
+        trigger:'click',
+    });
+    laydate.render({
+        elem: '#SearchCarouselEnd', //指定元素
+        trigger:'click',
+    });
 });
 layui.use('table', function () {
     var table = layui.table;
@@ -78,6 +86,27 @@ layui.use('table', function () {
             field: 'carousel_id'
             , type: 'asc'
         }
+    });
+    active={
+        reload:function () {
+            var Carousel=$('#SearchCarousel').val();
+            var CarouselBegin=$('#SearchCarouselBegin').val();
+            var CarouselEnd=$('#SearchCarouselEnd').val();
+            table.reload('demo',{
+                page:{
+                    curr:1,
+                },
+                where:{
+                    carousel_info:Carousel,
+                    carousel_start:CarouselBegin,
+                    carousel_end:CarouselEnd
+                }
+            })
+        }
+    };
+    $('#searchBtn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
     });
     if(permission==1) {
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"

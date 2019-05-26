@@ -10,7 +10,22 @@
         insert into t_report(report_userid,bereported_goodsid,bereported_userid, report_time, report_type, report_content, report_pic) value (#{report_userid},#{bereported_goodsid},#{bereported_userid},#{report_time},#{report_type},#{report_content},#{report_pic})
     </insert>
     <select id="getAllReport" resultType="cn.doreou.model.Report">
-        select * from t_report limit #{start},#{pageSize}
+        select * from t_report
+        <where>
+            <if test="searchpojo.report_userid!=null and searchpojo.report_userid!=''">
+                and report_userid like CONCAT(CONCAT('%', #{searchpojo.report_userid}), '%')
+            </if>
+            <if test="searchpojo.bereported_userid!=null and searchpojo.bereported_userid!=''">
+                and bereported_userid like CONCAT(CONCAT('%', #{searchpojo.bereported_userid}), '%')
+            </if>
+            <if test="searchpojo.report_type!=null and searchpojo.report_type!=''">
+                and report_type like CONCAT(CONCAT('%', #{searchpojo.report_type}), '%')
+            </if>
+            <if test="searchpojo.report_time!=null and searchpojo.report_time!=''">
+                and report_time like CONCAT(CONCAT('%', #{searchpojo.report_time}), '%')
+            </if>
+        </where>
+        limit #{start},#{pageSize}
     </select>
     <select id="getAllReportCount" resultType="INT">
         select count(*) from t_report;

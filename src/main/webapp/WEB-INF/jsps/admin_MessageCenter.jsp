@@ -60,7 +60,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息列表</a></dd>
+                        <dd><a href="/Page/admin_userinfo">用户信息列表</a></dd>
                         <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
@@ -90,6 +90,57 @@
         </div>
     </div>
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">消息标题</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchTitle" id="SearchTitle" required style="width: 200px;" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">消息内容</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchContent" id="SearchContent" required style="width: 200px;" placeholder="请输入内容" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">发送人</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchSender" id="SearchSender" required style="width: 200px;" placeholder="请输入发送人" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">接收人</label>
+                <div class="layui-input-inline" style="margin-bottom: 10px">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchReciever" id="SearchReciever" required style="width: 200px;" placeholder="请输入收件人" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">消息类型</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <select name="SearchMessage_type" id="SearchMessage_type">
+                            <option value="">请选择类型</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="layui-form-label">发送时间</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchSend_time" id="SearchSend_time" required style="width: 200px;" placeholder="请选择时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">已读状态</label>
+                <div class="layui-input-inline">
+                    <select name="SearchStatus" id="SearchStatus">
+                        <option value="">请选择类型</option>
+                        <option value="0">未读</option>
+                        <option value="1">已读</option>
+                    </select>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px;width: 200px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
     </div>

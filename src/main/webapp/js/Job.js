@@ -67,6 +67,31 @@ layui.use('table', function () {
         }
 
     });
+    active = {
+        reload: function () {
+            var ID = $('#SearchID').val();
+            var Name=$('#SearchName').val();
+            var Major=$('#SearchMajor').val();
+            var Job=$('#SearchJob').val();
+            var Status=$('#SearchStatus').val();
+            table.reload('demo', {
+                page: {
+                    curr: 1,
+                },
+                where: {
+                    user_id:ID,
+                    name:Name,
+                    major:Major,
+                    job:Job,
+                    status:Status,
+                }
+            })
+        }
+    };
+    $('#searchBtn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
     if(permission==1) {
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据

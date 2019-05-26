@@ -14,13 +14,19 @@ layui.use('form', function () {
         success: function (msg) {
             for (var i = 0; i < msg.data.length; i++) {
                 $('#subject').append(new Option(msg.data[i].subject, msg.data[i].subject));
+                $('#SearchSubject').append(new Option(msg.data[i].subject, msg.data[i].subject));
             }
             form.render('select');
         }
     })
 })
-layui.use('element', function () {
+layui.use(['element','laydate'], function () {
     var element = layui.element;
+    var laydate=layui.laydate;
+    laydate.render({
+        elem: '#SearchTime', //指定元素
+        trigger: 'click',
+    })
 });
 layui.use('table', function () {
     var table = layui.table;
@@ -75,6 +81,37 @@ layui.use('table', function () {
             field: 'goods_id'
             , type: 'asc'
         }
+    });
+    active = {
+        reload: function () {
+            var Title = $('#SearchTitle').val();
+            var Content=$('#SearchContent').val();
+            var Time=$('#SearchTime').val();
+            var Owner=$('#SearchOwner').val();
+            var Subject=$('#SearchSubject').val();
+            var Type=$('#SearchType').val();
+            var Carriage=$('#SearchCarriage').val();
+            var Status=$('#SearchStatus').val();
+            table.reload('demo', {
+                page: {
+                    curr: 1,
+                },
+                where: {
+                    goods_title:Title,
+                    introduce:Content,
+                    time:Time,
+                    owner_id:Owner,
+                    subject:Subject,
+                    type:Type,
+                    status:Status,
+                    isundercarriage:Carriage
+                }
+            })
+        }
+    };
+    $('#searchBtn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
     });
     if (permission == 1) {
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"

@@ -10,10 +10,39 @@
         select * from t_cert where user_id=#{_parameter}
     </select>
     <select id="getAllCert" resultType="cn.doreou.model.Cert">
-      select * from t_cert limit #{start},#{pageSize}
+      select * from t_cert
+        <where>
+            <if test="searchpojo.user_id!=null and searchpojo.user_id!=''">
+                and user_id like CONCAT(CONCAT('%', #{searchpojo.user_id}), '%')
+            </if>
+            <if test="searchpojo.user_name!=null and searchpojo.user_name!=''">
+                and user_name like CONCAT(CONCAT('%', #{searchpojo.user_name}), '%')
+            </if>
+            <if test="searchpojo.up_time!=null and searchpojo.up_time!=''">
+                and up_time like CONCAT(CONCAT('%', #{searchpojo.up_time}), '%')
+            </if>
+            <if test="searchpojo.status!=null and searchpojo.status!=''">
+                and status=#{searchpojo.status}
+            </if>
+        </where>
+      limit #{start},#{pageSize}
     </select>
     <select id="getCertCount" resultType="INT">
       select count(*) from t_cert
+        <where>
+            <if test="searchpojo.user_id!=null and searchpojo.user_id!=''">
+                and user_id like CONCAT(CONCAT('%', #{searchpojo.user_id}), '%')
+            </if>
+            <if test="searchpojo.user_name!=null and searchpojo.user_name!=''">
+                and user_name like CONCAT(CONCAT('%', #{searchpojo.user_name}), '%')
+            </if>
+            <if test="searchpojo.up_time!=null and searchpojo.up_time!=''">
+                and up_time like CONCAT(CONCAT('%', #{searchpojo.up_time}), '%')
+            </if>
+            <if test="searchpojo.status!=null and searchpojo.status!=''">
+                and status=#{searchpojo.status}
+            </if>
+        </where>
     </select>
     <select id="getOneCert" parameterType="INT" resultType="cn.doreou.model.Cert">
         select * from t_cert where cert_id=#{cert_id};

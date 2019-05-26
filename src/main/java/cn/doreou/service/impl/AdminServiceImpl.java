@@ -32,8 +32,8 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.getSubjectCount();
     }
 
-    public List<Book> getAllSubject(int start,int pageSize) {
-        return adminMapper.getAllSubject(start,pageSize);
+    public List<Book> getAllSubject(int start,int pageSize,String subject) {
+        return adminMapper.getAllSubject(start,pageSize,subject);
     }
 
     public void deleteSubject(String subject){
@@ -45,11 +45,11 @@ public class AdminServiceImpl implements AdminService {
     public void addNewSubject(Book book){
         adminMapper.addNewSubject(book);
     }
-    public List<Applyer> getAllApply(int start,int pageSize){
-        return adminMapper.getAllApply(start, pageSize);
+    public List<Applyer> getAllApply(int start,int pageSize,SearchPojo searchPojo){
+        return adminMapper.getAllApply(start, pageSize,searchPojo);
     }
-    public int getAllApplyCount(){
-        return adminMapper.getAllApplyCount();
+    public int getAllApplyCount(SearchPojo searchPojo){
+        return adminMapper.getAllApplyCount(searchPojo);
     }
     public List<User> getAllUser(){
         return adminMapper.getAllUser();
@@ -73,8 +73,8 @@ public class AdminServiceImpl implements AdminService {
     public List<AdminType> getAllAdminType(){
         return adminMapper.getAllAdminType();
     }
-    public List<Carousel> getAllCarousel(int start,int pageSize){
-        return adminMapper.getAllCarousel(start, pageSize);
+    public List<Carousel> getAllCarousel(int start,int pageSize,SearchPojo searchPojo){
+        return adminMapper.getAllCarousel(start, pageSize,searchPojo);
     }
     public int getAllCarouselCount(){
         return adminMapper.getAllCarouselCount();
@@ -103,8 +103,8 @@ public class AdminServiceImpl implements AdminService {
     public int getUserCountOfNoRecord(){
         return adminMapper.getUserCountOfNoRecord();
     }
-    public List<User> getAllUserInfo(int start,int pageSize){
-        return adminMapper.getAllUserInfo(start, pageSize);
+    public List<User> getAllUserInfo(int start,int pageSize,SearchPojo searchPojo){
+        return adminMapper.getAllUserInfo(start, pageSize,searchPojo);
     }
     public int getAllUserInfoOfCount(){
         return adminMapper.getAllUserInfoOfCount();
@@ -119,11 +119,11 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.updatePermission(adminType);
     }
 
-    public List<Goods> getAllGoods(int start,int pageSize){
-        return adminMapper.getAllGoods(start, pageSize);
+    public List<Goods> getAllGoods(int start,int pageSize,SearchPojo searchPojo){
+        return adminMapper.getAllGoods(start, pageSize,searchPojo);
     }
-    public int getAllGoodsCount(){
-        return adminMapper.getAllGoodsCount();
+    public int getAllGoodsCount(SearchPojo searchPojo){
+        return adminMapper.getAllGoodsCount(searchPojo);
     }
     public void underCarriage(String goods_id){
         adminMapper.underCarriage(goods_id);

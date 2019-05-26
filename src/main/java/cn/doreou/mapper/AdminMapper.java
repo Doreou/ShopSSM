@@ -11,14 +11,14 @@ public interface AdminMapper {
     List<Admin> isLogin(Admin admin);
     Admin getByAdminID(String id);
     void RegisterAdmin(Admin admin);
-    List<Book> getAllSubject(@Param("start") int start,@Param("pageSize") int pageSize);
+    List<Book> getAllSubject(@Param("start") int start,@Param("pageSize") int pageSize,@Param("subject") String subject);
     int getSubjectCount();
     void deleteSubject(@Param("subject") String subject);
     void updateSubject(Book book);
     void addNewSubject(Book book);
 
-    List<Applyer> getAllApply(@Param("start") int start,@Param("pageSize") int pageSize);
-    int getAllApplyCount();
+    List<Applyer> getAllApply(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
+    int getAllApplyCount(@Param("searchpojo") SearchPojo searchPojo);
 
     List<User> getAllUser();
     List<Applyer> getOneApply(@Param("apply_id") int apply_id);
@@ -30,7 +30,7 @@ public interface AdminMapper {
     int getAllAdminCount();
 
     List<AdminType> getAllAdminType();
-    List<Carousel> getAllCarousel(@Param("start") int start,@Param("pageSize") int pageSize);
+    List<Carousel> getAllCarousel(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
     int getAllCarouselCount();
     void addNewCarousel(Carousel carousel);
 
@@ -43,15 +43,15 @@ public interface AdminMapper {
     int getUserCountOfWoman();
     int getUserCountOfNoRecord();
 
-    List<User> getAllUserInfo(@Param("start") int start,@Param("pageSize") int pageSize);
+    List<User> getAllUserInfo(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
     int getAllUserInfoOfCount();
 
     List<AdminType> getAllAdminTypePage(@Param("start") int start,@Param("pageSize") int pageSize);
     int getAllCountOfAdminType();
     void updatePermission(AdminType adminType);
 
-    List<Goods> getAllGoods(@Param("start") int start,@Param("pageSize") int pageSize);
-    int getAllGoodsCount();
+    List<Goods> getAllGoods(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
+    int getAllGoodsCount(@Param("searchpojo") SearchPojo searchPojo);
 
 //    商品管理
     void underCarriage(@Param("goods_id") String goods_id);

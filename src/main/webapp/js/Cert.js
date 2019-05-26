@@ -6,8 +6,13 @@ $.ajax({
         permission = msg.data[0].cert_permission;
     }
 })
-layui.use('element', function () {
+layui.use(['element','laydate'], function () {
     var element = layui.element;
+    var laydate=layui.laydate;
+    laydate.render({
+        elem: '#SearchTime', //指定元素
+        trigger: 'click',
+    });
 });
 layui.use('table', function () {
     var table = layui.table;
@@ -64,6 +69,29 @@ layui.use('table', function () {
             , type: 'asc'
         }
 
+    });
+    active={
+        reload:function () {
+            var ID=$('#SearchID').val();
+            var Name=$('#SearchName').val();
+            var Time=$('#SearchTime').val();
+            var Status=$('#SearchStatus').val();
+            table.reload('demo',{
+                page:{
+                    curr:1,
+                },
+                where:{
+                    user_id:ID,
+                    user_name:Name,
+                    up_time:Time,
+                    status:Status
+                }
+            })
+        }
+    };
+    $('#searchBtn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
     });
     if(permission==1) {
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"

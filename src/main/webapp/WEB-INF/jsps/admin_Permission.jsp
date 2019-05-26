@@ -58,7 +58,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息列表</a></dd>
+                        <dd><a href="/Page/admin_userinfo">用户信息列表</a></dd>
                         <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">

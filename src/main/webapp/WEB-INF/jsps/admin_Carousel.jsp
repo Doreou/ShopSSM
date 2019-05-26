@@ -66,7 +66,7 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户信息列表</a></dd>
+                        <dd><a href="/Page/admin_userinfo">用户信息列表</a></dd>
                         <dd><a href="/Page/admin_Report">被举报列表</a></dd>
                         <dd class="layui-nav-itemed"><a href="javascript:;">消息中心</a>
                             <dl class="layui-nav-child">
@@ -97,6 +97,29 @@
     </div>
 
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">轮播图名称</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchCarousel" id="SearchCarousel" required style="width: 200px;" placeholder="请输入轮播图名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchCarouselBegin" id="SearchCarouselBegin" required style="width: 200px;" placeholder="请选择开始时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <label class="layui-form-label">结束时间</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <input type="text" name="SearchCarouselEnd" id="SearchCarouselEnd" required style="width: 200px;" placeholder="请选择结束时间" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
         <table id="demo" lay-filter="test"></table>
         <button style="display: block;margin-left: 70%" onclick="addNewCarousel()" class="layui-btn layui-btn-normal">添加新的轮播图</button>

@@ -2,6 +2,7 @@ package cn.doreou.service.impl;
 
 import cn.doreou.mapper.CertMapper;
 import cn.doreou.model.Cert;
+import cn.doreou.model.SearchPojo;
 import cn.doreou.service.CertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,11 @@ public class CertServiceImpl implements CertService {
         }
         return false;
     }
-    public List<Cert> getAllCert(int start, int pageSize){
-        return certMapper.getAllCert(start,pageSize);
+    public List<Cert> getAllCert(int start, int pageSize, SearchPojo searchPojo){
+        return certMapper.getAllCert(start,pageSize,searchPojo);
     }
-    public int getCertCount(){
-        return certMapper.getCertCount();
+    public int getCertCount(SearchPojo searchPojo){
+        return certMapper.getCertCount(searchPojo);
     }
     public List<Cert> getOneCert(int cert_id){
         return certMapper.getOneCert(cert_id);

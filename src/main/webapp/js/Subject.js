@@ -41,6 +41,23 @@ layui.use('table', function () {
             , type: 'asc'
         }
     });
+    active={
+        reload:function () {
+            var Subject=$('#SearchSubject').val();
+            table.reload('demo',{
+                page:{
+                    curr:1,
+                },
+                where:{
+                    subject:Subject
+                }
+            })
+        }
+    };
+    $('#searchBtn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
     if (permission == 1) {
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据

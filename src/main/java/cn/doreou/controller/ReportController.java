@@ -1,9 +1,6 @@
 package cn.doreou.controller;
 
-import cn.doreou.model.GoodAndUser;
-import cn.doreou.model.PojoToJson;
-import cn.doreou.model.Report;
-import cn.doreou.model.User;
+import cn.doreou.model.*;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.ReportService;
 import com.alibaba.fastjson.JSONObject;
@@ -91,8 +88,8 @@ public class ReportController {
     }
     @RequestMapping("getAllReport")
     @ResponseBody
-    public Object getAllReport(@RequestParam("curr") int start, @RequestParam("nums") int pageSize){
-        List ReportList=reportService.getAllReport((start-1)*pageSize, pageSize);
+    public Object getAllReport(@RequestParam("curr") int start, @RequestParam("nums") int pageSize, SearchPojo searchPojo){
+        List ReportList=reportService.getAllReport((start-1)*pageSize, pageSize,searchPojo);
         int totalCount=reportService.getAllReportCount();
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,ReportList)));
