@@ -30,9 +30,7 @@
         <div class="layui-logo">后台管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
             <li class="layui-nav-item"><a href="/Page/admin_goodsinfo">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">
@@ -48,10 +46,9 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/Page/admin_info">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退出登录</a></li>
+            <li class="layui-nav-item"><a href="/Page/adminlogin">退出登录</a></li>
         </ul>
     </div>
 

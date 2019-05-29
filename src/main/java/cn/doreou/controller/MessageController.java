@@ -122,7 +122,7 @@ public class MessageController {
     }
     @RequestMapping("deleteMessage")
     @ResponseBody
-    public String deleteMessage(@RequestParam("message_id") int message_id){
+    public String deleteMessage(@RequestParam(value = "message_id") int message_id){
         messageService.deleteMessage(message_id);
         return "消息已撤回";
     }

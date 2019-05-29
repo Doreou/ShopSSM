@@ -21,7 +21,7 @@
     <link href="/css/salegoods.css" rel="stylesheet">
     <link href="/css/chosen.css" rel="stylesheet">
     <link href="/css/salestyle.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css"/>
     <link href="/css/common.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/ImgCropping.css">
     <link href="/css/layer.css" rel="stylesheet">
@@ -40,7 +40,7 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    List<User> userList =(List<User>) session.getAttribute("user");
+    List<User> userList = (List<User>) session.getAttribute("user");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -179,15 +179,15 @@
                     <label class="col-sm-3 control-label">详情：</label>
                     <div class="col-sm-8">
                         <input id="detail" name="detail" placeholder="请输入详情" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("detail")%>"></input>
+                               aria-required="true" aria-invalid="false"
+                               value="<%=session.getAttribute("detail")%>"></input>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">封面：
                         <!-- <span class="badge badge-warning " id="tip1">？</span> --></label>
-                    <div class="col-sm-8" <%if(session.getAttribute("code")!=null){%>
-                         style="display: none;"<%}
-                    else {%>
+                    <div class="col-sm-8" <%if (session.getAttribute("code") != null) {%>
+                         style="display: none;"<%} else {%>
 
                             <%}%>>
                         <div data-toggle="modal" id="modal1" data-target="#myModal1"
@@ -195,11 +195,10 @@
                         </div>
                     </div>
 
-                    <div class="str" <%if(session.getAttribute("code")!=null){%>
-                         style="text-align: center"<%}
-                    else {%>
+                    <div class="str" <%if (session.getAttribute("code") != null) {%>
+                         style="text-align: center"<%} else {%>
                          style="display: none;"
-                    <%}%>>
+                            <%}%>>
                         <img id="finalImg" src="<%=session.getAttribute("code")%>" width="20%">
                     </div>
                 </div>
@@ -207,19 +206,21 @@
                     <label class="col-sm-3 control-label">数量：</label>
                     <div class="col-sm-8">
                         <input id="count" name="count" placeholder="请输入您拥有的商品数量" class="form-control" type="text"
-                                  aria-required="true" aria-invalid="false" value="<%=session.getAttribute("count")%>">
+                               aria-required="true" aria-invalid="false" value="<%=session.getAttribute("count")%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">商品原价：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="pricost" name="pricost" type="text" class="form-control" value="<%=session.getAttribute("pricost")%>">
+                        <input id="pricost" name="pricost" type="text" class="form-control"
+                               value="<%=session.getAttribute("pricost")%>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">分类：</label>
+                    <label class="col-sm-3 control-label">磨损：</label>
                     <div class="col-sm-8">
-                        <select id="status" name="status" data-placeholder="选择磨损程度..." class="chosen-select form-control"
+                        <select id="status" name="status" data-placeholder="选择磨损程度..."
+                                class="chosen-select form-control"
                                 style="width: 100%;" tabindex="-1">
                             <option value="全新">全新</option>
                             <option value="九五新以上">九五新以上</option>
@@ -232,7 +233,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control" value="<%=session.getAttribute("price")%>">
+                        <input id="price" name="price" type="text" class="form-control"
+                               value="<%=session.getAttribute("price")%>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -247,8 +249,9 @@
                     <div class="col-sm-8">
                         <select id="type" name="type" data-placeholder="选择分类..." class="chosen-select form-control"
                                 style="width: 100%;" tabindex="-1">
-                            <% for(Book b:bookList){ %>
-                            <option value="<%=b.getSubject()%>"><%=b.getSubject()%></option>
+                            <% for (Book b : bookList) { %>
+                            <option value="<%=b.getSubject()%>"><%=b.getSubject()%>
+                            </option>
                             <%}%>
                         </select>
                     </div>
@@ -282,33 +285,33 @@
         </div>
     </div>
     <div style="display: none" class="tailoring-container">
-            <div class="tailoring-content" style="top: 100px; left: 365.5px;">
-                <div class="tailoring-content-one">
-                    <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
-                        <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
-                               class="hidden" onchange="selectImg(this)">
-                        选择图片
-                    </label>
-                    <div class="close-tailoring">×</div>
+        <div class="tailoring-content" style="top: 100px; left: 365.5px;">
+            <div class="tailoring-content-one">
+                <label title="上传图片" for="chooseImg" class="l-btn choose-btn">
+                    <input type="file" accept="image/jpg,image/jpeg,image/png" name="file" id="chooseImg"
+                           class="hidden" onchange="selectImg(this)">
+                    选择图片
+                </label>
+                <div class="close-tailoring">×</div>
+            </div>
+            <div class="tailoring-content-two">
+                <div class="tailoring-box-parcel">
+                    <img id="tailoringImg">
                 </div>
-                <div class="tailoring-content-two">
-                    <div class="tailoring-box-parcel">
-                        <img id="tailoringImg">
-                    </div>
-                    <div class="preview-box-parcel">
-                        <p>图片预览：</p>
-                        <div class="square previewImg"></div>
-                        <div class="circular previewImg"></div>
-                    </div>
-                </div>
-                <textarea style="display: none" name="code" id="code"></textarea>
-                <div class="tailoring-content-three">
-                    <button class="l-btn cropper-reset-btn">复位</button>
-                    <button class="l-btn cropper-rotate-btn">旋转</button>
-                    <button class="l-btn cropper-scaleX-btn">换向</button>
-                    <button class="l-btn sureCut" id="sureCut">确定</button>
+                <div class="preview-box-parcel">
+                    <p>图片预览：</p>
+                    <div class="square previewImg"></div>
+                    <div class="circular previewImg"></div>
                 </div>
             </div>
+            <textarea style="display: none" name="code" id="code"></textarea>
+            <div class="tailoring-content-three">
+                <button class="l-btn cropper-reset-btn">复位</button>
+                <button class="l-btn cropper-rotate-btn">旋转</button>
+                <button class="l-btn cropper-scaleX-btn">换向</button>
+                <button class="l-btn sureCut" id="sureCut">确定</button>
+            </div>
+        </div>
         </form>
     </div>
 
@@ -350,11 +353,12 @@
 
 </div>
 <script src="/js/upload.js"></script>
+<script src="/js/InputCheck.js"></script>
 <script>
     $(document).ready(function () {
-        var errmsg="";
-        errmsg="<%=session.getAttribute("errmsg")%>";
-        if(errmsg!=""&&errmsg!="null"){
+        var errmsg = "";
+        errmsg = "<%=session.getAttribute("errmsg")%>";
+        if (errmsg != "" && errmsg != "null") {
             layer.msg(errmsg.toString());
             //提示后重置errmsg
             <%session.setAttribute("errmsg","");%>
@@ -381,14 +385,18 @@
             , arrow: 'always'
         });
     });
+
     function adddata() {
-        if(<%=session.getAttribute("code")!=null%>){
-        $('#saleForm').attr('action','${pageContext.request.contextPath}/Order/salegoods');
-        $('#saleForm').submit();
-        }else{
-            layer.msg("你至少需要上传一张照片哦");
-            return false;
+        if (check()) {
+            if (<%=session.getAttribute("code")!=null%>) {
+                $('#saleForm').attr('action', '${pageContext.request.contextPath}/Order/salegoods');
+                $('#saleForm').submit();
+            } else {
+                layer.msg("你至少需要上传一张照片哦");
+                return false;
+            }
         }
+        return check();
     }
 
     $("#sureCut").on("click", function () {
@@ -399,7 +407,7 @@
             var base64 = cas.toDataURL('image/png'); // 转换为base64
             $('#code').html(base64);
             $('.tailoring-container').attr("style", "display:none");
-            $("#saleForm").attr("action","${pageContext.request.contextPath}/Order/upload");
+            $("#saleForm").attr("action", "${pageContext.request.contextPath}/Order/upload");
             $("#saleForm").submit();
 
         }

@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">分类：</label>
+                    <label class="col-sm-3 control-label">磨损：</label>
                     <div class="col-sm-8">
                         <select id="status" name="status" data-placeholder="选择磨损程度..." class="chosen-select form-control"
                                 style="width: 100%;" tabindex="-1">
@@ -239,7 +239,7 @@
                 <%--</div>--%>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-3">
-                        <button type="submit" class="btn btn-primary btn-block">提交</button>
+                        <button type="submit" onclick="return check()" class="btn btn-primary btn-block">提交</button>
                     </div>
                 </div>
             </form>
@@ -282,6 +282,7 @@
     </div>
 
 </div>
+<script src="/js/InputCheck.js"></script>
 <script>
     $(document).ready(function () {
         var errmsg="";

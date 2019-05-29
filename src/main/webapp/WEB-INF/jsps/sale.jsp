@@ -102,7 +102,7 @@
             </ul>
             <form class="navbar-form navbar-right search-box" action="/Order/searchsale">
                 <div class="form-group pull-left">
-                    <input name="keyword" type="text" id="serachWord" class="form-control search-field"
+                    <input name="keyword" type="text" id="serachWord" style="color: black" class="form-control search-field"
                            placeholder="搜索一下..."></div>
                 <button type="submit"class="btn btn-default pull-left search-btn">搜索</button>
             </form>

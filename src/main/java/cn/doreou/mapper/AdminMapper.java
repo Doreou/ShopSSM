@@ -26,12 +26,12 @@ public interface AdminMapper {
     void ApplyPass(Applyer applyer);
     void ApplyRefused(Applyer applyer);
 
-    List<Admin> getAllAdmin(@Param("start") int start,@Param("pageSize") int pageSize);
-    int getAllAdminCount();
+    List<Admin> getAllAdmin(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
+    int getAllAdminCount(@Param("searchpojo") SearchPojo searchPojo);
 
     List<AdminType> getAllAdminType();
     List<Carousel> getAllCarousel(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
-    int getAllCarouselCount();
+    int getAllCarouselCount(@Param("searchpojo") SearchPojo searchPojo);
     void addNewCarousel(Carousel carousel);
 
     void deleteCarousel(@Param("carousel_id") int carousel_id);
@@ -44,7 +44,7 @@ public interface AdminMapper {
     int getUserCountOfNoRecord();
 
     List<User> getAllUserInfo(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo") SearchPojo searchPojo);
-    int getAllUserInfoOfCount();
+    int getAllUserInfoOfCount(@Param("searchpojo") SearchPojo searchPojo);
 
     List<AdminType> getAllAdminTypePage(@Param("start") int start,@Param("pageSize") int pageSize);
     int getAllCountOfAdminType();

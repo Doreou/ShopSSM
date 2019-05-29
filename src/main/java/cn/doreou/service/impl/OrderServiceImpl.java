@@ -100,8 +100,11 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.refreshbuy(goods);
     }
 
-    public List<Goods> getMyCollect(String userid){
-        return orderMapper.getMyCollect(userid);
+    public List<Goods> getMyCollect(String userid,int start,int pageSize){
+        return orderMapper.getMyCollect(userid,start,pageSize);
+    }
+    public int getMyCollectCount(String user_id){
+        return orderMapper.getMyCollectCount(user_id);
     }
     public void undoCollect(String user_id,int goods_id){
         orderMapper.undoCollect(user_id,goods_id);
@@ -113,8 +116,11 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
     }
-    public List<Message> getMyNews(String user_id){
-        return orderMapper.getMyNews(user_id);
+    public List<Message> getMyNews(String user_id,int start,int pageSize){
+        return orderMapper.getMyNews(user_id,start,pageSize);
+    }
+    public int getMyNewsCount(String user_id){
+        return orderMapper.getMyNewsCount(user_id);
     }
     public void AlreadyRead(int message_id,int status){
         orderMapper.AlreadyRead(message_id,status);
@@ -136,5 +142,18 @@ public class OrderServiceImpl implements OrderService {
     }
     public void OwnerConfirm(int order_id){
         orderMapper.OwnerConfirm(order_id);
+    }
+
+    public boolean isClicked(String user_id,String goods_id){
+        if(orderMapper.isClicked(user_id, goods_id).size()>0){
+            return true;
+        }else
+            return false;
+    }
+    public void newClick(String user_id,String goods_id){
+        orderMapper.newClick(user_id, goods_id);
+    }
+    public void addClickCount(String goods_id){
+        orderMapper.addClickCount(goods_id);
     }
 }

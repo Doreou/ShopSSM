@@ -87,10 +87,33 @@
         update t_apply set status=-1,apply_adm=#{apply_adm},reply_title=#{reply_title},reply=#{reply},check_time=#{check_time} where apply_id=#{apply_id}
     </update>
     <select id="getAllAdmin" resultType="cn.doreou.model.Admin">
-        select * from t_admin limit #{start},#{pageSize}
+        select * from t_admin
+        <where>
+            <if test="searchpojo.admin_id!=null and searchpojo.admin_id!=''">
+                and admin_id like CONCAT(CONCAT('%', #{searchpojo.admin_id}), '%')
+            </if>
+            <if test="searchpojo.admin_name!=null and searchpojo.admin_name!=''">
+                and admin_name like CONCAT(CONCAT('%', #{searchpojo.admin_name}), '%')
+            </if>
+            <if test="searchpojo.admin_type!=null and searchpojo.admin_type!=''">
+                and admin_type like CONCAT(CONCAT('%', #{searchpojo.admin_type}), '%')
+            </if>
+        </where>
+        limit #{start},#{pageSize}
     </select>
     <select id="getAllAdminCount" resultType="INT">
         select count(*) from t_admin
+        <where>
+            <if test="searchpojo.admin_id!=null and searchpojo.admin_id!=''">
+                and admin_id like CONCAT(CONCAT('%', #{searchpojo.admin_id}), '%')
+            </if>
+            <if test="searchpojo.admin_name!=null and searchpojo.admin_name!=''">
+                and admin_name like CONCAT(CONCAT('%', #{searchpojo.admin_name}), '%')
+            </if>
+            <if test="searchpojo.admin_type!=null and searchpojo.admin_type!=''">
+                and admin_type like CONCAT(CONCAT('%', #{searchpojo.admin_type}), '%')
+            </if>
+        </where>
     </select>
     <select id="getAllAdminType" resultType="cn.doreou.model.AdminType">
         select * from t_admintype;
@@ -111,7 +134,18 @@
        limit #{start},#{pageSize};
     </select>
     <select id="getAllCarouselCount" resultType="INT">
-      select count(*) from t_carousel;
+      select count(*) from t_carousel
+        <where>
+            <if test="searchpojo.carousel_info!=null and searchpojo.carousel_info!=''">
+                and carousel_info like CONCAT(CONCAT('%', #{searchpojo.carousel_info}), '%')
+            </if>
+            <if test="searchpojo.carousel_start!=null and searchpojo.carousel_start!=''">
+                and carousel_start like CONCAT(CONCAT('%', #{searchpojo.carousel_start}), '%')
+            </if>
+            <if test="searchpojo.carousel_end!=null and searchpojo.carousel_end!=''">
+                and carousel_end like CONCAT(CONCAT('%', #{searchpojo.carousel_end}), '%')
+            </if>
+        </where>
     </select>
     <insert id="addNewCarousel" parameterType="cn.doreou.model.Carousel">
         insert into t_carousel (carousel_pic, carousel_info, carousel_start, carousel_end, carousel_visible) values (#{carousel_pic},#{carousel_info},#{carousel_start},#{carousel_end},#{carousel_visible});
@@ -153,7 +187,18 @@
         limit #{start},#{pageSize};
     </select>
     <select id="getAllUserInfoOfCount" resultType="INT">
-        select count(*) from t_user;
+        select count(*) from t_user
+        <where>
+            <if test="searchpojo.user_id!=null and searchpojo.user_id!=''">
+                and user_id like CONCAT(CONCAT('%', #{searchpojo.user_id}), '%')
+            </if>
+            <if test="searchpojo.sex!=null and searchpojo.sex!=''">
+                and sex like CONCAT(CONCAT('%', #{searchpojo.sex}), '%')
+            </if>
+            <if test="searchpojo.member_status!=null and searchpojo.member_status!=''">
+                and member_status like CONCAT(CONCAT('%', #{searchpojo.member_status}), '%')
+            </if>
+        </where>
     </select>
     <select id="getAllAdminTypePage" resultType="cn.doreou.model.AdminType">
         select * from t_admintype limit #{start},#{pageSize}

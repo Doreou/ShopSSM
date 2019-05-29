@@ -29,9 +29,13 @@ layui.use(['element','form'], function () {
         trans(data);
         $('#subjectstatus').val(num);
     })
-    form.on('radio(message)',function (data) {
+    form.on('radio(sendmsg)',function (data) {
         trans(data);
         $('#sendmsgstatus').val(num);
+    })
+    form.on('radio(message)',function (data) {
+        trans(data);
+        $('#messagestatus').val(num);
     })
     form.on('radio(cert)',function (data) {
         trans(data);

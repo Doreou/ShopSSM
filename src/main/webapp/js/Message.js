@@ -18,7 +18,7 @@ if (url.indexOf("?") != -1) {    //判断是否有参数
     $('#reciever').blur();
     $('#messageTitle').focus();
 }
-
+var idList=new Array();
 layui.use('element', function () {
     var element = layui.element;
 });
@@ -145,7 +145,14 @@ $('#unreadbtn').click(function () {
 
 layui.use('table', function () {
         var table = layui.table;
-
+        table.on('checkbox', function (obj) {
+            var checkStatus = table.checkStatus('demo');
+            var data = checkStatus.data;
+            for (var i = 0; i < data.length; i++) {
+                idList.length=data.length;
+                idList[i]=data[i].message_id;
+            }
+        });
         //第一个实例
         table.render({
             elem: '#demo'
@@ -158,7 +165,8 @@ layui.use('table', function () {
                 , limitName: 'nums' //每页数据量的参数名，默认：limit
             }
             , cols: [[ //表头
-                {field: 'message_id', title: 'ID', width: 80, sort: true, fixed: 'left'}
+                {type: 'checkbox'},
+                {field: 'message_id', title: 'ID', width: 80, sort: true}
                 , {field: 'message_title', title: '标题', width: 150}
                 , {field: 'message_content', title: '内容', width: 200}
                 , {field: 'message_type', title: '消息类型', width: 100}
@@ -189,24 +197,24 @@ layui.use('table', function () {
         active = {
             reload: function () {
                 var Title = $('#SearchTitle').val();
-                var Content=$('#SearchContent').val();
-                var Sender=$('#SearchSender').val();
-                var Reciever=$('#SearchReciever').val();
-                var Message_type=$('#SearchMessage_type').val();
-                var SendTime=$('#SearchSend_time').val();
-                var Status=$('#SearchStatus').val();
+                var Content = $('#SearchContent').val();
+                var Sender = $('#SearchSender').val();
+                var Reciever = $('#SearchReciever').val();
+                var Message_type = $('#SearchMessage_type').val();
+                var SendTime = $('#SearchSend_time').val();
+                var Status = $('#SearchStatus').val();
                 table.reload('demo', {
                     page: {
                         curr: 1,
                     },
                     where: {
-                        message_title:Title,
-                        message_content:Content,
-                        message_type:Message_type,
-                        send_time:SendTime,
-                        isRead:Status,
-                        sender:Sender,
-                        reciever:Reciever,
+                        message_title: Title,
+                        message_content: Content,
+                        message_type: Message_type,
+                        send_time: SendTime,
+                        isRead: Status,
+                        sender: Sender,
+                        reciever: Reciever,
                     }
                 })
             }
@@ -255,39 +263,104 @@ function deleteMessage(obj) {
 
 $('#sendMessage').on('click', function () {
     if (permission == 1) {
-        $.ajax({
-            type: 'POST',
-            url: '/Message/sendMessageToOne',
-            data: 'messageTitle=' + $('#messageTitle').val().toString() + "&messageContent=" + $('#messageContent').val() + "&reciever=" + $('#reciever').val() + "&sendTime=" + $('#sendTime').val(),
-            success: function (msg) {
-                if (msg == '发送成功') {
-                    layer.msg(msg);
-                } else {
-                    layer.msg("发送未完成");
-                }
-            }
-        })
-    } else {
-        layer.msg('您无权进行此操作');
+        if ($('#messageTitle').val() == "") {
+            layer.msg("请输入消息标题");
+            return false;
+        } else if ($('#messageTitle').val().length > 10) {
+            layer.msg("消息标题过长！");
+            return false;
+        } else if ($('#messageContent').val() == "") {
+            layer.msg("请输入消息体");
+            return false;
+        } else if ($('#messageTitle').val().length > 140) {
+            layer.msg("消息内容过长！");
+            return false;
+        } else if ($('#reciever').val() == "") {
+            layer.msg("请填写收件人");
+            return false;
+        } else if ($('#sendTime').val() == "") {
+            layer.msg("请选择时间");
+            return false;
+        } else {
+            if($('#username').val()!="") {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Message/sendMessageToOne',
+                    data: 'messageTitle=' + $('#messageTitle').val().toString() + "&messageContent=" + $('#messageContent').val() + "&reciever=" + $('#reciever').val() + "&sendTime=" + $('#sendTime').val(),
+                    success: function (msg) {
+                        if (msg == '发送成功') {
+                            layer.msg(msg);
+                        } else {
+                            layer.msg("发送未完成");
+                        }
+                    }
+                })
+            }else
+                layer.msg("未找到该用户！请检查用户ID");
+        }
     }
+    else
+        layer.msg('您无权进行此操作');
 })
 
 $('#sendMessageToAll').on('click', function () {
     if (permission == 1) {
-        $.ajax({
-            type: 'POST',
-            url: '/Message/sendMessageToAll',
-            data: 'messageTitle=' + $('#messageTitle').val().toString() + "&messageContent=" + $('#messageContent').val() + "&reciever=" + $('#people').val().toString() + "&sendTime=" + $('#sendTime').val() + "&ischeck=" + $("#ischeck").val(),
-            success: function (msg) {
-                if (msg == '发送成功') {
-                    layer.msg(msg);
-                } else {
-                    layer.msg("发送未完成");
+        if ($('#messageTitle').val() == "") {
+            layer.msg("请输入消息标题");
+            return false;
+        } else if ($('#messageTitle').val().length > 10) {
+            layer.msg("消息标题过长！");
+            return false;
+        } else if ($('#messageContent').val() == "") {
+            layer.msg("请输入消息体");
+            return false;
+        } else if ($('#messageTitle').val().length > 140) {
+            layer.msg("消息内容过长！");
+            return false;
+        } else if ($('#sendTime').val() == "") {
+            layer.msg("请选择时间");
+            return false;
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '/Message/sendMessageToAll',
+                data: 'messageTitle=' + $('#messageTitle').val().toString() + "&messageContent=" + $('#messageContent').val() + "&reciever=" + $('#people').val().toString() + "&sendTime=" + $('#sendTime').val() + "&ischeck=" + $("#ischeck").val(),
+                success: function (msg) {
+                    if (msg == '发送成功') {
+                        layer.msg(msg);
+                    } else {
+                        layer.msg("发送未完成");
+                    }
                 }
-            }
-        })
-    } else {
-        layer.msg('您无权进行此操作');
+            })
+        }
     }
+    else
+        layer.msg('您无权进行此操作');
 })
 
+$('#deleteBtn').on('click', function () {
+    if(permission==1) {
+        if (idList.length > 0) {
+            layer.confirm('确定删除撤回选定行？', function () {
+                for (var i = 0; i < idList.length; i++) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Message/deleteMessage?message_id=' + idList[i],
+                        success: function () {
+                            break;
+                        }
+                    })
+                }
+                layer.msg("消息已撤回");
+                setTimeout(function () {
+                    location.reload();
+                }, 2000)
+            })
+        } else {
+            layer.msg("请选择需要撤回的消息");
+        }
+    }else {
+        layer.msg("您无权进行此操作");
+    }
+})

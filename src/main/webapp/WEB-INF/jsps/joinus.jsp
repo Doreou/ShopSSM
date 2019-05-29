@@ -46,15 +46,15 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="/sale">二手</a>
+                    <a href="/Page/sale">二手</a>
                 </li>
                 <li class="">
-                    <a href="/buy">求购</a>
+                    <a href="/Page/buy">求购</a>
                 </li>
                 <li class="current">
-                    <a target="_blank" href="/joinus">加入我们</a>
+                    <a target="_blank" href="/Page/joinus">加入我们</a>
                 </li>
-                <li class="back" style="left: 357px; width: 92px;">
+                <li class="back" style="left: 204px; width: 92px;">
                     <div class="left"></div>
                 </li>
             </ul>

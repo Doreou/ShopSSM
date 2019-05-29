@@ -13,5 +13,5 @@ public interface ReportMapper {
     List<ReportType> getAllReportType();
     void NewReport(Report report);
     List<Report> getAllReport(@Param("start") int start,@Param("pageSize") int pageSize,@Param("searchpojo")SearchPojo searchPojo);
-    int getAllReportCount();
+    int getAllReportCount(@Param("searchpojo") SearchPojo searchPojo);
 }

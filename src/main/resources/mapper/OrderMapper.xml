@@ -110,18 +110,23 @@
         update t_goods set goods_title=#{goods_title},introduce=#{introduce},expt_price=#{expt_price},status=#{status},subject=#{subject},`number`=#{number} where goods_id=#{goods_id}
     </update>
 
-    <select id="getMyCollect" parameterType="STRING" resultType="cn.doreou.model.Goods">
-        select * from t_focandcol,t_goods where userid=#{user_id} and mycollect_id=goods_id
+    <select id="getMyCollect" resultType="cn.doreou.model.Goods">
+        select * from t_focandcol,t_goods where userid=#{user_id} and mycollect_id=goods_id limit #{start},#{pageSize}
     </select>
-
+    <select id="getMyCollectCount" parameterType="STRING" resultType="INT">
+        select count(*) from t_focandcol,t_goods where userid=#{user_id} and mycollect_id=goods_id
+    </select>
     <delete id="undoCollect">
         delete from t_focandcol where userid=#{user_id} and mycollect_id=#{goods_id}
     </delete>
     <select id="isCollected" resultType="cn.doreou.model.Goods">
         select * from t_focandcol where userid=#{user_id} and mycollect_id=#{goods_id}
     </select>
-    <select id="getMyNews" parameterType="STRING" resultType="cn.doreou.model.Message">
-      select * from t_message where reciever=#{user_id}
+    <select id="getMyNews" resultType="cn.doreou.model.Message">
+      select * from t_message where reciever=#{user_id} order by send_time desc limit #{start},#{pageSize}
+    </select>
+    <select id="getMyNewsCount" parameterType="STRING" resultType="INT">
+      select count(*) from t_message where reciever=#{user_id}
     </select>
     <update id="AlreadyRead" parameterType="INT">
         update t_message set isRead=#{status} where message_id=#{message_id}
@@ -144,6 +149,16 @@
     </update>
     <update id="OwnerConfirm" parameterType="INT">
         update t_order set owner_confirm=1 where order_id=#{order_id}
+    </update>
+
+    <select id="isClicked" resultType="cn.doreou.model.Click">
+        select * from t_click where user_id=#{user_id} and goods_id=#{goods_id}
+    </select>
+    <insert id="newClick">
+        insert into t_click(user_id, goods_id) value (#{user_id},#{goods_id})
+    </insert>
+    <update id="addClickCount">
+        update t_goods set clickcount=clickcount+1 where goods_id=#{goods_id}
     </update>
 
 

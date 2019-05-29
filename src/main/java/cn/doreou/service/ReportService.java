@@ -10,5 +10,5 @@ public interface ReportService {
     List<ReportType> getAllReportType();
     void NewReport(Report report);
     List<Report> getAllReport(int start, int pageSize, SearchPojo searchPojo);
-    int getAllReportCount();
+    int getAllReportCount(SearchPojo searchPojo);
 }

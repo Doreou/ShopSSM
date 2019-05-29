@@ -64,11 +64,11 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.ApplyRefused(applyer);
     }
 
-    public List<Admin> getAllAdmin(int start,int pageSize){
-        return adminMapper.getAllAdmin(start, pageSize);
+    public List<Admin> getAllAdmin(int start,int pageSize,SearchPojo searchPojo){
+        return adminMapper.getAllAdmin(start, pageSize,searchPojo);
     }
-    public int getAllAdminCount(){
-        return adminMapper.getAllAdminCount();
+    public int getAllAdminCount(SearchPojo searchPojo){
+        return adminMapper.getAllAdminCount(searchPojo);
     }
     public List<AdminType> getAllAdminType(){
         return adminMapper.getAllAdminType();
@@ -76,8 +76,8 @@ public class AdminServiceImpl implements AdminService {
     public List<Carousel> getAllCarousel(int start,int pageSize,SearchPojo searchPojo){
         return adminMapper.getAllCarousel(start, pageSize,searchPojo);
     }
-    public int getAllCarouselCount(){
-        return adminMapper.getAllCarouselCount();
+    public int getAllCarouselCount(SearchPojo searchPojo){
+        return adminMapper.getAllCarouselCount(searchPojo);
     }
     public void addNewCarousel(Carousel carousel){
         adminMapper.addNewCarousel(carousel);
@@ -106,8 +106,8 @@ public class AdminServiceImpl implements AdminService {
     public List<User> getAllUserInfo(int start,int pageSize,SearchPojo searchPojo){
         return adminMapper.getAllUserInfo(start, pageSize,searchPojo);
     }
-    public int getAllUserInfoOfCount(){
-        return adminMapper.getAllUserInfoOfCount();
+    public int getAllUserInfoOfCount(SearchPojo searchPojo){
+        return adminMapper.getAllUserInfoOfCount(searchPojo);
     }
     public List<AdminType> getAllAdminTypePage(int start,int pageSize){
         return adminMapper.getAllAdminTypePage(start,pageSize);

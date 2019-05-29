@@ -178,7 +178,7 @@
                     <div class="magnifyingBegin" style="display: none; left: 300px; top: 2.5px;"></div>
                     <!-- 放大镜显示的图片 -->
                     <div class="magnifyingShow" style="display: none;">
-                        <img alt="我爱你我爱你-柚子校园" src="<%=goodsinfo.get(0).getCover()%>" style="margin-left: -900px; margin-top: -7.5px;">
+                        <img alt="" src="<%=goodsinfo.get(0).getCover()%>" style="margin-left: -900px; margin-top: -7.5px;">
                     </div>
                 </div>
                 <ul class="con-FangDa-ImgList">

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
+import javax.jws.WebParam;
 import javax.persistence.Id;
 import javax.servlet.http.HttpSession;
 import java.io.FileOutputStream;
@@ -203,6 +204,17 @@ public class OrderController {
 
     @RequestMapping("getgoodsinfo")
     public String getGoodsInfo(HttpSession session, Model model,@RequestParam("id") String id) {
+        if(session.getAttribute("user")!=null){
+            //查询用户是否点击过此商品
+            List<User> users=(List<User>) session.getAttribute("user");
+            //未点击过
+            if(!orderService.isClicked(users.get(0).getUser_id(),id)){
+                //记录
+                orderService.newClick(users.get(0).getUser_id(),id);
+                //点击数+1
+                orderService.addClickCount(id);
+            }
+        }
         List<User> IdNameList=new ArrayList<>();
         List<GoodAndUser> ResultList = orderService.getInfoById(id);
         List<UserComment> commentList = commentService.getAllCommentList(id);
@@ -425,34 +437,38 @@ public class OrderController {
 
 
     @RequestMapping("getMycollect")
-    public String getMyCollect(HttpSession session){
+    public String getMyCollect(HttpSession session,Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start){
         List<User> user = (List<User>) session.getAttribute("user");
-        List<Goods> result=orderService.getMyCollect(user.get(0).getUser_id());
+        List<Goods> result=orderService.getMyCollect(user.get(0).getUser_id(),(Integer.parseInt(start)-1) * 5,5);
         session.setAttribute("mycollect",result);
+        model.addAttribute("mycollectcount",orderService.getMyCollectCount(user.get(0).getUser_id()));
+        model.addAttribute("currpage", start);
         return "mycollect";
     }
 
     @RequestMapping("undocollect")
-    public String undoCollect(HttpSession session,@Param("id") int id){
+    public String undoCollect(HttpSession session,Model model,@RequestParam(value = "page", required = false, defaultValue = "1") String start,@Param("id") int id){
         List<User> user = (List<User>) session.getAttribute("user");
         orderService.undoCollect(user.get(0).getUser_id(),id);
         String errmsg = "取消收藏成功";
         session.setAttribute("errmsg", errmsg);
-        return getMyCollect(session);
+        return getMyCollect(session,model,start);
     }
 
     @RequestMapping("getMyNews")
-    public String getMyNews(HttpSession session){
+    public String getMyNews(HttpSession session, Model model,@RequestParam(value = "page", required = false, defaultValue = "1") String start){
         List<User> user = (List<User>) session.getAttribute("user");
-        List<Message> myNewsList=orderService.getMyNews(user.get(0).getUser_id());
+        List<Message> myNewsList=orderService.getMyNews(user.get(0).getUser_id(),(Integer.parseInt(start)-1)*5,5);
+        model.addAttribute("mynewscount",orderService.getMyNewsCount(user.get(0).getUser_id()));
+        model.addAttribute("currpage", start);
         session.setAttribute("myNewsList",myNewsList);
         return "mynews";
     }
     @RequestMapping("AlreadyRead")
     @ResponseBody
-    public String AdleadyRead(HttpSession session,@RequestParam("message_id") int message_id,@RequestParam("status") int status){
+    public String AdleadyRead(HttpSession session, Model model,@RequestParam(value = "page", required = false, defaultValue = "1") String start,@RequestParam("message_id") int message_id,@RequestParam("status") int status){
         orderService.AlreadyRead(message_id,status);
-        getMyNews(session);
+        getMyNews(session,model,start);
         if(status==1)
             return "已标记为已读";
         else

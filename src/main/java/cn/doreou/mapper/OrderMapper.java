@@ -60,12 +60,14 @@ public interface OrderMapper {
     void refreshbuy(Goods goods);
 
     //收藏
-    List<Goods> getMyCollect(@Param("user_id") String userid);
+    List<Goods> getMyCollect(@Param("user_id") String userid,@Param("start") int start,@Param("pageSize") int pagesize);
+    int getMyCollectCount(@Param("user_id") String userid);
     void undoCollect(@Param("user_id") String userid,@Param("goods_id") int goods_id);
     List<Goods> isCollected(@Param("user_id") String userid,@Param("goods_id") int goods_id);
 
     //消息
-    List<Message> getMyNews(@Param("user_id") String user_id);
+    List<Message> getMyNews(@Param("user_id") String user_id,@Param("start") int start,@Param("pageSize") int pagesize);
+    int getMyNewsCount(@Param("user_id") String userid);
     void AlreadyRead(@Param("message_id") int Message_id, @Param("status") int status);
 
     List<Carousel> getAllCarousel();
@@ -76,4 +78,9 @@ public interface OrderMapper {
     Order getByMessageID(@Param("message_id") int message_id);
     void updateGoodsNumById(@Param("number") int number,@Param("goods_id") int goods_id);
     void OwnerConfirm(@Param("order_id") int order_id);
+
+    //查询点击
+    List<Click> isClicked(@Param("user_id") String user_id,@Param("goods_id") String goods_id);
+    void newClick(@Param("user_id") String user_id,@Param("goods_id") String goods_id);
+    void addClickCount(@Param("goods_id") String goods_id);
 }

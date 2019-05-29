@@ -35,10 +35,12 @@ public interface OrderService {
     List<Goods> orderByPrice(int start,int pagesize,String way,String type,String sub);
     void refresh(Goods goods);
     void refreshbuy(Goods goods);
-    List<Goods> getMyCollect(String userid);
+    List<Goods> getMyCollect(String userid,int start,int pageSize);
+    int getMyCollectCount(String user_id);
     void undoCollect(String userid,int goods_id);
     boolean isCollected(String userid,int goods_id);
-    List<Message> getMyNews(String user_id);
+    List<Message> getMyNews(String user_id,int start,int pageSize);
+    int getMyNewsCount(String user_id);
     void AlreadyRead(int message_id,int status);
     List<Carousel> getAllCarousel();
     void InsertOrder(Order order);
@@ -46,4 +48,7 @@ public interface OrderService {
     Order getByMessageID(int message_id);
     void updateGoodsNumById(int number,int goods_id);
     void OwnerConfirm(int order_id);
+    boolean isClicked(String user_id,String goods_id);
+    void newClick(String user_id,String goods_id);
+    void addClickCount(String goods_id);
 }

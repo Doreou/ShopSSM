@@ -90,7 +90,7 @@ public class ReportController {
     @ResponseBody
     public Object getAllReport(@RequestParam("curr") int start, @RequestParam("nums") int pageSize, SearchPojo searchPojo){
         List ReportList=reportService.getAllReport((start-1)*pageSize, pageSize,searchPojo);
-        int totalCount=reportService.getAllReportCount();
+        int totalCount=reportService.getAllReportCount(searchPojo);
         Gson gson=new Gson();
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,ReportList)));
         return jsonObject;

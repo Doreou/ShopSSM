@@ -33,6 +33,9 @@ public class SearchPojo {
     private String subject;
     private String type;
     private String isundercarriage;
+    private String admin_id;
+    private String admin_name;
+    private String admin_type;
 
 
     public String getCarousel_info() {
@@ -273,5 +276,29 @@ public class SearchPojo {
 
     public void setIsundercarriage(String isundercarriage) {
         this.isundercarriage = isundercarriage;
+    }
+
+    public String getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(String admin_id) {
+        this.admin_id = admin_id;
+    }
+
+    public String getAdmin_name() {
+        return admin_name;
+    }
+
+    public void setAdmin_name(String admin_name) {
+        this.admin_name = admin_name;
+    }
+
+    public String getAdmin_type() {
+        return admin_type;
+    }
+
+    public void setAdmin_type(String admin_type) {
+        this.admin_type = admin_type;
     }
 }

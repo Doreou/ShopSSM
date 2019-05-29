@@ -214,9 +214,9 @@ public class AdminController {
 
     @RequestMapping("getAllAdmin")
     @ResponseBody
-    public Object getAllAdmin(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {
-        List adminList = adminService.getAllAdmin((start - 1) * pageSize, pageSize);
-        int totalCount = adminService.getAllAdminCount();
+    public Object getAllAdmin(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
+        List adminList = adminService.getAllAdmin((start - 1) * pageSize, pageSize,searchPojo);
+        int totalCount = adminService.getAllAdminCount(searchPojo);
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", totalCount, adminList)));
         return jsonObject;
@@ -247,7 +247,7 @@ public class AdminController {
     @ResponseBody
     public Object getAllCarousel(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
         List CarouselList = adminService.getAllCarousel((start - 1) * pageSize, pageSize,searchPojo);
-        int totalCount = adminService.getAllAdminCount();
+        int totalCount = adminService.getAllCarouselCount(searchPojo);
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "", totalCount, CarouselList)));
         return jsonObject;
@@ -362,6 +362,7 @@ public class AdminController {
         admin.setAdmin_icon(fileLocation);
         admin.setAdmin_id(currentAdmin.getAdmin_id());
         adminService.updateAdminInfo(admin);
+        session.setAttribute("admin",adminService.getByAdminID(currentAdmin.getAdmin_id()));
         return "修改成功";
     }
 
@@ -373,6 +374,12 @@ public class AdminController {
         jsonObject.put("type", admin.getAdmin_type());
         jsonObject.put("username", admin.getAdmin_name());
         jsonObject.put("id", admin.getAdmin_id());
+        jsonObject.put("email",admin.getAdmin_email());
+        jsonObject.put("location",admin.getAdmin_location());
+        jsonObject.put("phone",admin.getAdmin_phone());
+        jsonObject.put("icon",admin.getAdmin_icon());
+        jsonObject.put("wechat",admin.getAdmin_wechat());
+        jsonObject.put("sex",admin.getAdmin_sex());
         return jsonObject;
     }
 
@@ -422,12 +429,13 @@ public class AdminController {
     @ResponseBody
     public Object getAllUserInfo(@RequestParam("curr") int start, @RequestParam("nums") int pageSize,SearchPojo searchPojo) {
         List userInfo = adminService.getAllUserInfo((start - 1) * pageSize, pageSize,searchPojo);
-        int totalCount = adminService.getAllUserInfoOfCount();
+        int totalCount = adminService.getAllUserInfoOfCount(searchPojo);
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", totalCount, userInfo)));
         return jsonObject;
     }
 
+    //权限管理页
     @RequestMapping("getAllAdminTypePage")
     @ResponseBody
     public Object getAllAdminType(@RequestParam("curr") int start, @RequestParam("nums") int pageSize) {

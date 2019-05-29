@@ -21,11 +21,11 @@ public interface AdminService {
     List<Applyer> getOneApply(int apply_id);
     void ApplyPass(Applyer applyer);
     void ApplyRefused(Applyer applyer);
-    List<Admin> getAllAdmin(int start,int pageSize);
-    int getAllAdminCount();
+    List<Admin> getAllAdmin(int start,int pageSize,SearchPojo searchPojo);
+    int getAllAdminCount(SearchPojo searchPojo);
     List<AdminType> getAllAdminType();
     List<Carousel> getAllCarousel(int start,int pageSize,SearchPojo searchPojo);
-    int getAllCarouselCount();
+    int getAllCarouselCount(SearchPojo searchPojo);
     void addNewCarousel(Carousel carousel);
     void deleteCarousel(int carousel_id);
     void updateCarousel(Carousel carousel);
@@ -35,7 +35,7 @@ public interface AdminService {
     int getUserCountOfWoman();
     int getUserCountOfNoRecord();
     List<User> getAllUserInfo(int start,int pageSize,SearchPojo searchPojo);
-    int getAllUserInfoOfCount();
+    int getAllUserInfoOfCount(SearchPojo searchPojo);
     List<AdminType> getAllAdminTypePage(int start,int pageSize);
     int getAllCountOfAdminType();
     void updatePermission(AdminType adminType);

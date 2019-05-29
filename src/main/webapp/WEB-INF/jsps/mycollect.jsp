@@ -102,7 +102,7 @@
             </ul>
             <form class="navbar-form navbar-right search-box" onsubmit="return false;">
                 <div class="form-group pull-left">
-                    <input name="keyword" type="text" id="serachWord" class="form-control search-field" placeholder="搜索一下..."> </div>
+                    <input name="keyword" type="text" id="serachWord" style="color: black" class="form-control search-field" placeholder="搜索一下..."> </div>
                 <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
@@ -260,6 +260,7 @@
                 <%}
             }%>
         </div>
+        <div id="page" style="text-align: center"></div>
     </div>
     <div class="common-footer">
         <div class="footerNav">
@@ -329,7 +330,35 @@
         }
 
     })
+    function getData(curr){
+        $.ajax({
+            type:'POST',
+            url:'${pageContext.request.contextPath}/Order/getMycollect?page='+curr,
+            success:function () {
+                window.location.href='${pageContext.request.contextPath}/Order/getMycollect?page='+curr;
+            }
+        })
+    }
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+        var total=${mycollectcount};
+        var currpage=1;
+        laypage.render({
+            elem: 'page'
+            ,count:total  //数据总数，从服务端得到
+            ,curr:${currpage}
+            ,limit:5
+            ,jump: function(obj, first){
+                //首次不执行
+                if(!first){
+                    //do something
+                    currpage=obj.curr;
+                    getData(currpage);
+                }
+            }
 
+        });
+    });
     $("#sureCut").on("click", function () {
         if ($("#tailoringImg").attr("src") == null) {
             return false;

@@ -1,4 +1,6 @@
 function check(){
+    var myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+
     //登陆页面
     if ($('#userid').val() == "") {
         layer.msg("请检查用户名");
@@ -50,5 +52,34 @@ function check(){
         return false;
     }
 
+    //出售二手 求购
+    if($('#title').val()==""){
+        layer.msg("请输入标题");
+        return false;
+    }else if($('#detail').val()==""){
+        layer.msg("请输入介绍");
+        return false;
+    }
+    else if($('#count').val()==""){
+        layer.msg("请填写数量");
+        return false;
+    }else if($('#pricost').val()==""){
+        layer.msg("请填写购买价格");
+        return false;
+    }else if($('#status').val()==""){
+        layer.msg("请选择磨损程度");
+        return false;
+    }else if($('#price').val()==""){
+        layer.msg("请输入价格");
+        return false;
+    }else if($('#address').val()==""){
+        layer.msg("请输入交易地址");
+        return false;
+    }else if($('#type').val()==""){
+        layer.msg("请选择科目");
+        return false;
+    }
+
     return true;
 }
+

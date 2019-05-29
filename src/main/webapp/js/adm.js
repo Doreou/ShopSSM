@@ -31,6 +31,7 @@ layui.use('form', function () {
             success:function (msg) {
                 for(var i=0;i<msg.data.length;i++) {
                     $("#admin_type").append(new Option(msg.data[i].type, msg.data[i].type));
+                    $("#SearchType").append(new Option(msg.data[i].type, msg.data[i].type));
                 }
                 form.render("select");
             }
@@ -66,27 +67,68 @@ layui.use('table', function () {
             , type: 'asc'
         }
     });
+    active={
+        reload:function () {
+            var ID=$('#SearchID').val();
+            var Name=$('#SearchName').val();
+            var Type=$('#SearchType').val();
+            table.reload('demo',{
+                page:{
+                    curr:1,
+                },
+                where:{
+                    admin_id:ID,
+                    admin_type:Type,
+                    admin_name:Name
+                }
+            })
+        }
+    };
+    $('#searchBtn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
 })
 
 function  GoRegister() {
     if(permission==1) {
-        $.ajax({
-            type: 'POST',
-            url: '/Admin/RegisterAdmin',
-            data: {
-                admin_id: $('#admin_id').val(), admin_name: $('#admin_name').val(),
-                admin_pwd: $('#admin_pwd').val(), admin_type: $('#admin_type').val()
-            },
-            success: function (msg) {
-                layer.msg(msg);
-                setTimeout(function () {
-                    location.href = "/Page/admin_AdmList";
-                }, 2000)
+        if($('#admin_id').val()==""){
+            layer.msg("请填写ID");
+            return false;
+        }else if($('#admin_id').val().length>8){
+            layer.msg("ID过长");
+            return false;
+        }else if($('#admin_name').val()==""){
+            layer.msg("请填写管理员真实姓名");
+            return false;
+        }else if($('#admin_pwd').val()==""||$('#admin_pwd_again').val()==""){
+            layer.msg("请检查密码");
+            return false;
+        }else if($('#admin_type').val()==""){
+            layer.msg("请选择管理员级别");
+            return false;
+        }else {
+            if (isSame()) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/RegisterAdmin',
+                    data: {
+                        admin_id: $('#admin_id').val(), admin_name: $('#admin_name').val(),
+                        admin_pwd: $('#admin_pwd').val(), admin_type: $('#admin_type').val()
+                    },
+                    success: function (msg) {
+                        layer.msg(msg);
+                        setTimeout(function () {
+                            location.href = "/Page/admin_AdmList";
+                        }, 2000)
+                    }
+                })
             }
-        })
-    }else {
+        }else {
+            layer.msg('两次输入的密码不一致!');
+        }
+    }else
         layer.msg('您无权进行此操作');
-    }
 }
 function isSame() {
     if($('#admin_pwd').val()==$('#admin_pwd_again').val()){

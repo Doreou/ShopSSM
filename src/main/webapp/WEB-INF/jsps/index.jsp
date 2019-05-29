@@ -47,7 +47,7 @@
                             <i class="fh5co-intro-icon icon-retweet"></i>
                             <h2>校园求购</h2>
                             <p>众里寻它，蓦然回首</p>
-                            <p>原来它就在这里－柚子求购</p>
+                            <p>原来它就在这里</p>
                             <p><a class="btn btn-primary" href="/Page/buy">校园求购</a></p>
                         </div>
                     </div>

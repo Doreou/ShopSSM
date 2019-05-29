@@ -23,7 +23,7 @@ public class ReportServiceImpl implements ReportService {
     public List<Report> getAllReport(int start, int pageSize, SearchPojo searchPojo){
         return reportMapper.getAllReport(start,pageSize,searchPojo);
     }
-    public int getAllReportCount(){
-        return reportMapper.getAllReportCount();
+    public int getAllReportCount(SearchPojo searchPojo){
+        return reportMapper.getAllReportCount(searchPojo);
     }
 }

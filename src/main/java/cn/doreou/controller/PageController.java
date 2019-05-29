@@ -234,6 +234,7 @@ public class PageController {
     }
     @RequestMapping("adminlogin")
     public String admin_login(){
+        session.removeAttribute("admin");
         return "admin_login";
     }
 
