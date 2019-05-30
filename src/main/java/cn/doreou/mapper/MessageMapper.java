@@ -14,4 +14,5 @@ public interface MessageMapper {
     int getAllMessageCount(@Param("searchpojo") SearchPojo searchPojo);
     void deleteMessage(@Param("message_id") int message_id);
     List<Message> getMessageType();
+    void updateMessageByID(Message message);
 }

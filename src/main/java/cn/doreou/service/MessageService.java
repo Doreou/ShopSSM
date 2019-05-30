@@ -11,4 +11,5 @@ public interface MessageService {
     int getAllMessageCount(SearchPojo searchPojo);
     void deleteMessage(int message_id);
     List<Message> getMessageType();
+    void updateMessageByID(Message message);
 }

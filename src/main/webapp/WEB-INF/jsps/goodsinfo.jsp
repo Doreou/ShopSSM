@@ -580,11 +580,8 @@
                                         url: '/Order/Buy',
                                         data: $('#popform3').serialize() + "&goods_id=" + goods_id,
                                         success: function (msg) {
-                                            if (msg == "操作完成") {
-                                                layer.msg("我们已通知卖家，请等待卖家确认哦");
-                                            } else {
-                                                layer.msg("发生未知错误！");
-                                            }
+                                            layer.closeAll();
+                                            layer.msg(msg);
                                         }
                                     })
                                 }

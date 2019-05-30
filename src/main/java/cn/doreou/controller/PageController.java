@@ -97,7 +97,7 @@ public class PageController {
     }
     @RequestMapping("mynews")
     public String Mynews(){
-        return "mynews";
+        return "redirect:/Order/getMyNews";
 
     }
     @RequestMapping("checkinfo")

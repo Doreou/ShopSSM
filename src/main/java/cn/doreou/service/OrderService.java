@@ -48,6 +48,9 @@ public interface OrderService {
     Order getByMessageID(int message_id);
     void updateGoodsNumById(int number,int goods_id);
     void OwnerConfirm(int order_id);
+    void OwnerGet(int order_id);
+    void BuyerGet(int order_id);
+    void updateOrderStatus(int order_id);
     boolean isClicked(String user_id,String goods_id);
     void newClick(String user_id,String goods_id);
     void addClickCount(String goods_id);

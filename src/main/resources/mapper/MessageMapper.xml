@@ -65,4 +65,23 @@
     <select id="getMessageType" resultType="cn.doreou.model.Message">
         select distinct message_type from t_message
     </select>
+    <update id="updateMessageByID" parameterType="cn.doreou.model.Message">
+        update t_message set
+        <if test="message_content!=null and message_content!=''">
+            message_content=#{message_content}
+        </if>
+        <if test="message_title!=null and message_title!=''">
+            message_title=#{message_title}
+        </if>
+        <if test="tip!=null and tip!=''">
+            tip=#{tip}
+        </if>
+        <if test="send_time!=null and send_time!=''">
+            send_time=#{send_time}
+        </if>
+        <if test="reciever!=null and reciever!=''">
+            reciever=#{reciever}
+        </if>
+        where message_id=#{message_id}
+    </update>
 </mapper>

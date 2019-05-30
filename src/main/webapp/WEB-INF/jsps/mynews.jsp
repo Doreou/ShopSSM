@@ -249,16 +249,21 @@
                 <p class="time" > <%SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
                     String time=sdf.format(m.getSend_time());
                 %><%=time%></p >
-
-                <%if(m.getIsRead()==0){%>
+                <%if(m.getMessage_title().equals("卖家确认通知")||m.getMessage_title().equals("购买确认提醒")){%>
                 <a>
-                    <input style="display: none;" id="read" value="<%=m.getMessage_id()%>">
-                    <div class="readbtn" id="readbtn"> 标为已读 </div >
+                    <div class="readbtn"  id="getBookbtn"><input style="display: none;" id="getBook" value="<%=m.getTip()%>"> 确认收货 </div >
+                </a>
+                <%}else if(m.getMessage_title().equals("收款确认提醒")){%>
+                <a>
+                    <div class="readbtn"  id="getMoneybtn"><input style="display: none;" id="getMoney" value="<%=m.getTip()%>"> 确认收款 </div >
+                </a>
+                <%}else if(m.getIsRead()==0){%>
+                <a>
+                    <div class="readbtn" id="readbtn"><input style="display: none;" id="read" value="<%=m.getMessage_id()%>"> 标为已读 </div >
                 </a>
                 <%}else{%>
                 <a>
-                    <input style="display: none;" id="unread" value="<%=m.getMessage_id()%>">
-                    <div class="readbtn" id="unreadbtn"> 标为未读 </div >
+                    <div class="readbtn" id="unreadbtn"><input style="display: none;" id="unread" value="<%=m.getMessage_id()%>"> 标为未读 </div >
                 </a>
                 <%}%>
             </div >
@@ -275,14 +280,27 @@
                     String time=sdf.format(m.getSend_time());
                 %><%=time%></p>
                 <div>
-                <a>
-                    <input style="display: none;" id="agree" value="<%=m.getMessage_id()%>">
-                    <div class="readbtn" style="right: 115px"  id="agreebtn"> 同意交易 </div >
-                </a>
-                <a>
-                    <input style="display: none;" id="disagree" value="<%=m.getMessage_id()%>">
-                    <div class="readbtn" id="disagreebtn"> 拒绝交易 </div >
-                </a>
+                    <% if(m.getTip()!=null&&m.getTip().equals("持有人已确认")) {%>
+                    <a>
+                    <input style="display: none;" id="alreadyAgree" value="<%=m.getMessage_id()%>">
+                    <div class="readbtn" style="right: 115px"  id="alreadyAgreebtn"> 已同意 </div >
+                    </a>
+                    <a>
+                        <div class="readbtn" id="getbtn"><input style="display: none;" id="get" value="<%=m.getMessage_id()%>"> 确认收款 </div >
+                    </a>
+                    <%}else if(m.getTip()!=null&&m.getTip().equals("持有人已拒绝")){%>
+                    <a>
+                        <input style="display: none;" id="Noagree" value="<%=m.getMessage_id()%>">
+                        <div class="readbtn"  id="Noagreebtn"> 已拒绝 </div >
+                    </a>
+                    <%}else{%>
+                    <a>
+                        <div class="readbtn" style="right: 115px"  id="agreebtn"> <input style="display: none;" id="agree" value="<%=m.getMessage_id()%>">同意交易 </div >
+                    </a>
+                    <a>
+                        <div class="readbtn" id="disagreebtn"><input style="display: none;" id="disagree" value="<%=m.getMessage_id()%>"> 拒绝交易 </div >
+                    </a>
+                    <%}%>
                 </div>
             </div >
             <img alt = "<%=m.getMessage_title()%>" src = "/img/auto/logo.png" >

@@ -1,10 +1,7 @@
 package cn.doreou.controller;
 
 import cn.doreou.model.*;
-import cn.doreou.service.CommentService;
-import cn.doreou.service.OrderService;
-import cn.doreou.service.ReplyService;
-import cn.doreou.service.UserService;
+import cn.doreou.service.*;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -38,6 +35,8 @@ public class OrderController {
     private ReplyService replyService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MessageService messageService;
 
     @RequestMapping("salegoods")
     public String SaleGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
@@ -163,8 +162,8 @@ public class OrderController {
 
     @RequestMapping("update_upload")
     @ResponseBody
-    public String uoload(HttpSession session,@RequestParam("code") String code){
-        session.setAttribute("newcode",code);
+    public String uoload(HttpSession session, @RequestParam("code") String code) {
+        session.setAttribute("newcode", code);
         return "true";
     }
 
@@ -173,7 +172,7 @@ public class OrderController {
         List<Goods> result = orderService.getSaleBySub(subject, (start - 1) * 8, 8);
         model.addAttribute("salecount", orderService.getCountBySub(subject));
         model.addAttribute("currpage", start);
-        session.setAttribute("subject",subject);
+        session.setAttribute("subject", subject);
         session.setAttribute("AllSaleGoodsList", result);
         return "sale";
     }
@@ -183,7 +182,7 @@ public class OrderController {
         List<Goods> result = orderService.getBuyBySub(subject, (start - 1) * 10, 10);
         model.addAttribute("buycount", orderService.getCountBySub(subject));
         model.addAttribute("currpage", start);
-        session.setAttribute("subject",subject);
+        session.setAttribute("subject", subject);
         session.setAttribute("AllBuyGoodsList", result);
         return "buy";
     }
@@ -203,42 +202,42 @@ public class OrderController {
     }
 
     @RequestMapping("getgoodsinfo")
-    public String getGoodsInfo(HttpSession session, Model model,@RequestParam("id") String id) {
-        if(session.getAttribute("user")!=null){
+    public String getGoodsInfo(HttpSession session, Model model, @RequestParam("id") String id) {
+        if (session.getAttribute("user") != null) {
             //查询用户是否点击过此商品
-            List<User> users=(List<User>) session.getAttribute("user");
+            List<User> users = (List<User>) session.getAttribute("user");
             //未点击过
-            if(!orderService.isClicked(users.get(0).getUser_id(),id)){
+            if (!orderService.isClicked(users.get(0).getUser_id(), id)) {
                 //记录
-                orderService.newClick(users.get(0).getUser_id(),id);
+                orderService.newClick(users.get(0).getUser_id(), id);
                 //点击数+1
                 orderService.addClickCount(id);
             }
         }
-        List<User> IdNameList=new ArrayList<>();
+        List<User> IdNameList = new ArrayList<>();
         List<GoodAndUser> ResultList = orderService.getInfoById(id);
         List<UserComment> commentList = commentService.getAllCommentList(id);
-        List<Reply> replyList=replyService.getAllReply(id);
-        for(Reply r:replyList){
-            List<User> userinfo=userService.getById(r.getMy_uid());
+        List<Reply> replyList = replyService.getAllReply(id);
+        for (Reply r : replyList) {
+            List<User> userinfo = userService.getById(r.getMy_uid());
             userinfo.add(userService.getById(r.getTo_uid()).get(0));
-            for(int i=0;i<userinfo.size();i++) {
+            for (int i = 0; i < userinfo.size(); i++) {
                 IdNameList.add(userinfo.get(i));
             }
         }
-        session.setAttribute("IdNameList",IdNameList);
-        session.setAttribute("AllReply",replyList);
-        session.setAttribute("AllComment",commentList);
+        session.setAttribute("IdNameList", IdNameList);
+        session.setAttribute("AllReply", replyList);
+        session.setAttribute("AllComment", commentList);
         session.setAttribute("goodsinfo", ResultList);
-        List<User> user=(List<User>) session.getAttribute("user");
-        if(user!=null){
-            if(orderService.isCollected(user.get(0).getUser_id(),Integer.parseInt(id))){
-                model.addAttribute("isCollected","已收藏");
-            }else {
-                model.addAttribute("isCollected","收藏");
+        List<User> user = (List<User>) session.getAttribute("user");
+        if (user != null) {
+            if (orderService.isCollected(user.get(0).getUser_id(), Integer.parseInt(id))) {
+                model.addAttribute("isCollected", "已收藏");
+            } else {
+                model.addAttribute("isCollected", "收藏");
             }
-        }else {
-            model.addAttribute("isCollected","收藏");
+        } else {
+            model.addAttribute("isCollected", "收藏");
         }
         return "goodsinfo";
     }
@@ -266,7 +265,7 @@ public class OrderController {
         List<Goods> result = orderService.SearchAllBuyByPage((start - 1) * 10, 10);
         model.addAttribute("currpage", start);
         model.addAttribute("buycount", orderService.getBuyCount());
-        if(session.getAttribute("subject")!=null) {
+        if (session.getAttribute("subject") != null) {
             session.removeAttribute("subject");
         }
         session.setAttribute("AllBuyGoodsList", result);
@@ -301,13 +300,13 @@ public class OrderController {
         return "true";
     }
 
-    public String AllOrderBychoice(HttpSession session, Model model, String way, String type,int start,List<Goods> result){
-        if(type.equals("出售")) {
+    public String AllOrderBychoice(HttpSession session, Model model, String way, String type, int start, List<Goods> result) {
+        if (type.equals("出售")) {
             model.addAttribute("currpage", start);
             model.addAttribute("salecount", orderService.getSaleCount());
             session.setAttribute("AllSaleGoodsList", result);
             return "salePart";
-        }else{
+        } else {
             model.addAttribute("currpage", start);
             model.addAttribute("buycount", orderService.getBuyCount());
             session.setAttribute("AllBuyGoodsList", result);
@@ -315,36 +314,36 @@ public class OrderController {
         }
     }
 
-    public int getPageSize(String type){
-        if(type.equals("出售")) {
-           return 8;
-        }else{
+    public int getPageSize(String type) {
+        if (type.equals("出售")) {
+            return 8;
+        } else {
             return 10;
         }
     }
 
     //按时间排序
     @RequestMapping("orderbytime")
-    public String orderByTime(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type,@RequestParam(value = "page", required = false, defaultValue = "1") int start) {
-        List<Goods> result = orderService.orderByTime((start - 1) * getPageSize(type), getPageSize(type), way,type,(String) session.getAttribute("subject"));
+    public String orderByTime(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
+        List<Goods> result = orderService.orderByTime((start - 1) * getPageSize(type), getPageSize(type), way, type, (String) session.getAttribute("subject"));
         session.setAttribute("way", way);
-        return AllOrderBychoice(session,model,way,type,start,result);
+        return AllOrderBychoice(session, model, way, type, start, result);
     }
 
 
     //按热度排序
     @RequestMapping("orderbyhot")
-    public String orderByHot(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type,@RequestParam(value = "page", required = false, defaultValue = "1") int start) {
-        List<Goods> result = orderService.orderByHot((start - 1) * getPageSize(type), getPageSize(type), way,type,(String) session.getAttribute("subject"));
+    public String orderByHot(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
+        List<Goods> result = orderService.orderByHot((start - 1) * getPageSize(type), getPageSize(type), way, type, (String) session.getAttribute("subject"));
         session.setAttribute("way", way);
-        return AllOrderBychoice(session,model,way,type,start,result);
+        return AllOrderBychoice(session, model, way, type, start, result);
     }
 
     @RequestMapping("orderbyprice")
-    public String orderByPrice(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type,@RequestParam(value = "page", required = false, defaultValue = "1") int start) {
-        List<Goods> result = orderService.orderByPrice((start - 1) * getPageSize(type), getPageSize(type), way,type,(String) session.getAttribute("subject"));
+    public String orderByPrice(HttpSession session, Model model, @RequestParam("way") String way, @RequestParam("type") String type, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
+        List<Goods> result = orderService.orderByPrice((start - 1) * getPageSize(type), getPageSize(type), way, type, (String) session.getAttribute("subject"));
         session.setAttribute("way", way);
-        return AllOrderBychoice(session,model,way,type,start,result);
+        return AllOrderBychoice(session, model, way, type, start, result);
     }
 
     //获取要更新的商品当前信息
@@ -414,8 +413,8 @@ public class OrderController {
     }
 
     @RequestMapping("refreshbuy")
-    public String RefreshBuy(HttpSession session,Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("price") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject, @Param("goods_id") int goods_id){
-        Goods goods=new Goods();
+    public String RefreshBuy(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("price") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject, @Param("goods_id") int goods_id) {
+        Goods goods = new Goods();
         goods.setGoods_id(goods_id);
         goods.setGoods_title(title);
         goods.setIntroduce(introduce);
@@ -437,56 +436,60 @@ public class OrderController {
 
 
     @RequestMapping("getMycollect")
-    public String getMyCollect(HttpSession session,Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start){
+    public String getMyCollect(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start) {
         List<User> user = (List<User>) session.getAttribute("user");
-        List<Goods> result=orderService.getMyCollect(user.get(0).getUser_id(),(Integer.parseInt(start)-1) * 5,5);
-        session.setAttribute("mycollect",result);
-        model.addAttribute("mycollectcount",orderService.getMyCollectCount(user.get(0).getUser_id()));
+        List<Goods> result = orderService.getMyCollect(user.get(0).getUser_id(), (Integer.parseInt(start) - 1) * 5, 5);
+        session.setAttribute("mycollect", result);
+        model.addAttribute("mycollectcount", orderService.getMyCollectCount(user.get(0).getUser_id()));
         model.addAttribute("currpage", start);
         return "mycollect";
     }
 
     @RequestMapping("undocollect")
-    public String undoCollect(HttpSession session,Model model,@RequestParam(value = "page", required = false, defaultValue = "1") String start,@Param("id") int id){
+    public String undoCollect(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start, @Param("id") int id) {
         List<User> user = (List<User>) session.getAttribute("user");
-        orderService.undoCollect(user.get(0).getUser_id(),id);
+        orderService.undoCollect(user.get(0).getUser_id(), id);
         String errmsg = "取消收藏成功";
         session.setAttribute("errmsg", errmsg);
-        return getMyCollect(session,model,start);
+        return getMyCollect(session, model, start);
     }
 
     @RequestMapping("getMyNews")
-    public String getMyNews(HttpSession session, Model model,@RequestParam(value = "page", required = false, defaultValue = "1") String start){
+    public String getMyNews(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start) {
         List<User> user = (List<User>) session.getAttribute("user");
-        List<Message> myNewsList=orderService.getMyNews(user.get(0).getUser_id(),(Integer.parseInt(start)-1)*5,5);
-        model.addAttribute("mynewscount",orderService.getMyNewsCount(user.get(0).getUser_id()));
+        List<Message> myNewsList = orderService.getMyNews(user.get(0).getUser_id(), (Integer.parseInt(start) - 1) * 5, 5);
+        model.addAttribute("mynewscount", orderService.getMyNewsCount(user.get(0).getUser_id()));
         model.addAttribute("currpage", start);
-        session.setAttribute("myNewsList",myNewsList);
+        session.setAttribute("myNewsList", myNewsList);
         return "mynews";
     }
+
     @RequestMapping("AlreadyRead")
     @ResponseBody
-    public String AdleadyRead(HttpSession session, Model model,@RequestParam(value = "page", required = false, defaultValue = "1") String start,@RequestParam("message_id") int message_id,@RequestParam("status") int status){
-        orderService.AlreadyRead(message_id,status);
-        getMyNews(session,model,start);
-        if(status==1)
+    public String AdleadyRead(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start, @RequestParam("message_id") int message_id, @RequestParam("status") int status) {
+        orderService.AlreadyRead(message_id, status);
+        getMyNews(session, model, start);
+        if (status == 1)
             return "已标记为已读";
         else
             return "以标记为未读";
     }
 
     @RequestMapping("Buy")
-    public String Buy(@RequestParam("price") float price,@RequestParam("time") String time,
-                    @RequestParam("number") int number,@RequestParam("content") String content,
-                    @RequestParam("place") String place, @RequestParam("pay_way") String pay_way,
-                    HttpSession session,@RequestParam("goods_id") int goods_id){
-        if(session.getAttribute("user")==null){
+    @ResponseBody
+    public String Buy(@RequestParam("price") float price, @RequestParam("time") String time,
+                      @RequestParam("number") int number, @RequestParam("content") String content,
+                      @RequestParam("place") String place, @RequestParam("pay_way") String pay_way,
+                      HttpSession session, @RequestParam("goods_id") int goods_id) {
+        if (session.getAttribute("user") == null) {
             return "请先登录";
-        }else {
+        } else {
             List<User> user = (List<User>) session.getAttribute("user");
-            List<GoodAndUser> infoList= orderService.getInfoById(String.valueOf(goods_id));
+            List<GoodAndUser> infoList = orderService.getInfoById(String.valueOf(goods_id));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            int message_id=orderService.getMaxMessageID()+1;
+            //发送信息
+            NewOrder(infoList,user,content);
+            int message_id = orderService.getMaxMessageID();
             Order order = new Order();
             order.setBuyer_get(0);
             order.setBuyer_id(user.get(0).getUser_id());
@@ -510,29 +513,24 @@ public class OrderController {
             order.setPrice(price);
             order.setOwner_get(0);
             orderService.InsertOrder(order);
-            //向持有者发送消息
-            Message message=new Message();
-            message.setReciever(infoList.get(0).getUser_id());
-            message.setSend_time(new Date());
-            message.setIsRead(0);
-            message.setMessage_type("购买通知");
-            message.setMessage_title("有人收购你的书籍啦！");
-            message.setMessage_content("您好！"+infoList.get(0).getUsername()+",您的书籍"+infoList.get(0).getGoods_title()+"被"+user.get(0).getUsername()+"购买啦！"+"快去查看交易信息吧！TA还给您留言："+content);
-            message.setSender("root");
-            session.setAttribute("message",message);
-            return "redirect:/Message/AutoSend";
+            return "我们已经通知卖家，请耐心等待！";
         }
     }
 
     @RequestMapping("agree")
-    public String agree(HttpSession session,@RequestParam("message_id") int message_id){
-//        List<User> user=(List<User>)session.getAttribute("user");
-        Order order= orderService.getByMessageID(message_id);
+    public String agree(HttpSession session, @RequestParam("message_id") int message_id) {
+        List<User> user=(List<User>)session.getAttribute("user");
+        Order order = orderService.getByMessageID(message_id);
         //图书数量减持
-        orderService.updateGoodsNumById(order.getNumber(),order.getGoods_id());
+        orderService.updateGoodsNumById(order.getNumber(), order.getGoods_id());
         //持有人确认
         orderService.OwnerConfirm(order.getOrder_id());
-        Message message=new Message();
+        //修改Tip
+        Message updateMessage = new Message();
+        updateMessage.setMessage_id(message_id);
+        updateMessage.setTip("持有人已确认");
+        messageService.updateMessageByID(updateMessage);
+        Message message = new Message();
         message.setSend_time(new Date());
         message.setIsRead(0);
         message.setReciever(order.getBuyer_id());
@@ -540,45 +538,154 @@ public class OrderController {
         message.setMessage_content("您好！卖家已经同意了您的购买请求，请按照约定线下交易。请注意安全！");
         message.setSender("root");
         message.setMessage_title("卖家确认通知");
-        session.setAttribute("message",message);
+        //存放商品ID
+        message.setTip(String.valueOf(order.getMessage_id()));
+        session.setAttribute("message", message);
 
         //判断存量是否为0
-//        List<GoodAndUser> infoList=orderService.getInfoById(String.valueOf(order.getGoods_id()));
-//        if(infoList.get(0).getNumber()==0){
-//            //是 应用下架
-//            //发送通知
-//            orderService.isundercarriage(order.getGoods_id(),0);
-//            Message message=new Message();
-//            message.setSender("root");
-//            message.setMessage_title("应用下架通知");
-//            message.setMessage_content("尊敬的"+user.getUsername()+"，我们注意到您的商品在出售后存货量变为0，系统已经对商品做下架处理，如您还有多余，请修改持有量后重新上架商品。感谢您的理解！");
-//            message.setMessage_type("系统提醒");
-//            message.setReciever(user.getUser_id());
-//            message.setIsRead(0);
-//            message.setSend_time(new Date());
-//            session.setAttribute("message",message);
-//            return "redirect:/Message/AutoSend";
-//        }else{
-            return "redirect:/Message/AutoSend";
-//        }
-    }
-    @RequestMapping("disagree")
-    public String disagree(HttpSession session,@RequestParam("message_id") int message_id,@RequestParam("content") String content){
-        Order order= orderService.getByMessageID(message_id);
-        if(content.equals("")){
-           content="卖家未说明原因";
+        List<GoodAndUser> infoList=orderService.getInfoById(String.valueOf(order.getGoods_id()));
+        if(infoList.get(0).getNumber()==0){
+            //是 应用下架
+            //发送通知
+            orderService.isundercarriage(order.getGoods_id(),0);
+            ToBeZeroMessage(user.get(0));
         }
-        Message message=new Message();
+        //向买家发送提醒
+        return "redirect:/Message/AutoSend";
+    }
+
+    @RequestMapping("disagree")
+    public String disagree(HttpSession session, @RequestParam("message_id") int message_id, @RequestParam("content") String content) {
+        Order order = orderService.getByMessageID(message_id);
+        if (content.equals("")) {
+            content = "卖家未说明原因";
+        }
+        Message updateMessage = new Message();
+        updateMessage.setMessage_id(message_id);
+        updateMessage.setTip("持有人已拒绝");
+        messageService.updateMessageByID(updateMessage);
+        Message message = new Message();
         message.setSend_time(new Date());
         message.setIsRead(0);
         message.setReciever(order.getBuyer_id());
         message.setMessage_type("系统提醒");
-        message.setMessage_content("您好！卖家拒绝您的购买请求！理由为："+content+"，再和卖家谈谈吧！");
+        message.setMessage_content("您好！卖家拒绝您的购买请求！理由为：" + content + "，再和卖家谈谈吧！");
         message.setSender("root");
         message.setMessage_title("卖家拒绝通知");
-        session.setAttribute("message",message);
+        session.setAttribute("message", message);
         return "redirect:/Message/AutoSend";
     }
+
+    @RequestMapping("OwnerGet")
+    @ResponseBody
+    public String OwnerGet(HttpSession session,@RequestParam("message_id") int message_id) {
+        //获取当前登陆
+        List<User> users=(List<User>) session.getAttribute("user");
+        //获取订单信息
+        Order order = orderService.getByMessageID(message_id);
+        //获取商品信息
+        List<GoodAndUser> infoList= orderService.getInfoById(String.valueOf(order.getGoods_id()));
+        //修改持有人状态
+        orderService.OwnerGet(order.getOrder_id());
+        //检查买家状态
+        if (order.getBuyer_get() == 1) {
+            //如果已确认 修改订单状态
+            orderService.updateOrderStatus(order.getOrder_id());
+            //向购买者发送
+            OrderFinishedMessage(order.getBuyer_id());
+            //向持有人发送
+            OrderFinishedMessage(users.get(0).getUser_id());
+        }else {
+            //购买人未确认 提醒
+            AlertBuyerMessage(order.getBuyer_id(),infoList,order.getMessage_id());
+        }
+        return "确认成功";
+    }
+    @RequestMapping("BuyerGet")
+    @ResponseBody
+    public String BuyerGet(HttpSession session,@RequestParam("message_id") int message_id){
+        //获取当前登陆 即购买人
+        List<User> users=(List<User>) session.getAttribute("user");
+        //获取订单信息
+        Order order = orderService.getByMessageID(message_id);
+        //获取商品信息
+        List<GoodAndUser> infoList= orderService.getInfoById(String.valueOf(order.getGoods_id()));
+        //修改购买人状态
+        orderService.BuyerGet(order.getOrder_id());
+        //检查卖家状态
+        if(order.getOwner_get()==1){
+            //如果已确认 修改订单状态
+            orderService.updateOrderStatus(order.getOrder_id());
+            //向购买者发送
+            OrderFinishedMessage(users.get(0).getUser_id());
+            //向持有人发送
+            OrderFinishedMessage(infoList.get(0).getUser_id());
+        }else {
+            AlertOwnerMessage(infoList,message_id);
+        }
+        return "确认成功";
+    }
+
+
+    public void OrderFinishedMessage(String reciever){
+        Message message=new Message();
+        message.setMessage_title("交易完成提醒");
+        message.setSender("root");
+        message.setMessage_content("您好，您已完成二手书购买交易！双方均已确认，感谢您的使用！希望本平台为大家带来更多便利！");
+        message.setReciever(reciever);
+        message.setMessage_type("系统提醒");
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        messageService.sendMessage(message);
+    }
+    public void AlertBuyerMessage(String reciever,List<GoodAndUser> list,int message_id){
+        Message message=new Message();
+        message.setMessage_title("购买确认提醒");
+        message.setSender("root");
+        message.setMessage_content("您好，您购买的书籍"+list.get(0).getGoods_title()+"卖家已确认。请您尽快确认，感谢您的理解！");
+        message.setReciever(reciever);
+        message.setMessage_type("系统提醒");
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        message.setTip(String.valueOf(message_id));
+        messageService.sendMessage(message);
+    }
+    public void AlertOwnerMessage(List<GoodAndUser> list,int message_id){
+        Message message=new Message();
+        message.setMessage_title("收款确认提醒");
+        message.setSender("root");
+        message.setMessage_content("您好，您出售的书籍"+list.get(0).getGoods_title()+"买家已确认。请您尽快确认，感谢您的理解！");
+        message.setReciever(list.get(0).getUser_id());
+        message.setMessage_type("系统提醒");
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        message.setTip(String.valueOf(message_id));
+        messageService.sendMessage(message);
+    }
+    public void ToBeZeroMessage(User user){
+        Message message=new Message();
+        message.setSender("root");
+        message.setMessage_title("应用下架通知");
+        message.setMessage_content("尊敬的" + user.getUsername() + "，我们注意到您的商品在出售后存货量变为0，系统已经对商品做下架处理，如您还有多余，请修改持有量后重新上架商品。感谢您的理解！");
+        message.setMessage_type("系统提醒");
+        message.setReciever(user.getUser_id());
+        message.setIsRead(0);
+        message.setSend_time(new Date());
+        messageService.sendMessage(message);
+    }
+
+    public void NewOrder(List<GoodAndUser> infoList,List<User> user,String content){
+        Message message = new Message();
+        message.setReciever(infoList.get(0).getUser_id());
+        message.setSend_time(new Date());
+        message.setIsRead(0);
+        message.setMessage_type("购买通知");
+        message.setMessage_title("有人收购你的书籍啦！");
+        message.setMessage_content("您好！" + infoList.get(0).getUsername() + ",您的书籍" + infoList.get(0).getGoods_title() + "被" + user.get(0).getUsername() + "购买啦！" + "快去查看交易信息吧！TA还给您留言：" + content);
+        message.setSender("root");
+        messageService.sendMessage(message);
+    }
+
 
 
 }

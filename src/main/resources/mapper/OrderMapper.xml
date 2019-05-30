@@ -135,10 +135,10 @@
         select * from t_carousel where carousel_visible=1
     </select>
     <insert id="InsertOrder" parameterType="cn.doreou.model.Order">
-        insert into t_order (goods_id, buyer_id, order_time, give_time, price, give_place, pay_type, pay_status, number, leavewords, owner_confirm, buyer_get, owner_get, order_status) value (#{goods_id},#{buyer_id},#{order_time},#{give_time},#{price},#{give_place},#{pay_type},#{pay_status},#{number},#{leavewords},#{owner_confirm},#{buyer_get},#{owner_get},#{order_status})
+        insert into t_order (goods_id, buyer_id, order_time, give_time, price, give_place, pay_type, pay_status, number, leavewords, owner_confirm, buyer_get, owner_get, order_status,message_id) value (#{goods_id},#{buyer_id},#{order_time},#{give_time},#{price},#{give_place},#{pay_type},#{pay_status},#{number},#{leavewords},#{owner_confirm},#{buyer_get},#{owner_get},#{order_status},#{message_id})
     </insert>
     <select id="getMaxMessageID" resultType="INT">
-        select max(message_id) from t_message;
+        select last_insert_id()
     </select>
     <!--通过messageid找到对应的Order-->
     <select id="getByMessageID" resultType="cn.doreou.model.Order">
@@ -149,6 +149,15 @@
     </update>
     <update id="OwnerConfirm" parameterType="INT">
         update t_order set owner_confirm=1 where order_id=#{order_id}
+    </update>
+    <update id="OwnerGet" parameterType="INT">
+        update t_order set owner_get=1 where order_id=#{order_id}
+    </update>
+    <update id="BuyerGet" parameterType="INT">
+        update t_order set buyer_get=1 where order_id=#{order_id}
+    </update>
+    <update id="updateOrderStatus" parameterType="INT">
+        update t_order set order_status=1 where order_id=#{order_id}
     </update>
 
     <select id="isClicked" resultType="cn.doreou.model.Click">

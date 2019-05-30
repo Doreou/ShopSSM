@@ -29,4 +29,7 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> getMessageType(){
         return messageMapper.getMessageType();
     }
+    public void updateMessageByID(Message message){
+        messageMapper.updateMessageByID(message);
+    }
 }

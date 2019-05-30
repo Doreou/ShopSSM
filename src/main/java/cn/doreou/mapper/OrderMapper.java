@@ -78,6 +78,9 @@ public interface OrderMapper {
     Order getByMessageID(@Param("message_id") int message_id);
     void updateGoodsNumById(@Param("number") int number,@Param("goods_id") int goods_id);
     void OwnerConfirm(@Param("order_id") int order_id);
+    void OwnerGet(@Param("order_id") int order_id);
+    void BuyerGet(@Param("order_id") int order_id);
+    void updateOrderStatus(@Param("order_id") int order_id);
 
     //查询点击
     List<Click> isClicked(@Param("user_id") String user_id,@Param("goods_id") String goods_id);

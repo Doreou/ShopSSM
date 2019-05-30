@@ -1,5 +1,5 @@
 var permission = "";
-if (location.href != "http://localhost:8080/Order/getMyNews") {
+if (!location.href.includes("getMyNews")) {
     $.ajax({
         type: 'POST',
         url: '/Admin/getPermission',
@@ -68,8 +68,8 @@ function getUserName() {
     })
 }
 
-$('#agreebtn').click(function () {
-    var message_id = $('#agree').val();
+$(document).on('click','#agreebtn',function () {
+    var message_id = $(this).find('input').val();
     layer.confirm('同意交易后买家将收到提醒，请按照约定见面交易，请注意安全。', function () {
         $.ajax({
             type: 'POST',
@@ -83,8 +83,8 @@ $('#agreebtn').click(function () {
         })
     })
 })
-$('#disagreebtn').click(function () {
-    var message_id = $('#agree').val();
+$(document).on('click','#disagreebtn',function () {
+    var message_id = $(this).find('input').val();
     layer.open({
         type: 1,
         content: $('#popRefused'),
@@ -112,11 +112,11 @@ $('#disagreebtn').click(function () {
     })
 })
 
-$('#readbtn').click(function () {
+$(document).on('click','#readbtn',function () {
 
     $.ajax({
         type: 'POST',
-        url: '/Order/AlreadyRead?message_id=' + $('#read').val() + '&status=1',
+        url: '/Order/AlreadyRead?message_id=' + $(this).find('input').val() + '&status=1',
         success: function (msg) {
             layer.msg(msg, {
                 icon: 1,
@@ -128,10 +128,10 @@ $('#readbtn').click(function () {
         }
     })
 })
-$('#unreadbtn').click(function () {
+$(document).on('click','#unreadbtn',function () {
     $.ajax({
         type: 'POST',
-        url: '/Order/AlreadyRead?message_id=' + $('#unread').val() + '&status=0',
+        url: '/Order/AlreadyRead?message_id=' + $(this).find('input').val() + '&status=0',
         success: function (msg) {
             layer.msg(msg, {
                 icon: 1,
@@ -241,7 +241,7 @@ layui.use('table', function () {
                 }
             })
         } else {
-            if (location.href != "http://localhost:8080/Order/getMyNews") {
+            if (!location.href.includes("getMyNews")) {
                 layer.msg("您仅有查看权限");
             }
         }
@@ -363,4 +363,42 @@ $('#deleteBtn').on('click', function () {
     }else {
         layer.msg("您无权进行此操作");
     }
+})
+
+$(document).on('click','#getbtn',function () {
+    var message_id = $(this).find('input').val();
+    layer.confirm("确定买家已付钱后您可申请交易完成，确定吗？",function () {
+        $.ajax({
+            type:'POST',
+            url:'/Order/OwnerGet?message_id='+message_id,
+            success:function (msg) {
+                layer.msg(msg);
+            }
+        })
+    })
+})
+$(document).on('click','#getBookbtn',function () {
+    var message_id = $(this).find('input').val();
+    alert(message_id);
+    layer.confirm("确认收到二手书后可申请确认收货，确定吗？",function () {
+        $.ajax({
+            type:'POST',
+            url:'/Order/BuyerGet?message_id='+message_id,
+            success:function (msg) {
+                layer.msg(msg);
+            }
+        })
+    })
+})
+$(document).on('click','#getMoneybtnbtn',function () {
+    var message_id = $(this).find('input').val();
+    layer.confirm("确定买家已付钱后您可申请交易完成，确定吗？",function () {
+        $.ajax({
+            type:'POST',
+            url:'/Order/OwnerGet?message_id='+message_id,
+            success:function (msg) {
+                layer.msg(msg);
+            }
+        })
+    })
 })

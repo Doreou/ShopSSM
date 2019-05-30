@@ -143,7 +143,15 @@ public class OrderServiceImpl implements OrderService {
     public void OwnerConfirm(int order_id){
         orderMapper.OwnerConfirm(order_id);
     }
-
+    public void OwnerGet(int order_id){
+        orderMapper.OwnerGet(order_id);
+    }
+    public void BuyerGet(int order_id){
+        orderMapper.BuyerGet(order_id);
+    }
+    public void updateOrderStatus(int order_id){
+        orderMapper.updateOrderStatus(order_id);
+    }
     public boolean isClicked(String user_id,String goods_id){
         if(orderMapper.isClicked(user_id, goods_id).size()>0){
             return true;

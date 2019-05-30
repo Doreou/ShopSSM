@@ -11,6 +11,7 @@ public class Message {
     private int isRead;
     private Date send_time;
     private String tip;
+    private String message_title;
 
     public String getTip() {
         return tip;
@@ -27,8 +28,6 @@ public class Message {
     public void setMessage_title(String message_title) {
         this.message_title = message_title;
     }
-
-    private String message_title;
 
     public int getMessage_id() {
         return message_id;
