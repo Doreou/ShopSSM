@@ -26,6 +26,7 @@
     <script src="/layui.js"></script>
     <link rel="stylesheet" href="/css/zzsc.css">
     <link rel="stylesheet" href="/css/goodsdis.css">
+    <script src="/js/Total.js"></script>
     <style>
         body{
             color: black!important;
@@ -160,7 +161,7 @@
         </div>
     </div>
     <div class="helped block">
-        <span class="" id="js-numberrock">1603</span>
+        <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
         <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>

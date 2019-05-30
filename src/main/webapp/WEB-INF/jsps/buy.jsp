@@ -26,6 +26,7 @@ To change this template use File | Settings | File Templates.
     <script src="/layui.all.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
     <link href="/css/layer.css" rel="stylesheet">
+    <script src="/js/Total.js"></script>
     <style>
         .layui-carousel {
             margin: auto;
@@ -153,7 +154,7 @@ To change this template use File | Settings | File Templates.
         </div>
     </div>
     <div class="helped block">
-        <span class="" id="js-numberrock">1603</span>
+        <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
         <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>

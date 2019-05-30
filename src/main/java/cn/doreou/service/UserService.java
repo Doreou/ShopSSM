@@ -19,4 +19,5 @@ public interface UserService {
     void applyJob(Applyer applyer);
     boolean checkApply(String user_id);
     void collectThis(String goods_id, String userid, Date collect_time);
+    int getTotal();
 }

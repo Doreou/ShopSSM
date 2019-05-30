@@ -66,4 +66,7 @@ public class UserServiceImpl implements UserService {
     public void collectThis(String goods_id, String userid, Date collect_time){
         userMapper.collectThis(goods_id,userid,collect_time);
     }
+    public int getTotal(){
+        return userMapper.getTotal();
+    }
 }

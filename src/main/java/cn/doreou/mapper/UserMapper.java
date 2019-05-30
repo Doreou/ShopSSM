@@ -23,4 +23,5 @@ public interface UserMapper {
     void applyJob(Applyer applyer);
     List<Applyer> checkApply(@Param("user_id") String user_id);
     void collectThis(@Param("goods_id") String goods_id, @Param("user_id") String userid, @Param("collect_time") Date collect_time);
+    int getTotal();
 }

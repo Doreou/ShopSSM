@@ -18,6 +18,7 @@
     <link href="/css/common.css" rel="stylesheet" />
     <link href="/css/layui.css" rel="stylesheet">
     <script src="/js/jquery.js"></script>
+    <script src="/js/Total.js"></script>
 </head>
 <body class="  pace-done">
 <%List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
@@ -130,7 +131,7 @@
         </div>
     </div>
     <div class="helped block">
-        <span class="" id="js-numberrock">1603</span>
+        <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
         <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>

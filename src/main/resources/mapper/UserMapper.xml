@@ -31,5 +31,8 @@
     <insert id="collectThis">
         insert into t_focandcol(userid,mycollect_id,collect_time) values (#{user_id},#{goods_id},#{collect_time})
     </insert>
+    <select id="getTotal" resultType="INT">
+        select count(*) from t_order where order_status=1
+    </select>
 
 </mapper>

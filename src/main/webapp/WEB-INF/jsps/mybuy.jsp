@@ -335,6 +335,7 @@
 </div>
 <script src="/js/upload.js"></script>
 <script language="JavaScript" src="/js/mydo.js"></script>
+<script src="/js/Total.js"></script>
 <script>
     $(document).ready(function () {
         var errmsg="";

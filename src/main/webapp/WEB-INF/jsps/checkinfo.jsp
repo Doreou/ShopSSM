@@ -32,6 +32,7 @@
     <script src="/js/jquery.js"></script>
     <script src="/js/layer.js"></script>
     <script src="/js/cropper.min.js"></script>
+    <script src="/js/Total.js"></script>
 </head>
 <body class="  pace-done">
 <%
@@ -64,7 +65,7 @@
                     <a href="/Page/buy">求购</a>
                 </li>
                 <li class="">
-                    <a target="_blank" href="/joinus">加入我们</a>
+                    <a target="_blank" href="/Page/joinus">加入我们</a>
                 </li>
                 <li class="back" style="left: 132px; width: 66px;">
                     <div class="left"></div>
@@ -147,7 +148,7 @@
         </div>
     </div>
     <div class="helped block">
-        <span class="" id="js-numberrock">1603</span>
+        <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
         <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>

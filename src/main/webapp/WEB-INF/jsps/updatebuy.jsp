@@ -29,6 +29,7 @@
     <script src="/layui.js"></script>
     <script src="/js/layer.js"></script>
     <link href="/css/layui.css" rel="stylesheet">
+    <script src="/js/Total.js"></script>
     <style>
         .layui-carousel {
             margin: auto;
@@ -152,7 +153,7 @@
         </div>
     </div>
     <div class="helped block">
-        <span class="" id="js-numberrock">1603</span>
+        <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
         <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>

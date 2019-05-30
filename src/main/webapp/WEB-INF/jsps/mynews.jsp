@@ -35,6 +35,7 @@
     <script src="/js/layer.js"></script>
     <script src="/layui.js"></script>
     <script src="/js/cropper.min.js"></script>
+    <script src="/js/Total.js"></script>
 </head>
 <body class="  pace-done">
 <%
@@ -151,7 +152,7 @@
         </div>
     </div>
     <div class="helped block">
-        <span class="" id="js-numberrock">1603</span>
+        <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
         <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>
