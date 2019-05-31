@@ -37,6 +37,8 @@ public class OrderController {
     private UserService userService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private BookService bookService;
 
     @RequestMapping("salegoods")
     public String SaleGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
@@ -203,6 +205,7 @@ public class OrderController {
 
     @RequestMapping("getgoodsinfo")
     public String getGoodsInfo(HttpSession session, Model model, @RequestParam("id") String id) {
+        List<Book> bookList = bookService.getAllSubject();
         if (session.getAttribute("user") != null) {
             //查询用户是否点击过此商品
             List<User> users = (List<User>) session.getAttribute("user");
@@ -218,6 +221,7 @@ public class OrderController {
         List<GoodAndUser> ResultList = orderService.getInfoById(id);
         List<UserComment> commentList = commentService.getAllCommentList(id);
         List<Reply> replyList = replyService.getAllReply(id);
+
         for (Reply r : replyList) {
             List<User> userinfo = userService.getById(r.getMy_uid());
             userinfo.add(userService.getById(r.getTo_uid()).get(0));
@@ -229,6 +233,7 @@ public class OrderController {
         session.setAttribute("AllReply", replyList);
         session.setAttribute("AllComment", commentList);
         session.setAttribute("goodsinfo", ResultList);
+        session.setAttribute("AllSubject",bookList);
         List<User> user = (List<User>) session.getAttribute("user");
         if (user != null) {
             if (orderService.isCollected(user.get(0).getUser_id(), Integer.parseInt(id))) {

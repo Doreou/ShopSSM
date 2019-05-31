@@ -132,6 +132,8 @@ public class UserController {
             user.setUser_id(stuid);
             user.setUsername(username);
             user.setJoin_time(jointime);
+            //1 账号正常 0账号封禁
+            user.setStatus(1);
             //注册后完成身份验证
             user.setMember_status(0);
             userService.insertUser(user);
@@ -144,6 +146,8 @@ public class UserController {
     @RequestMapping("login")
     public String toLogin(HttpSession session, @RequestParam("userid") String userid, @RequestParam("password") String password, @RequestParam("passcode") String passcode) {
         String errmsg;
+        Date now=new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         if (!passcode.toUpperCase().equals(session.getAttribute("verifyCodeValue").toString().toUpperCase())) {
             errmsg = "验证码错误";
             session.setAttribute("errmsg", errmsg);
@@ -156,14 +160,23 @@ public class UserController {
             if (isExist) {
                 boolean result = userService.isLogin(user);
                 if (result) {
-                    List<User> userList=userService.getById(userid);
-                    List<Book> bookList = bookService.getAllSubject();
-                    List<Goods> goodsList=orderService.getAllSale();
+                    List<User> Status = userService.getUserStatus(userid);
+                    if (Status.get(0).getStatus()==1||Status.get(0).getBan_end().compareTo(now)<=0) {
+                        //重置封禁状态
+                        userService.setBanEndNull(userid);
+                        List<User> userList = userService.getById(userid);
+                        List<Book> bookList = bookService.getAllSubject();
+                        List<Goods> goodsList = orderService.getAllSale();
 //                    session.setAttribute("AllGoodsList",goodsList);
-                    session.setAttribute("user",userList);
+                        session.setAttribute("user", userList);
 //                    session.setAttribute("AllSubject", bookList);
-                    return "redirect:/Page/sale";
-                } else {
+                        return "redirect:/Page/sale";
+                    }else {
+                        errmsg = "该账号已被封停，解封时间："+ sdf.format(Status.get(0).getBan_end());
+                        session.setAttribute("errmsg", errmsg);
+                        return "redirect:/Page/login";
+                    }
+                }else {
                     //返回错误信息
                     errmsg = "密码错误";
                     session.setAttribute("errmsg", errmsg);

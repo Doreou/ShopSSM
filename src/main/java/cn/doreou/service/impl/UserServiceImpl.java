@@ -50,6 +50,12 @@ public class UserServiceImpl implements UserService {
     public void updateHeadPic(User user){
         userMapper.updateHeadPic(user);
     }
+    public List<User> getUserStatus(String user_id){
+        return userMapper.getUserStatus(user_id);
+    }
+    public void setBanEndNull(String user_id){
+        userMapper.setBanEndNull(user_id);
+    }
     public List<GoodAndUser> getInfoByGoods(){
         return userMapper.getInfoByGoods();
     }

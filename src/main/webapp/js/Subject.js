@@ -80,6 +80,10 @@ layui.use('table', function () {
                 });
             } else if (layEvent === 'edit') {
                 $('#subject_id').val(data.subject_id);
+                $('#subject').val(data.subject);
+                $('#fileLocation1').val(data.icon);
+                $('#priviewIcon1').attr('src',data.icon);
+                $('#priviewIcon1').attr('style', 'display:block;background:#5A5A5A');
                 layer.open({
                     type: 1,
                     title: "修改分类信息",

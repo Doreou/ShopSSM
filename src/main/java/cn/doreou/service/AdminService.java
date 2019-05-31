@@ -44,5 +44,9 @@ public interface AdminService {
     void underCarriage(String goods_id);
     void deleteGoods(String goods_id);
     void updateGoodsInfo(Goods goods);
+    void updateUserStatus(User user);
+    void cancelCert(String user_id);
+    void deleteAdmin(String admin_id);
+    void deleteUser(String user_id);
 
 }

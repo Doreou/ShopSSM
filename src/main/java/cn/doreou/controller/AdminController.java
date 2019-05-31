@@ -24,6 +24,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -402,7 +403,6 @@ public class AdminController {
         List countList = new ArrayList();
         List<Book> AllSubject = bookService.getAllSubject();
         JSONObject jsonObject = new JSONObject();
-        JSONObject jsonObject1 = new JSONObject();
         for (int i = 0; i < AllSubject.size(); i++) {
             subjectList.add(AllSubject.get(i).getSubject());
             countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject()));
@@ -556,6 +556,67 @@ public class AdminController {
         Gson gson = new Gson();
         JSONObject jsonObject = JSONObject.parseObject(gson.toJson(new PojoToJson(0, "上传成功", data.size(), data)));
         return jsonObject;
+    }
+
+    @RequestMapping("banUser")
+    @ResponseBody
+    public String banUser(@RequestParam("user_id") String user_id,@RequestParam("banDay") int banDay){
+        Date ban_end=null;
+        Date now=new Date();
+        Date forever=null;
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            forever=sdf.parse("2099-12-31");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(now);
+        if(banDay==1) {
+            calendar.add(Calendar.DATE, 1);
+            ban_end=calendar.getTime();
+        }else if(banDay==7){
+            calendar.add(Calendar.DATE,7);
+            ban_end=calendar.getTime();
+        }else if(banDay==365){
+            calendar.add(Calendar.YEAR,1);
+            ban_end=calendar.getTime();
+        }else {
+            ban_end=forever;
+        }
+        User user=new User();
+        user.setBan_end(ban_end);
+        user.setUser_id(user_id);
+        adminService.updateUserStatus(user);
+        return "操作成功";
+    }
+    @RequestMapping("cancelCert")
+    public String cancelCert(@RequestParam("user_id") String user_id){
+        Admin admin=(Admin) session.getAttribute("admin");
+        Message message=new Message();
+        message.setMessage_title("您的认证已被取消");
+        message.setMessage_content("您的认证因为某些原因已经被取消，如有疑问，请致电我们。");
+        message.setSender(admin.getAdmin_id());
+        message.setMessage_type("系统提醒");
+        message.setIsRead(0);
+        message.setReciever(user_id);
+        message.setSend_time(new Date());
+        session.setAttribute("message",message);
+        adminService.cancelCert(user_id);
+        return "redirect:/Message/AutoSend";
+    }
+
+    @RequestMapping("deleteAdmin")
+    @ResponseBody
+    public String deleteAdmin(@RequestParam("admin_id") String admin_id){
+        adminService.deleteAdmin(admin_id);
+        return "注销成功";
+    }
+    @RequestMapping("deleteUser")
+    @ResponseBody
+    public String deleteUser(@RequestParam("user_id") String user_id){
+        adminService.deleteUser(user_id);
+        return "注销成功";
     }
 
 

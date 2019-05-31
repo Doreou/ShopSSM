@@ -95,5 +95,11 @@ public class ReportController {
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",totalCount,ReportList)));
         return jsonObject;
     }
+    @RequestMapping("ignoreReport")
+    @ResponseBody
+    public String ignoreReport(@RequestParam("report_id") int report_id){
+        reportService.deleteReport(report_id);
+        return "操作成功";
+    }
 
 }

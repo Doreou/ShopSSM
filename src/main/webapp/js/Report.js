@@ -103,12 +103,87 @@ layui.use('table', function () {
                 title: '举报信息',
                 area: ['800px', '500px'],
                 content: $('#popReportInfo'),
-                btn: ['处理', '忽略'],
+                btn: ['处理', '忽略','暂不处理'],
                 yes: function () {
+                    layer.open({
+                        type:1,
+                        title:'处理选项',
+                        btn:['私信警告','封禁'],
+                        yes:function () {
+                            layer.confirm('将跳转到通知页面，请点击确定继续',function () {
+                                location.href="/Page/admin_MessageToUser?userid="+data.bereported_userid;
+                            })
+                        },
+                        btn2:function () {
+                            layer.confirm('确定要封禁该账号吗?',function () {
+                                layer.open({
+                                    type:1,
+                                    title:'封禁选项',
+                                    btn:['1天','7天','1年','永久'],
+                                    yes:function () {
+                                        $.ajax({
+                                            type:'POST',
+                                            url:'/Admin/banUser',
+                                            data:'user_id='+data.bereported_userid+"&banDay="+1,
+                                            success:function (msg) {
+                                                layer.msg(msg);
+                                            }
 
+                                        })
+                                    },
+                                    btn2:function () {
+                                        $.ajax({
+                                            type:'POST',
+                                            url:'/Admin/banUser',
+                                            data:'user_id='+data.bereported_userid+"&banDay="+7,
+                                            success:function (msg) {
+                                                layer.msg(msg);
+                                            }
+
+                                        })
+                                    },
+                                    btn3:function () {
+                                        $.ajax({
+                                            type:'POST',
+                                            url:'/Admin/banUser',
+                                            data:'user_id='+data.bereported_userid+"&banDay="+365,
+                                            success:function (msg) {
+                                                layer.msg(msg);
+                                            }
+
+                                        })
+                                    },
+                                    btn4:function () {
+                                        $.ajax({
+                                            type:'POST',
+                                            url:'/Admin/banUser',
+                                            data:'user_id='+data.bereported_userid+"&banDay="+999,
+                                            success:function (msg) {
+                                                layer.msg(msg);
+                                            }
+
+                                        })
+                                    }
+                                })
+                            })
+                        }
+                    })
                 },
                 btn2: function () {
-
+                    var report_id=data.report_id;
+                    layer.confirm('忽略后将删除此举报信息，确定吗？',function () {
+                        $.ajax({
+                            type:'POST',
+                            url:'/Report/ignoreReport?report_id='+report_id,
+                            success:function (msg) {
+                                obj.del();
+                                layer.msg(msg);
+                            }
+                        })
+                    })
+                },
+                btn3:function () {
+                    layer.closeAll();
                 }
 
             })

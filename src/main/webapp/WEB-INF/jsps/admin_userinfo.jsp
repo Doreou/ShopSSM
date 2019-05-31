@@ -137,7 +137,7 @@
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">发送消息</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">注销用户</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">取消认证</a>
 </script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>

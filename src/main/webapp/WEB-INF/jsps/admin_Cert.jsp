@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>认证申请管理</title>
     <link rel="stylesheet" href="/css/layui.css">
+
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">

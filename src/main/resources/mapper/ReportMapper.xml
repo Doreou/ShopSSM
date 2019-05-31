@@ -44,4 +44,7 @@
             </if>
         </where>
     </select>
+    <delete id="deleteReport" parameterType="INT">
+        delete from t_report where report_id=#{report_id}
+    </delete>
 </mapper>

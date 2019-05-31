@@ -278,4 +278,16 @@
     <update id="updateGoodsInfo" parameterType="cn.doreou.model.Goods">
         update t_goods set goods_title=#{goods_title},introduce=#{introduce},cover=#{cover},subject=#{subject} where goods_id=#{goods_id}
     </update>
+    <update id="updateUserStatus" parameterType="cn.doreou.model.User">
+        update t_user set status=0,ban_end=#{ban_end} where user_id=#{user_id}
+    </update>
+    <update id="cancelCert" parameterType="STRING">
+        update t_user set member_status=0 where user_id=#{user_id}
+    </update>
+    <delete id="deleteAdmin" parameterType="String">
+        delete from t_admin where admin_id=#{admin_id}
+    </delete>
+    <delete id="deleteUser" parameterType="STRING">
+        delete from t_user where user_id=#{user_id}
+    </delete>
 </mapper>

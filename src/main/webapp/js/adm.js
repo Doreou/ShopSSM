@@ -84,6 +84,22 @@ layui.use('table', function () {
             })
         }
     };
+    table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data //获得当前行数据
+            , layEvent = obj.event; //获得 lay-event 对应的值
+        if (layEvent === 'del') {
+            layer.confirm('确定要注销此管理员？',function () {
+                $.ajax({
+                    type:'POST',
+                    url:'/Admin/deleteAdmin?admin_id='+data.admin_id,
+                    success:function (msg) {
+                        obj.del();
+                        layer.msg(msg);
+                    }
+                })
+            })
+        }
+    });
     $('#searchBtn').on('click', function(){
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
@@ -123,9 +139,9 @@ function  GoRegister() {
                         }, 2000)
                     }
                 })
+            }else {
+                layer.msg('两次输入的密码不一致!');
             }
-        }else {
-            layer.msg('两次输入的密码不一致!');
         }
     }else
         layer.msg('您无权进行此操作');

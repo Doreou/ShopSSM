@@ -120,7 +120,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="del">注销</a>
 </script>
 <script src="/js/jquery.js"></script>
 <script src="/layui.js"></script>

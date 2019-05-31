@@ -9,6 +9,8 @@ public class User {
     private String label;
     private int age;
     private String sex;
+    private int status;
+    private Date ban_end;
 
     public String getSex() {
         return sex;
@@ -121,6 +123,22 @@ public class User {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Date getBan_end() {
+        return ban_end;
+    }
+
+    public void setBan_end(Date ban_end) {
+        this.ban_end = ban_end;
     }
 
     @Override

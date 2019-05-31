@@ -26,4 +26,7 @@ public class ReportServiceImpl implements ReportService {
     public int getAllReportCount(SearchPojo searchPojo){
         return reportMapper.getAllReportCount(searchPojo);
     }
+    public void deleteReport(int report_id){
+        reportMapper.deleteReport(report_id);
+    }
 }

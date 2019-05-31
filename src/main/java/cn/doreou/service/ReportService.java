@@ -11,4 +11,5 @@ public interface ReportService {
     void NewReport(Report report);
     List<Report> getAllReport(int start, int pageSize, SearchPojo searchPojo);
     int getAllReportCount(SearchPojo searchPojo);
+    void deleteReport(int report_id);
 }

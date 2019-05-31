@@ -18,6 +18,8 @@ public interface UserMapper {
     List<User> queryById(String userid);
     void updateInfoById(User user);//修改用户信息
     void updateHeadPic(User user);
+    List<User> getUserStatus(@Param("user_id") String user_id);
+    void setBanEndNull(@Param("user_id") String user_id);
     String getHeadPic(String userid);
     List<GoodAndUser> getInfoByGoods();
     void applyJob(Applyer applyer);

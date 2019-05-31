@@ -15,6 +15,8 @@ public interface UserService {
     List<User> getById(String userid);
     void updateInfoById(User user);
     void updateHeadPic(User user);
+    List<User> getUserStatus(String user_id);
+    void setBanEndNull(String user_id);
     List<GoodAndUser> getInfoByGoods();
     void applyJob(Applyer applyer);
     boolean checkApply(String user_id);

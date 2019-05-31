@@ -58,4 +58,11 @@ public interface AdminMapper {
     void deleteGoods(@Param("goods_id") String goods_id);
 
     void updateGoodsInfo(Goods goods);
+
+    //封禁用户
+    void updateUserStatus(User user);
+    //取消认证
+    void cancelCert(@Param("user_id") String user_id);
+    void deleteAdmin(@Param("admin_id") String admin_id);
+    void deleteUser(@Param("user_id") String user_id);
 }

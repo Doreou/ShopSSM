@@ -41,7 +41,7 @@ layui.use('table', function () {
                         return "未认证";
                     }
                 }}
-            , {fixed: 'right', width: 165, align: 'center', toolbar: '#barDemo'}
+            , {fixed: 'right', width: 300, align: 'center', toolbar: '#barDemo'}
         ]]
         , initSort: {
             field: 'user_id'
@@ -74,15 +74,30 @@ layui.use('table', function () {
             var data = obj.data //获得当前行数据
                 , layEvent = obj.event; //获得 lay-event 对应的值
             if (layEvent === 'detail') {
-                layer.msg('查看操作');
+                if(data.member_status!=0) {
+                    layer.confirm('您将取消该用户的认证，确定要这样做吗？', function () {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Admin/cancelCert?user_id=' + data.user_id,
+                            success: function (msg) {
+                                layer.msg(msg);
+                                obj.update({
+                                    member_status: 0
+                                });
+                            }
+                        })
+                    })
+                }else {
+                    layer.msg("当前用户未认证");
+                }
             } else if (layEvent === 'del') {
-                layer.confirm('注销操作为重大安全操作，将提交给根管理员进一步审核。确定继续吗？', function (index) {
+                layer.confirm('注销操作为重大安全操作，注销后与该用户相关的所有数据将一并删除。确定继续吗？', function (index) {
                     obj.del(); //删除对应行（tr）的DOM结构
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
                         type: 'post',
-                        url: '/Admin/deleteSubject?subject=' + data.subject,
+                        url: '/Admin/deleteUser?user_id=' + data.user_id,
                         success: function (msg) {
                             layer.msg(msg);
                         }

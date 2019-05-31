@@ -208,7 +208,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 125px">封面</label>
                 <div class="layui-input-inline">
-                    <img src="" id="goods_pic" name="goods_pic" class="pimg">
+                    <img src="" style="width: 150px;height: 150px" id="goods_pic" name="goods_pic" class="pimg">
                 </div>
                 <label style="margin-left: 35px" id="updateCover" onclick="updateCover($('#goods_id').val())" class="layui-btn layui-btn-normal">修改封面</label>
             </div>
