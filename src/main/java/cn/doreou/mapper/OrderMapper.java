@@ -42,6 +42,7 @@ public interface OrderMapper {
     int getCountBySub(@Param("subject") String subject,@Param("type") String type);
     int getSearchSaleCount(String key);
     int getSearchBuyCount(String key);
+    int getMyFinishedOrderCount(@Param("user_id") String user_id);
 
     //下架商品
     void Isundercarriage(@Param("goods_id") int goods_id,@Param("user_choice") int user_choice);

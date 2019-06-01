@@ -322,7 +322,7 @@ public class UserController {
         //获取持有者的求购及出售数量 在该方法内全局可用
         int buycount=orderService.getMyBuyCount(user_id,"购入");
         int salecount=orderService.getMySaleCount(user_id,"出售");
-        //第一次刷新未传入type
+        //不点击页码 未传入type
         if(type.equals("null")){
             //获取所有信息并分页
             getBuyInfo(user_id,start,model,session,buycount,salecount);

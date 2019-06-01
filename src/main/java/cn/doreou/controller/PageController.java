@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -346,6 +347,24 @@ public class PageController {
     @ResponseBody
     public int getTotal(){
         return userService.getTotal();
+    }
+
+    @RequestMapping("getMySaleCount")
+    @ResponseBody
+    public int getMySaleCount(@RequestParam("user_id") String user_id){
+        return orderService.getMySaleCount(user_id,"出售");
+    }
+
+    @RequestMapping("getMyBuyCount")
+    @ResponseBody
+    public int getMyBuyCount(@RequestParam("user_id") String user_id){
+        return orderService.getMyBuyCount(user_id,"购入");
+    }
+
+    @RequestMapping("getMyFinishedOrderCount")
+    @ResponseBody
+    public int getMyFinishedOrderCount(@RequestParam("user_id") String user_id){
+        return orderService.getMyFinishedOrderCount(user_id);
     }
 
 }

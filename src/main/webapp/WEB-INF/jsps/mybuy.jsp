@@ -178,10 +178,11 @@
                  style="display: none;">
         </div>
         <div id="user_msg">
+            <input id="user_id" style="display: none;" value="<%=userList.get(0).getUser_id()%>">
             <div class="name">
                 <%=userList.get(0).getUsername()%>
             </div>
-            <p class="has_sell">共有<span class="all">0</span>件商品，已卖出<span>0</span>件商品</p>
+            <p class="has_sell">共有<span class="all" id="sell">0</span>件二手商品，共有<span class="all" id="buy">0</span>件求购商品，已卖出<span id="AlreadySold">0</span>件商品</p>
             <ul class="seller_attr">
                 <li>学校：&nbsp;&nbsp;<span>大连大学</span></li>
                 <li>签名：&nbsp;&nbsp;<span class="user_qianming"></span></li>
