@@ -24,12 +24,14 @@ $('.close').bind("click", function () {
     $('#closealert').attr("style", "display:none");
 });
 //用户头像覆盖与移出
-$("#origin_ph").bind("mouseenter", function () {
-    $('#change_ph').attr("style", "display:block");
-});
-$("#change_ph").bind("mouseleave", function () {
-    $('#change_ph').attr("style", "display:none");
-});
+if(!location.href.includes("getUserInfo")) {
+    $("#origin_ph").bind("mouseenter", function () {
+        $('#change_ph').attr("style", "display:block");
+    });
+    $("#change_ph").bind("mouseleave", function () {
+        $('#change_ph').attr("style", "display:none");
+    });
+}
 
 function selectImg(file) {
     var reader = new FileReader();

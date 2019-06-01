@@ -207,7 +207,9 @@ To change this template use File | Settings | File Templates.
                                     for (GoodAndUser u : usersinfo) {
                                         if (u.getGoods_id() == g.getGoods_id()) {
                                 %>
-                                <img src="<%=u.getIcon()%>">
+                                <a href="/User/getUserInfo?user_id=<%=u.getUser_id()%>">
+                                    <img src="<%=u.getIcon()%>">
+                                </a>
                                 <%
                                         }
                                     }
@@ -218,7 +220,7 @@ To change this template use File | Settings | File Templates.
                                     for (GoodAndUser u : usersinfo) {
                                         if (u.getGoods_id() == g.getGoods_id()) {
                                 %>
-                                <a target="_blank" href="/other/salenow?userid=3713"><%=u.getUsername()%>
+                                <a target="_blank" href="/User/getUserInfo?user_id=<%=u.getUser_id()%>"><%=u.getUsername()%>
                                 </a>
                                 <%
                                         }
@@ -388,6 +390,7 @@ To change this template use File | Settings | File Templates.
             elem: 'page'
             ,count:total  //数据总数，从服务端得到
             ,curr:${currpage}
+            ,limit:10
             ,jump: function(obj, first){
                 //首次不执行
                 if(!first){

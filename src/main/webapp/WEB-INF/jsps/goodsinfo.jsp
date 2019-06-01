@@ -196,7 +196,7 @@
                     <span class="howmuch"><%=goodsinfo.get(0).getExpt_price()%></span>
                     &nbsp;&nbsp;&nbsp;                 </li>
                 <li class="user same">
-                    <a target="_blank" href="/salenow/3708">
+                    <a target="_blank" href="/User/getUserInfo?user_id=<%=goodsinfo.get(0).getUser_id()%>">
                             <span class="name">
                                 <span class="iconfont icon-yonghu"></span>&nbsp;&nbsp;&nbsp;
                                 <span class="">

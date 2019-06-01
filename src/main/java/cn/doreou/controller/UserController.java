@@ -7,6 +7,7 @@ import cn.doreou.model.User;
 import cn.doreou.service.BookService;
 import cn.doreou.service.OrderService;
 import cn.doreou.service.UserService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -312,6 +313,48 @@ public class UserController {
         }else {
             return "未找到!";
         }
+    }
+
+    @RequestMapping("getUserInfo")
+    public String getUserInfo(HttpSession session, Model model, @RequestParam("user_id") String user_id, @RequestParam(value = "page",required = false,defaultValue = "1") int start,@RequestParam(value = "type",required = false,defaultValue = "null") String type){
+        List<User> users=userService.getById(user_id);
+        session.setAttribute("userInfo",users.get(0));
+        //获取持有者的求购及出售数量 在该方法内全局可用
+        int buycount=orderService.getMyBuyCount(user_id,"购入");
+        int salecount=orderService.getMySaleCount(user_id,"出售");
+        //第一次刷新未传入type
+        if(type.equals("null")){
+            //获取所有信息并分页
+            getBuyInfo(user_id,start,model,session,buycount,salecount);
+            getSaleInfo(user_id,start,model,session,buycount,salecount);
+        }else if(type.equals("出售")){
+            //点击出售下的分页按钮，仅刷新出售 求购不动
+            getSaleInfo(user_id,start,model,session,buycount,salecount);
+            //将求购分页页码重置为1
+            model.addAttribute("currpage1",1);
+        }else {
+            //点击求购下的分页按钮，仅刷新求购 出售不动
+            getBuyInfo(user_id,start,model,session,buycount,salecount);
+            //将出售分页页码重置为1
+            model.addAttribute("currpage",1);
+        }
+        return "personinfopage";
+    }
+
+    //公共方法
+    public void getBuyInfo(String user_id,int start,Model model,HttpSession session,int buycount,int salecount){
+        List<Goods> TAbuy=orderService.getMyBuy(user_id,"购入",(start-1)*5,5);
+        model.addAttribute("buycount",buycount);
+        model.addAttribute("salecount",salecount);
+        model.addAttribute("currpage1",start);
+        session.setAttribute("TABuy",TAbuy);
+    }
+    public void getSaleInfo(String user_id,int start,Model model,HttpSession session,int buycount,int salecount){
+        List<Goods> TASale=orderService.getMySale(user_id,"出售",(start-1)*5,5);
+        model.addAttribute("salecount",salecount);
+        model.addAttribute("buycount",buycount);
+        model.addAttribute("currpage",start);
+        session.setAttribute("TASale",TASale);
     }
 
 }

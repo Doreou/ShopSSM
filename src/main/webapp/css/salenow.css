@@ -1,0 +1,39 @@
+
+
+#my_products {
+    background: #fff;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+#my_products .enshr_each {
+    padding-left: 120px;
+    margin-top: 30px;
+}
+
+#my_products .enshr_ph {
+    float: left;
+    margin-left: -120px;
+}
+
+#my_products .enshr_info {
+    margin-left: 20px;
+}
+
+#my_products .enshr_info h2 {
+    margin-top: 10px;
+}
+
+#my_products .enshr_ph img {
+    width: 120px;
+    height: 120px;
+}
+
+#my_products .enshr_state span {
+    font-size: 17px;
+    display: inline-block;
+}
+
+#my_products .enshr_state .enshr_info_price{
+    color: rgb(206,1,7);
+}
