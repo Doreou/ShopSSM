@@ -24,7 +24,7 @@ public interface OrderService {
     int getSaleCount();
     int getMyBuyCount(String userid,String type);
     int getMySaleCount(String userid,String type);
-    int getCountBySub(String subject);
+    int getCountBySub(String subject,String type);
     int getSearchSaleCount(String key);
     int getSearchBuyCount(String key);
     void isundercarriage(int goods_id,int choice);

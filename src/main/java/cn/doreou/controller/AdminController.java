@@ -405,7 +405,8 @@ public class AdminController {
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < AllSubject.size(); i++) {
             subjectList.add(AllSubject.get(i).getSubject());
-            countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject()));
+            countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject(),"出售"));
+            countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject(),"购入"));
         }
         jsonObject.put("subject", subjectList);
         jsonObject.put("count", countList);

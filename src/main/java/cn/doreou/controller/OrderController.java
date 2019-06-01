@@ -40,6 +40,7 @@ public class OrderController {
     @Autowired
     private BookService bookService;
 
+    //出售商品
     @RequestMapping("salegoods")
     public String SaleGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
         String code = (String) session.getAttribute("code");
@@ -95,6 +96,7 @@ public class OrderController {
 
     }
 
+    //购买商品
     @RequestMapping("buygoods")
     public String BuyGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
         List<User> userList = (List<User>) session.getAttribute("user");
@@ -125,6 +127,7 @@ public class OrderController {
         return "buygoods";
     }
 
+    //我的求购
     @RequestMapping("getMyBuy")
     public String getMyBuy(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start) {
         List<User> userList = (List<User>) session.getAttribute("user");
@@ -136,6 +139,7 @@ public class OrderController {
 
     }
 
+    //我的出售
     @RequestMapping("getMySale")
     public String getMySale(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start) {
         List<User> userList = (List<User>) session.getAttribute("user");
@@ -169,20 +173,22 @@ public class OrderController {
         return "true";
     }
 
+    //按科目查询在架出售
     @RequestMapping("querysalebysub")
     public String QuerySaleBySub(HttpSession session, Model model, @RequestParam("select") String subject, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
         List<Goods> result = orderService.getSaleBySub(subject, (start - 1) * 8, 8);
-        model.addAttribute("salecount", orderService.getCountBySub(subject));
+        model.addAttribute("salecount", orderService.getCountBySub(subject,"出售"));
         model.addAttribute("currpage", start);
         session.setAttribute("subject", subject);
         session.setAttribute("AllSaleGoodsList", result);
         return "sale";
     }
 
+    //按科目查询在架求购
     @RequestMapping("querybuybysub")
     public String QueryBuyBySub(HttpSession session, Model model, @RequestParam("select") String subject, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
         List<Goods> result = orderService.getBuyBySub(subject, (start - 1) * 10, 10);
-        model.addAttribute("buycount", orderService.getCountBySub(subject));
+        model.addAttribute("buycount", orderService.getCountBySub(subject,"购入"));
         model.addAttribute("currpage", start);
         session.setAttribute("subject", subject);
         session.setAttribute("AllBuyGoodsList", result);
@@ -203,9 +209,11 @@ public class OrderController {
         return "buy";
     }
 
+    //获取商品详细信息
     @RequestMapping("getgoodsinfo")
     public String getGoodsInfo(HttpSession session, Model model, @RequestParam("id") String id) {
         List<Book> bookList = bookService.getAllSubject();
+        //记录点击 次数+1
         if (session.getAttribute("user") != null) {
             //查询用户是否点击过此商品
             List<User> users = (List<User>) session.getAttribute("user");
@@ -247,6 +255,7 @@ public class OrderController {
         return "goodsinfo";
     }
 
+    //按关键字搜索求购并分页
     @RequestMapping("searchbuy")
     public String SearchBuy(HttpSession session, Model model, @RequestParam("keyword") String key, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
         List<Goods> result = orderService.SearchBuy(key, (start - 1) * 10, 10);
@@ -255,7 +264,7 @@ public class OrderController {
         session.setAttribute("AllBuyGoodsList", result);
         return "buy";
     }
-
+    //按关键字搜索出售并分页
     @RequestMapping("searchsale")
     public String SearchSale(HttpSession session, Model model, @RequestParam("keyword") String key, @RequestParam(value = "page", required = false, defaultValue = "1") int start) {
         List<Goods> result = orderService.SearchSale(key, (start - 1) * 8, 8);
@@ -265,11 +274,13 @@ public class OrderController {
         return "sale";
     }
 
+    //获取所有求购并分页 即点击所有分类时
     @RequestMapping(value = "searchbuybypage")
     public String SearchByPage(HttpSession session, Model model, @RequestParam("page") int start) {
         List<Goods> result = orderService.SearchAllBuyByPage((start - 1) * 10, 10);
         model.addAttribute("currpage", start);
         model.addAttribute("buycount", orderService.getBuyCount());
+        //如果当前subject不为null 将导致按照上一个选中的subject排序
         if (session.getAttribute("subject") != null) {
             session.removeAttribute("subject");
         }
@@ -277,11 +288,16 @@ public class OrderController {
         return "buy";
     }
 
+    //获取所有出售并分页
     @RequestMapping("searchsalebypage")
     public String SearchSaleByPage(HttpSession session, Model model, @RequestParam("page") int start) {
         List<Goods> result = orderService.SearchAllSaleByPage((start - 1) * 8, 8);
         model.addAttribute("currpage", start);
         model.addAttribute("salecount", orderService.getSaleCount());
+        //如果当前subject不为null 将导致按照上一个选中的subject排序
+        if (session.getAttribute("subject") != null) {
+            session.removeAttribute("subject");
+        }
         session.setAttribute("AllSaleGoodsList", result);
         return "sale";
     }
@@ -305,6 +321,7 @@ public class OrderController {
         return "true";
     }
 
+    //公共方法 按选择排序
     public String AllOrderBychoice(HttpSession session, Model model, String way, String type, int start, List<Goods> result) {
         if (type.equals("出售")) {
             model.addAttribute("currpage", start);
@@ -439,7 +456,7 @@ public class OrderController {
         return "mybuy";
     }
 
-
+    //我的收藏
     @RequestMapping("getMycollect")
     public String getMyCollect(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start) {
         List<User> user = (List<User>) session.getAttribute("user");
@@ -449,7 +466,7 @@ public class OrderController {
         model.addAttribute("currpage", start);
         return "mycollect";
     }
-
+    //取消收藏
     @RequestMapping("undocollect")
     public String undoCollect(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start, @Param("id") int id) {
         List<User> user = (List<User>) session.getAttribute("user");
@@ -458,7 +475,7 @@ public class OrderController {
         session.setAttribute("errmsg", errmsg);
         return getMyCollect(session, model, start);
     }
-
+    //我的消息
     @RequestMapping("getMyNews")
     public String getMyNews(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start) {
         List<User> user = (List<User>) session.getAttribute("user");
@@ -479,7 +496,7 @@ public class OrderController {
         else
             return "以标记为未读";
     }
-
+    //购买二手书
     @RequestMapping("Buy")
     @ResponseBody
     public String Buy(@RequestParam("price") float price, @RequestParam("time") String time,
@@ -493,7 +510,7 @@ public class OrderController {
             List<GoodAndUser> infoList = orderService.getInfoById(String.valueOf(goods_id));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             //发送信息
-            NewOrder(infoList,user,content);
+            NewOrder(infoList,user,content,number,price,place,time);
             int message_id = orderService.getMaxMessageID();
             Order order = new Order();
             order.setBuyer_get(0);
@@ -521,7 +538,7 @@ public class OrderController {
             return "我们已经通知卖家，请耐心等待！";
         }
     }
-
+    //同意交易
     @RequestMapping("agree")
     public String agree(HttpSession session, @RequestParam("message_id") int message_id) {
         List<User> user=(List<User>)session.getAttribute("user");
@@ -558,7 +575,7 @@ public class OrderController {
         //向买家发送提醒
         return "redirect:/Message/AutoSend";
     }
-
+    //拒绝交易
     @RequestMapping("disagree")
     public String disagree(HttpSession session, @RequestParam("message_id") int message_id, @RequestParam("content") String content) {
         Order order = orderService.getByMessageID(message_id);
@@ -581,6 +598,7 @@ public class OrderController {
         return "redirect:/Message/AutoSend";
     }
 
+    //持有人收款
     @RequestMapping("OwnerGet")
     @ResponseBody
     public String OwnerGet(HttpSession session,@RequestParam("message_id") int message_id) {
@@ -606,6 +624,8 @@ public class OrderController {
         }
         return "确认成功";
     }
+
+    //购书人收货
     @RequestMapping("BuyerGet")
     @ResponseBody
     public String BuyerGet(HttpSession session,@RequestParam("message_id") int message_id){
@@ -631,7 +651,8 @@ public class OrderController {
         return "确认成功";
     }
 
-
+    //消息发送方法
+    //订单完成消息
     public void OrderFinishedMessage(String reciever){
         Message message=new Message();
         message.setMessage_title("交易完成提醒");
@@ -643,6 +664,7 @@ public class OrderController {
         message.setIsRead(0);
         messageService.sendMessage(message);
     }
+    //提醒买家确认
     public void AlertBuyerMessage(String reciever,List<GoodAndUser> list,int message_id){
         Message message=new Message();
         message.setMessage_title("购买确认提醒");
@@ -655,6 +677,7 @@ public class OrderController {
         message.setTip(String.valueOf(message_id));
         messageService.sendMessage(message);
     }
+    //提醒卖家确认
     public void AlertOwnerMessage(List<GoodAndUser> list,int message_id){
         Message message=new Message();
         message.setMessage_title("收款确认提醒");
@@ -667,6 +690,7 @@ public class OrderController {
         message.setTip(String.valueOf(message_id));
         messageService.sendMessage(message);
     }
+    //商品库存不足下架提醒
     public void ToBeZeroMessage(User user){
         Message message=new Message();
         message.setSender("root");
@@ -678,15 +702,15 @@ public class OrderController {
         message.setSend_time(new Date());
         messageService.sendMessage(message);
     }
-
-    public void NewOrder(List<GoodAndUser> infoList,List<User> user,String content){
+    //被购买提醒
+    public void NewOrder(List<GoodAndUser> infoList,List<User> user,String content,int number,float price,String place,String time){
         Message message = new Message();
         message.setReciever(infoList.get(0).getUser_id());
         message.setSend_time(new Date());
         message.setIsRead(0);
         message.setMessage_type("购买通知");
         message.setMessage_title("有人收购你的书籍啦！");
-        message.setMessage_content("您好！" + infoList.get(0).getUsername() + ",您的书籍" + infoList.get(0).getGoods_title() + "被" + user.get(0).getUsername() + "购买啦！" + "快去查看交易信息吧！TA还给您留言：" + content);
+        message.setMessage_content("您好！" + infoList.get(0).getUsername() + ",您的书籍" + infoList.get(0).getGoods_title() + "被" + user.get(0).getUsername() + "购买啦！" + "他购买的数量为："+number+"，交易地点为："+place+"，时间为："+time+"，出价为："+price+"。TA还给您留言：" + content);
         message.setSender("root");
         messageService.sendMessage(message);
     }

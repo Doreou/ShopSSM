@@ -66,8 +66,8 @@ public class OrderServiceImpl implements OrderService {
     public int getMySaleCount(String userid,String type){
         return orderMapper.getMySaleCount(userid, type);
     }
-    public int getCountBySub(String subject){
-        return orderMapper.getCountBySub(subject);
+    public int getCountBySub(String subject,String type){
+        return orderMapper.getCountBySub(subject,type);
     }
     public int getSearchSaleCount(String key){
         return  orderMapper.getSearchSaleCount(key);

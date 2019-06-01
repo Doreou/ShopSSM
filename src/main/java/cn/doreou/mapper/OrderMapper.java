@@ -39,7 +39,7 @@ public interface OrderMapper {
     int getSaleCount();
     int getMyBuyCount(String userid,String type);
     int getMySaleCount(String userid,String type);
-    int getCountBySub(@Param("subject") String subject);
+    int getCountBySub(@Param("subject") String subject,@Param("type") String type);
     int getSearchSaleCount(String key);
     int getSearchBuyCount(String key);
 

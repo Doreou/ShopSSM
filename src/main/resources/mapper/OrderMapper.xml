@@ -58,7 +58,7 @@
         select count(*) from t_goods where owner_id=#{param1} and type=#{param2}
     </select>
     <select id="getCountBySub" resultType="INT" parameterType="STRING">
-        select count(*) from t_goods where subject=#{subject} and isundercarriage=1
+        select count(*) from t_goods where subject=#{subject} and isundercarriage=1 and type=#{type}
     </select>
     <select id="getSearchSaleCount" resultType="INT" parameterType="STRING">
         select count(*) from t_goods where goods_title like concat(concat('%',#{_parameter}),'%') and type='出售' and isundercarriage=1
