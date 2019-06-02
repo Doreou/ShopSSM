@@ -153,4 +153,7 @@ public class AdminServiceImpl implements AdminService {
     public int getUnCertCount(){
         return adminMapper.getUnCertCount();
     }
+    public List<Goods> getIDList(String subject){
+        return adminMapper.getIDList(subject);
+    }
 }

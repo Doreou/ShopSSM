@@ -12,4 +12,5 @@ public interface MessageService {
     void deleteMessage(int message_id);
     List<Message> getMessageType();
     void updateMessageByID(Message message);
+    void updateMessage(Message message);
 }

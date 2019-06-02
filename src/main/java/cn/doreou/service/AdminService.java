@@ -52,4 +52,6 @@ public interface AdminService {
     int getCertCount();
     int getUnCertCount();
 
+    List<Goods> getIDList(String subject);
+
 }

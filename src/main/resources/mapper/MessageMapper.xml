@@ -84,4 +84,11 @@
         </if>
         where message_id=#{message_id}
     </update>
+    <update id="updateMessage" parameterType="cn.doreou.model.Message">
+        update t_message set message_content=#{message_content},message_title=#{message_title},send_time=#{send_time}
+        <if test="reciever!='' and reciever!=null">
+            reciever=#{reciever}
+        </if>
+        where message_id=#{message_id}
+    </update>
 </mapper>

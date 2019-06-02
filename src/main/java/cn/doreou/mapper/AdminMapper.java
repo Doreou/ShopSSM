@@ -69,4 +69,7 @@ public interface AdminMapper {
     //获取认证数量
     int getCertCount();
     int getUnCertCount();
+
+    //获取商品ID数据列
+    List<Goods> getIDList(@Param("subject") String subject);
 }

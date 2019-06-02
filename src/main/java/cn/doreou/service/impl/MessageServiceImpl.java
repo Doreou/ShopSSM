@@ -32,4 +32,7 @@ public class MessageServiceImpl implements MessageService {
     public void updateMessageByID(Message message){
         messageMapper.updateMessageByID(message);
     }
+    public void updateMessage(Message message){
+        messageMapper.updateMessage(message);
+    }
 }

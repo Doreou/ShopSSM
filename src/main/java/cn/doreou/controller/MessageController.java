@@ -134,6 +134,26 @@ public class MessageController {
         JSONObject jsonObject=JSONObject.parseObject(gson.toJson(new PojoToJson(0,"",MessageTypeList.size(),MessageTypeList)));
         return jsonObject;
     }
+    @RequestMapping("updateMessage")
+    @ResponseBody
+    public String updateMessage(@RequestParam("message_id") int message_id,@RequestParam("title") String title,@RequestParam("message_content") String message_content,@RequestParam("sendTime") String sendTime,@RequestParam(value = "reciever",required = false,defaultValue = "") String reciever){
+        Message message=new Message();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            message.setSend_time(sdf.parse(sendTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(!reciever.equals("")) {
+            message.setReciever(reciever);
+        }
+        message.setMessage_id(message_id);
+        message.setSender(sendTime);
+        message.setMessage_title(title);
+        message.setMessage_content(message_content);
+        messageService.updateMessage(message);
+        return "修改成功";
+    }
 
 
 }

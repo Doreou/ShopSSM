@@ -8,6 +8,13 @@ if (!location.href.includes("getMyNews")) {
         }
     })
 }
+function ToLocal(time) {
+    let date = time;
+    let Str=date.getFullYear() + '-' +
+        (date.getMonth() + 1) + '-' +
+        date.getDate() + ' ';
+    return Str;
+}
 
 var url = location.search; //获取url中"?"符后的字串
 if (url.indexOf("?") != -1) {    //判断是否有参数
@@ -48,6 +55,14 @@ layui.use('laydate', function () {
         elem: '#sendTime', //指定元素
         trigger: 'click',
         min: 0,//可选中的最早日期限制为今日
+    });
+    laydate.render({
+        elem: '#SearchSend_time', //指定元素
+        trigger: 'click',
+    });
+    laydate.render({
+        elem: '#sendTime1', //指定元素
+        trigger: 'click',
     });
 });
 
@@ -236,8 +251,35 @@ layui.use('table', function () {
                         alert = "确定要撤回消息吗?";
                         deleteMessage(obj);
                     }
-
-
+                }else if(layEvent==='edit'){
+                    var time=new Date(data.send_time);
+                    var formatTime=ToLocal(time);
+                    $('#title').val(data.message_title);
+                    $('#message_content').val(data.message_content);
+                    $('#sendTime1').val(formatTime);
+                    $('#reciever').val(data.reciever);
+                    $('#fileLocation').val(data.message_id);
+                    layer.open({
+                        type:1,
+                        area:['500px','500px'],
+                        content:$('#popUpdate'),
+                        btn:['确定','取消'],
+                        yes:function () {
+                            layer.confirm('确定要修改此消息？',function () {
+                                $.ajax({
+                                    type:'POST',
+                                    url:'/Message/updateMessage',
+                                    data:{'message_id':$('#fileLocation').val(),'title':$('#title').val(),'message_content':$('#message_content').val(),'sendTime':$('#sendTime1').val(),'reciever':$('#reciever').val()},
+                                    success:function (msg) {
+                                        layer.msg(msg);
+                                    }
+                                })
+                            })
+                        },
+                        btn2:function () {
+                            layer.closeAll();
+                        }
+                    })
                 }
             })
         } else {
@@ -342,7 +384,7 @@ $('#sendMessageToAll').on('click', function () {
 $('#deleteBtn').on('click', function () {
     if(permission==1) {
         if (idList.length > 0) {
-            layer.confirm('确定删除撤回选定行？', function () {
+            layer.confirm('确定撤回选定行？', function () {
                 for (var i = 0; i < idList.length; i++) {
                     $.ajax({
                         type: 'POST',
@@ -359,6 +401,45 @@ $('#deleteBtn').on('click', function () {
             })
         } else {
             layer.msg("请选择需要撤回的消息");
+        }
+    }else {
+        layer.msg("您无权进行此操作");
+    }
+})
+
+$('#editBtn').on('click', function () {
+    if(permission==1) {
+        if (idList.length > 0) {
+            layer.confirm('一键编辑不支持修改接收人且修改后发送日期一致，确定编辑选定行？', function () {
+                $('#reciever').attr('style','display:none');
+                layer.open({
+                    type:1,
+                    area:['500px','500px'],
+                    content:$('#popUpdate'),
+                    btn:['确定','取消'],
+                    yes:function () {
+                        for (var i = 0; i < idList.length; i++) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Message/updateMessage?message_id=' + idList[i],
+                                data:{'title':$('#title').val(),'message_content':$('#message_content').val(),'sendTime':$('#sendTime1').val()},
+                                success: function () {
+                                    break;
+                                }
+                            })
+                        }
+                        layer.msg("消息已编辑");
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000)
+                    },
+                    btn2:function () {
+                        layer.closeAll();
+                    }
+                })
+            })
+        } else {
+            layer.msg("请选择需要编辑的消息");
         }
     }else {
         layer.msg("您无权进行此操作");
@@ -402,3 +483,4 @@ $(document).on('click','#getMoneybtnbtn',function () {
         })
     })
 })
+

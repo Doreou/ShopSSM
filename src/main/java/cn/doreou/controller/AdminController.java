@@ -86,6 +86,12 @@ public class AdminController {
     @RequestMapping("deleteSubject")
     @ResponseBody
     public String deleteSubject(@RequestParam("subject") String subject) {
+        //先删除goods商品列表所有与此subject相关的数据
+        List<Goods> IDList=adminService.getIDList(subject);
+        for(int i=0;i<IDList.size();i++){
+            orderService.deleteGoods(IDList.get(i).getGoods_id());
+        }
+        //删除完成 删除subject
         adminService.deleteSubject(subject);
         return "删除完成";
     }

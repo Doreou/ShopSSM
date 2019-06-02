@@ -15,4 +15,5 @@ public interface MessageMapper {
     void deleteMessage(@Param("message_id") int message_id);
     List<Message> getMessageType();
     void updateMessageByID(Message message);
+    void updateMessage(Message message);
 }

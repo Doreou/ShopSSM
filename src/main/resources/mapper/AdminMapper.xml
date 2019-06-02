@@ -296,4 +296,7 @@
     <select id="getUnCertCount" resultType="int">
         select count(*) from t_user where member_status=0
     </select>
+    <select id="getIDList" parameterType="STRING" resultType="cn.doreou.model.Goods">
+        select goods_id from t_goods where subject=#{subject}
+    </select>
 </mapper>
