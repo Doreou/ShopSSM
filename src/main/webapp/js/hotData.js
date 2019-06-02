@@ -3,33 +3,14 @@ layui.use('element', function () {
 });
 var myLineChart = echarts.init(document.getElementById('chartline'));
 var myPieChart = echarts.init(document.getElementById('chartpie'));
-var option = {
-    title:{
-        text:'各分类图书数量'
-    },
-    tooltip:{},
-    legend:{
-        data:['用户来源']
-    },
-    xAxis:{
 
-    },
-    yAxis:{
-
-    },
-    series:[{
-        name:'访问量',
-        type:'line',
-        data:[]
-    }],
-};
 var classify=[];
 var nums=[];
 var seriesData=[];
 //初始化echarts实例
 $.ajax({
     type:'POST',
-    url:'/Admin/getSubjectAnalysis',
+    url:'/Admin/getHotAnalysis',
     success:function (msg) {
         for(var i=0;i<msg.subject.length;i++){
             classify.push(msg.subject[i]);
@@ -43,16 +24,17 @@ $.ajax({
         }
         myPieChart.setOption({
             title:{
-                text:'各分类图书数量--饼状图',
-                left:'20%',
-                top:'10%'
+                text:'各科目图书热度--饼状图',
+                left:'center',
+                textStyle:{
+                    fontSize:'16'
+                }
             },
             tooltip:{trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"  },
             legend:{
                 orient:'vertical',
-                left:'center',
-                bottom:'bottom',
+                left:'left',
                 data:classify
             },
             series:[{
@@ -74,25 +56,40 @@ $.ajax({
 
         myLineChart.setOption({
             title:{
-                text:'各分类图书数量--折线图'
+                text:'各科目图书热度--柱状图',
+                left:'center',
+                textStyle:{
+                    fontSize:'16'
+                }
+            },
+            legend:{
+                icon:'circle',
+                x:'right',
+                y:'top',
+                data:['点击次数']
             },
             xAxis: {
+                type : 'category',
                 data: classify,
+                barCategoryGap:'20',
+                axisLabel:{
+                    interval:0,
+                    rotate:45,
+                    textStyle:{
+                        color:"black"
+                    }
+                }
             },
             yAxis:{
 
             },
             series:[{
-                type:'line',
-                data:nums
+                type: 'bar',
+                name:'点击次数',
+                data: nums,
+                barWidth:30,
+                color:'#FF8000'
             }],
-            grid:{
-                top:50,
-                x:20,
-                //距离div右侧距离
-                x2:0,
-                y2:20
-            }
         });
     }
 

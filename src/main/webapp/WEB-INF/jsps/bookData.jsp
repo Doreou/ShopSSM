@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="/css/layui.css">
 </head>
 <script src="/js/jquery.js"></script>
-<script src="/layui.js"></script>
 <script src="/js/echarts.min.js"></script>
+<script src="/layui.js"></script>
+<script src="/js/layer.js"></script>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -85,10 +86,31 @@
             </ul>
         </div>
     </div>
+
     <div class="layui-body">
+        <div class="layui-form" style="padding: 0px; margin-top: 30px;">
+            <div class="layui-form-item" style="margin-bottom: 10px!important;">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline">
+                    <div class="layui-input-inline" style="margin-left: 5px;">
+                        <select name="SearchType" id="SearchType">
+                            <option value="出售">出售</option>
+                            <option value="购入">购入</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="layui-btn" style="margin-left: 20px" data-type="reload" id="searchBtn" >搜索</button>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header" style="border-bottom:1px solid #5A5A5A">数据概览——各分类图书数量</div>
+            <div class="layui-card-body" style="height: 332px; border-bottom: 1px solid #5A5A5A">
+                <div id="chartline" style="width:49%; height: 332px;border-right: 1px solid #5A5A5A;float: left"></div>
+                <div id="chartpie" style="width:50%; height: 332px; float: right;"></div>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
-        <div id="chartline" style="width:50%; height: 400px;"></div>
-        <div id="chartpie" style="width:100%; height: 400px;"></div>
+
     </div>
 
     <div class="layui-footer">

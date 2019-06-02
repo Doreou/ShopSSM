@@ -398,16 +398,40 @@ public class AdminController {
 
     @RequestMapping("getSubjectAnalysis")
     @ResponseBody
-    public Object getSubjectAnalysis() {
+    public Object getSubjectAnalysis(@RequestParam(value = "type",required = false,defaultValue = "出售") String type) {
+        List subjectList = new ArrayList();
+        List countList = new ArrayList();
+        List<Book> AllSubject = bookService.getAllSubject();
+        JSONObject jsonObject = new JSONObject();
+        if(type.equals("出售")) {
+            for (int i = 0; i < AllSubject.size(); i++) {
+                subjectList.add(AllSubject.get(i).getSubject());
+                countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject(), "出售"));
+            }
+        }else {
+            for (int i = 0; i < AllSubject.size(); i++) {
+                subjectList.add(AllSubject.get(i).getSubject());
+                countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject(),"购入"));
+            }
+        }
+        jsonObject.put("subject", subjectList);
+        jsonObject.put("count", countList);
+        return jsonObject;
+    }
+
+    //热度数据分析
+    @RequestMapping("getHotAnalysis")
+    @ResponseBody
+    public Object getHotAnalysis() {
+        //获取各分类热度总和
         List subjectList = new ArrayList();
         List countList = new ArrayList();
         List<Book> AllSubject = bookService.getAllSubject();
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < AllSubject.size(); i++) {
-            subjectList.add(AllSubject.get(i).getSubject());
-            countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject(),"出售"));
-            countList.add(orderService.getCountBySub(AllSubject.get(i).getSubject(),"购入"));
-        }
+                subjectList.add(AllSubject.get(i).getSubject());
+                countList.add(orderService.getHotCountSumBySub(AllSubject.get(i).getSubject()));
+            }
         jsonObject.put("subject", subjectList);
         jsonObject.put("count", countList);
         return jsonObject;
@@ -423,6 +447,17 @@ public class AdminController {
         jsonObject.put("man", man);
         jsonObject.put("woman", woman);
         jsonObject.put("norecord", norecord);
+        return jsonObject;
+    }
+
+    @RequestMapping("getCertCount")
+    @ResponseBody
+    public Object getCertCount(){
+        int CertCount=adminService.getCertCount();
+        int UnCertCount=adminService.getUnCertCount();
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("CertCount",CertCount);
+        jsonObject.put("UnCertCount",UnCertCount);
         return jsonObject;
     }
 

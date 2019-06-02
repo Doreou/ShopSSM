@@ -78,6 +78,9 @@ public class OrderServiceImpl implements OrderService {
     public int getMyFinishedOrderCount(String user_id){
         return orderMapper.getMyFinishedOrderCount(user_id);
     }
+    public int getHotCountSumBySub(String subject){
+        return orderMapper.getHotCountSumBySub(subject);
+    }
     public void isundercarriage(int goods_id,int choice){
         orderMapper.Isundercarriage(goods_id, choice);
     }

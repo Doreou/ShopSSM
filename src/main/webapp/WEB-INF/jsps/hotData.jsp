@@ -86,9 +86,15 @@
         </div>
     </div>
     <div class="layui-body">
+        <div class="layui-card">
+            <div class="layui-card-header" style="border-bottom:1px solid #5A5A5A">数据概览——各科目图书热度</div>
+            <div class="layui-card-body" style="height: 332px; border-bottom: 1px solid #5A5A5A">
+                <div id="chartline" style="width:49%; height: 332px;border-right: 1px solid #5A5A5A;float: left"></div>
+                <div id="chartpie" style="width:50%; height: 332px; float: right;"></div>
+            </div>
+        </div>
         <!-- 内容主体区域 -->
-        <div id="chartline" style="width:50%; height: 400px;"></div>
-        <div id="chartpie" style="width:100%; height: 400px;"></div>
+
     </div>
 
     <div class="layui-footer">

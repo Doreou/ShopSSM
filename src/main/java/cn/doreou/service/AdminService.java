@@ -49,4 +49,7 @@ public interface AdminService {
     void deleteAdmin(String admin_id);
     void deleteUser(String user_id);
 
+    int getCertCount();
+    int getUnCertCount();
+
 }

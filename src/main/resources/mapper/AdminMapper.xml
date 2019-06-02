@@ -290,4 +290,10 @@
     <delete id="deleteUser" parameterType="STRING">
         delete from t_user where user_id=#{user_id}
     </delete>
+    <select id="getCertCount" resultType="int">
+        select count(*) from t_user where member_status=1
+    </select>
+    <select id="getUnCertCount" resultType="int">
+        select count(*) from t_user where member_status=0
+    </select>
 </mapper>

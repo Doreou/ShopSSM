@@ -146,4 +146,11 @@ public class AdminServiceImpl implements AdminService {
     public void deleteUser(String user_id){
         adminMapper.deleteUser(user_id);
     }
+
+    public int getCertCount(){
+        return adminMapper.getCertCount();
+    }
+    public int getUnCertCount(){
+        return adminMapper.getUnCertCount();
+    }
 }

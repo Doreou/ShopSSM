@@ -28,6 +28,7 @@ public interface OrderService {
     int getSearchSaleCount(String key);
     int getSearchBuyCount(String key);
     int getMyFinishedOrderCount(String user_id);
+    int getHotCountSumBySub(String sub);
     void isundercarriage(int goods_id,int choice);
     int goodsStatus(int goods_id);
     void deleteGoods(int goods_id);

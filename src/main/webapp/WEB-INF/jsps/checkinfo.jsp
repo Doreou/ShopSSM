@@ -150,8 +150,8 @@
         <span class="" id="js-numberrock"></span>
     </div>
     <div class="erweima">
-        <a class="qq" href="tencent://message/?uin=307242951&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>
-        <a href="http://weibo.com/u/276233227/" class="wb"></a>
+        <a class="qq" href="tencent://message/?uin=1250305708&amp;Site=QQ交谈&amp;Menu=yes" target="_blank"></a>
+        <a href="http://weibo.com" class="wb"></a>
     </div>
 </div>
 

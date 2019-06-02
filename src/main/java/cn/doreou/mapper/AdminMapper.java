@@ -65,4 +65,8 @@ public interface AdminMapper {
     void cancelCert(@Param("user_id") String user_id);
     void deleteAdmin(@Param("admin_id") String admin_id);
     void deleteUser(@Param("user_id") String user_id);
+
+    //获取认证数量
+    int getCertCount();
+    int getUnCertCount();
 }

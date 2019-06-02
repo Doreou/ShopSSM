@@ -69,6 +69,9 @@
     <select id="getMyFinishedOrderCount" parameterType="STRING" resultType="INT">
         select count(*) from t_order,t_goods where order_status=1 and t_order.goods_id=t_goods.goods_id and owner_id=#{user_id}
     </select>
+    <select id="getHotCountSumBySub" parameterType="STRING" resultType="INT">
+        select IFNULL(sum(clickcount),0) from t_goods where subject=#{subject} and isundercarriage=1 and type='出售'
+    </select>
 
     <update id="Isundercarriage">
       update t_goods set isundercarriage=#{user_choice} where goods_id=#{goods_id}
