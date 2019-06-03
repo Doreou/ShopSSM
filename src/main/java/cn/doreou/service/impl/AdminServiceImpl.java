@@ -140,6 +140,9 @@ public class AdminServiceImpl implements AdminService {
     public void cancelCert(String user_id){
         adminMapper.cancelCert(user_id);
     }
+    public void Cert(String user_id){
+        adminMapper.Cert(user_id);
+    }
     public void deleteAdmin(String admin_id){
         adminMapper.deleteAdmin(admin_id);
     }

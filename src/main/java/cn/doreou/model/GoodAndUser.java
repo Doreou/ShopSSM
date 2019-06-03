@@ -6,6 +6,24 @@ public class GoodAndUser {
     private int goods_id;
     private String user_id;
     private float pri_cost;
+    private String status;
+    private String label;
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public float getPri_cost() {
         return pri_cost;

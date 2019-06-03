@@ -19,8 +19,8 @@ public interface OrderMapper {
     List<Goods> getMySale(String userid,String type,int start,int pagesize);
     List<Goods> getMyBuy(String userid,String type,int start,int pagesize);
 //    按照导航栏查询
-    List<Goods> getSaleBySub(@Param("subject") String subject,int start,int pagesize);
-    List<Goods> getBuyBySub(@Param("subject") String subject,int start,int pagesize);
+    List<Goods> getSaleBySub(@Param("subject") String subject,@Param("start") int start,@Param("pageSize") int pagesize);
+    List<Goods> getBuyBySub(@Param("subject") String subject,@Param("start") int start,@Param("pageSize") int pagesize);
 //    获取全部商品信息
     List<Goods> getAllSale();
     List<Goods> getAllBuy();

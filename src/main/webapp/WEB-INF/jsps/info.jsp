@@ -13,17 +13,17 @@
 <head>
     <meta charset="utf-8">
     <title>我的信息</title>
-    <link href="/css/animate.css" rel="stylesheet" />
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/css/login.css" rel="stylesheet" />
-    <link href="/css/newstyle.css" rel="stylesheet" />
-    <link href="/css/custom.css" rel="stylesheet" />
+    <link href="/css/animate.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/css/login.css" rel="stylesheet"/>
+    <link href="/css/newstyle.css" rel="stylesheet"/>
+    <link href="/css/custom.css" rel="stylesheet"/>
     <link href="/css/iconfont.css" rel="stylesheet" type="text/css">
-    <link href="/css/common.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/infohead.css" />
-    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css" />
-    <link rel="stylesheet" href="/css/info.css" />
+    <link href="/css/common.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/infohead.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/cropper.min.css"/>
+    <link rel="stylesheet" href="/css/info.css"/>
     <link rel="stylesheet" href="/css/layui.css">
     <link rel="stylesheet" href="/css/ImgCropping.css">
     <link rel="stylesheet" href="/css/layer.css">
@@ -36,7 +36,7 @@
 <%
     //    获取分类信息
     List<Book> bookList = (List<Book>) session.getAttribute("AllSubject");
-    List<User> userList=(List<User>) session.getAttribute("user");
+    List<User> userList = (List<User>) session.getAttribute("user");
 %>
 <div class="pace  pace-inactive">
     <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
@@ -99,7 +99,8 @@
             </ul>
             <form class="navbar-form navbar-right search-box" onsubmit="return false;">
                 <div class="form-group pull-left">
-                    <input name="keyword" type="text" id="serachWord" class="form-control search-field" placeholder="搜索一下..."> </div>
+                    <input name="keyword" type="text" id="serachWord" class="form-control search-field"
+                           placeholder="搜索一下..."></div>
                 <button type="submit" onclick="toSearch()" class="btn btn-default pull-left search-btn">搜索</button>
             </form>
         </div>
@@ -173,8 +174,10 @@
         <div id="user_msg">
             <input id="user_id" style="display: none;" value="<%=userList.get(0).getUser_id()%>">
             <div class="name">
-                <%=userList.get(0).getUsername()%> </div>
-            <p class="has_sell">共有<span class="all" id="sell">0</span>件二手商品，共有<span class="all" id="buy">0</span>件求购商品，已卖出<span id="AlreadySold">0</span>件商品</p>
+                <%=userList.get(0).getUsername()%>
+            </div>
+            <p class="has_sell">共有<span class="all" id="sell">0</span>件二手商品，共有<span class="all" id="buy">0</span>件求购商品，已卖出<span
+                    id="AlreadySold">0</span>件商品</p>
             <ul class="seller_attr">
                 <li>学校：&nbsp;&nbsp;<span>大连大学</span></li>
                 <li>签名：&nbsp;&nbsp;<span class="user_qianming"></span></li>
@@ -246,63 +249,70 @@
         </div>
         <div id="base_info">
             <form id="f" action="${pageContext.request.contextPath}/User/editinfo">
-            <h2>基本信息 <span id="edit_info">编辑</span><span id="save_info" onclick="updateinfo()">保存</span></h2>
-            <ul class="infos">
-                <li>昵称</li>
-            <li class="right_info">
-                <span id="nickname_span"><%=userList.get(0).getUsername()%></span>
-                <input value="<%=userList.get(0).getUsername()%>" id="nickname" name="nickname" type="text">
-            </li>
-            </ul>
-            <ul class="infos">
-                <li>年龄</li>
-                <li class="right_info">
-                    <span id="user_age"><%=userList.get(0).getAge()%></span>
-                    <input value="<%=userList.get(0).getAge()%>" id="age" name="age" type="text">
-                </li>
-            </ul>
+                <h2>基本信息 <span id="edit_info">编辑</span><span id="save_info" onclick="return updateinfo()">保存</span></h2>
+                <ul class="infos">
+                    <li>昵称</li>
+                    <li class="right_info">
+                        <span id="nickname_span"><%=userList.get(0).getUsername()%></span>
+                        <input value="<%=userList.get(0).getUsername()%>" id="nickname" name="nickname" type="text">
+                    </li>
+                </ul>
+                <ul class="infos">
+                    <li>年龄</li>
+                    <li class="right_info">
+                        <span id="user_age"><%=userList.get(0).getAge()%></span>
+                        <input value="<%=userList.get(0).getAge()%>" id="age" name="age" type="text"
+                               oninput="this.value=this.value.replace(/\D/g,'')"
+                               onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    </li>
+                </ul>
                 <ul class="infos">
                     <li>性别</li>
                     <li class="right_info">
                         <span id="sex_span"><%=userList.get(0).getSex()%></span>
-                        <input value="<%=userList.get(0).getSex()%>" id="sex" name="sex" type="text">
+                        <input value="<%=userList.get(0).getSex()%>" placeholder="请填写男/女" id="sex" name="sex"
+                               type="text">
                     </li>
                 </ul>
-            <ul class="infos">
-                <li>签名</li>
-                <li class="right_info">
-                    <span id="qianming_span"></span>
-                    <input value="<%=userList.get(0).getLabel()%>" id="qianming" name="qianming" type="text">
-                </li>
-            </ul>
-            <ul class="infos">
-                <li>微信</li>
-                <li class="right_info">
-                    <span id="user_wechat"><%=userList.get(0).getWechat()%></span>
-                    <input value="<%=userList.get(0).getWechat()%>" id="wechat" name="wechat" type="text">
-                </li>
-            </ul>
-            <ul class="infos">
-                <li>手机</li>
-                <li class="right_info">
-                    <span id="phone_span"><%=userList.get(0).getPhone()%></span>
-                    <input type="text" name="phone" id="phone" value="<%=userList.get(0).getPhone()%>">
-                </li>
-            </ul>
-            <ul class="infos">
-                <li>email</li>
-                <li class="right_info">
-                    <span id="email_span"><%=userList.get(0).getEmail()%></span>
-                    <input value="<%=userList.get(0).getEmail()%>" id="email" name="email" type="text">
-                </li>
-            </ul>
-            <ul class="infos">
-                <li>QQ</li>
-                <li class="right_info">
-                    <span id="qq_span"><%=userList.get(0).getQq()%></span>
-                    <input value="<%=userList.get(0).getQq()%>" id="qq" name="qq" type="text">
-                </li>
-            </ul>
+                <ul class="infos">
+                    <li>签名</li>
+                    <li class="right_info">
+                        <span id="qianming_span"></span>
+                        <input value="<%=userList.get(0).getLabel()%>" id="qianming" name="qianming" type="text">
+                    </li>
+                </ul>
+                <ul class="infos">
+                    <li>微信</li>
+                    <li class="right_info">
+                        <span id="user_wechat"><%=userList.get(0).getWechat()%></span>
+                        <input value="<%=userList.get(0).getWechat()%>" id="wechat" name="wechat" type="text">
+                    </li>
+                </ul>
+                <ul class="infos">
+                    <li>手机</li>
+                    <li class="right_info">
+                        <span id="phone_span"><%=userList.get(0).getPhone()%></span>
+                        <input type="text" name="phone" id="phone" value="<%=userList.get(0).getPhone()%>"
+                               oninput="this.value=this.value.replace(/\D/g,'')"
+                               onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    </li>
+                </ul>
+                <ul class="infos">
+                    <li>email</li>
+                    <li class="right_info">
+                        <span id="email_span"><%=userList.get(0).getEmail()%></span>
+                        <input value="<%=userList.get(0).getEmail()%>" id="email" name="email" type="text">
+                    </li>
+                </ul>
+                <ul class="infos">
+                    <li>QQ</li>
+                    <li class="right_info">
+                        <span id="qq_span"><%=userList.get(0).getQq()%></span>
+                        <input value="<%=userList.get(0).getQq()%>" id="qq" name="qq" type="text"
+                               oninput="this.value=this.value.replace(/\D/g,'')"
+                               onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                    </li>
+                </ul>
             </form>
         </div>
     </div>
@@ -318,7 +328,8 @@
             </ul>
         </div>
         <div class="footerMain">
-            <a href="/index/index" class="fLogo" style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
+            <a href="/index/index" class="fLogo"
+               style="background: url(../../images/login.jpg) no-repeat;">大连大学二手图书交易平台</a>
             <div class="fContact">
                 <h3 class="fct">联系我们 / <span>contact us</span></h3>
                 <p>Q群：999999999</p>
@@ -344,11 +355,12 @@
 </div>
 <script src="/js/upload.js"></script>
 <script src="/js/Total.js"></script>
+<script src="/js/InputCheck.js"></script>
 <script>
-    $(document).ready(function(){
-        var errmsg="";
-        errmsg="<%=session.getAttribute("errmsg")%>";
-        if(errmsg!=""&&errmsg!="null"){
+    $(document).ready(function () {
+        var errmsg = "";
+        errmsg = "<%=session.getAttribute("errmsg")%>";
+        if (errmsg != "" && errmsg != "null") {
             layer.msg(errmsg.toString());
             //提示后重置errmsg
             <%session.setAttribute("errmsg","");%>
@@ -363,7 +375,7 @@
         }
 
         //点击编辑进入信息编辑
-        $("#edit_info").click(function(){
+        $("#edit_info").click(function () {
             $(this).css({
                 display: "none"
             })
@@ -377,19 +389,19 @@
                 display: "inline"
             })
         });
-        if(<%=userList.get(0).getMember_status()==0%>){
+        if (<%=userList.get(0).getMember_status()==0%>) {
             $('#checkmember').html("未认证");
-        }else{
+        } else {
             $('#checkmember').html("已认证");
         }
 
         //如果用户已登录 隐藏登陆/注册按钮
         //显示用户头像和退出
-        if(<%=userList.get(0).getLabel()==null%>){
+        if (<%=userList.get(0).getLabel()==null%>) {
             $('#qianming').html("ta很懒，还没有留下签名哦~");
             $('.user_qianming').html("ta很懒，还没有留下签名哦~");
             $('#qianming_span').html("ta很懒，还没有留下签名哦~");
-        }else{
+        } else {
             $('#qianming').html("<%=userList.get(0).getLabel()%>");
             $('.user_qianming').html("<%=userList.get(0).getLabel()%>");
             $('#qianming_span').html("<%=userList.get(0).getLabel()%>");
@@ -397,12 +409,15 @@
     })
 
     //保存
-    function updateinfo(){
-        $("#save_info").bind('click',function(){
-            $('#f').action="${pageContext.request.contextPath}/User/editinfo";
-            $('#f').submit();
-        })
+    function updateinfo() {
+        if (check()) {
+            $("#save_info").bind('click', function () {
+                $('#f').action = "${pageContext.request.contextPath}/User/editinfo";
+                $('#f').submit();
+            })
+        }
     }
+
     $("#sureCut").on("click", function () {
         if ($("#tailoringImg").attr("src") == null) {
             return false;
@@ -412,11 +427,11 @@
             $('#code').html(base64);
             $('.tailoring-container').attr("style", "display:none");
             $.ajax({
-                type:'POST',
-                url:'${pageContext.request.contextPath}/User/upload',
-                data:$('#upload').serialize(),
-                success:function (data) {
-                    if(data=='true'){
+                type: 'POST',
+                url: '${pageContext.request.contextPath}/User/upload',
+                data: $('#upload').serialize(),
+                success: function (data) {
+                    if (data == 'true') {
                         location.reload();
                     }
                 }

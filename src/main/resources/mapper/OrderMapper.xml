@@ -17,11 +17,11 @@
     <select id="getMySale" resultType="cn.doreou.model.Goods">
         select * from t_goods where owner_id=#{param1} and type=#{param2} limit #{param3},#{param4}
     </select>
-    <select id="getSaleBySub" resultType="cn.doreou.model.Goods" parameterType="STRING">
-        select * from t_goods where subject=#{subject} and type='出售' and isundercarriage=1
+    <select id="getSaleBySub" resultType="cn.doreou.model.Goods">
+        select * from t_goods where subject=#{subject} and type='出售' and isundercarriage=1 limit #{start},#{pageSize}
     </select>
-    <select id="getBuyBySub" resultType="cn.doreou.model.Goods" parameterType="STRING">
-        select * from t_goods where subject=#{subject} and type='购入' and isundercarriage=1
+    <select id="getBuyBySub" resultType="cn.doreou.model.Goods">
+        select * from t_goods where subject=#{subject} and type='购入' and isundercarriage=1 limit #{start},#{pageSize}
     </select>
     <select id="getAllSale" resultType="cn.doreou.model.Goods">
         select * from t_goods where type='出售' and isundercarriage=1
@@ -109,7 +109,11 @@
     </select>
 
     <update id="refresh" parameterType="cn.doreou.model.Goods">
-        update t_goods set goods_title=#{goods_title},introduce=#{introduce},pri_cost=#{pri_cost},expt_price=#{expt_price},status=#{status},subject=#{subject},cover=#{cover},`number`=#{number} where goods_id=#{goods_id}
+        update t_goods set goods_title=#{goods_title},introduce=#{introduce},pri_cost=#{pri_cost},expt_price=#{expt_price},status=#{status},subject=#{subject},
+        <if test="cover!=null and cover!=''">
+            cover=#{cover}
+        </if>
+        `number`=#{number} where goods_id=#{goods_id}
     </update>
 
     <update id="refreshbuy" parameterType="cn.doreou.model.Goods">

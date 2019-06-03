@@ -65,7 +65,7 @@ layui.use('table', function () {
             if (layEvent === 'detail') {
                 layer.msg('查看操作');
             } else if (layEvent === 'del') {
-                layer.confirm('真的删除行么', function (index) {
+                layer.confirm('确定删除此科目？请务必通知用户暂时将该目录下图书转移至新的科目分类，否则数据将丢失且无法恢复！', function (index) {
                     obj.del(); //删除对应行（tr）的DOM结构
                     layer.close(index);
                     //向服务端发送删除指令

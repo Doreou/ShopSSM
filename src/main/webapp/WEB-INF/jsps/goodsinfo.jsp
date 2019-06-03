@@ -194,7 +194,7 @@
                 </li>
                 <li class="price">
                     <span class="howmuch"><%=goodsinfo.get(0).getExpt_price()%></span>
-                    &nbsp;&nbsp;&nbsp;                 </li>
+                    &nbsp;&nbsp;&nbsp; / 原价 <%=goodsinfo.get(0).getPri_cost()%>                </li>
                 <li class="user same">
                     <a target="_blank" href="/User/getUserInfo?user_id=<%=goodsinfo.get(0).getUser_id()%>">
                             <span class="name">
@@ -275,7 +275,7 @@
             <a target="_blank">
                 <img src="<%=goodsinfo.get(0).getIcon()%>" id="user_ph">
             </a>
-            <span id="user_cmt">哈哈哈哈哈哈哈哈哈哈哈哈<br>(联系我的时候，请说明是在...看见的噢！)</span>
+            <span id="user_cmt">本书介绍：我持有<%=goodsinfo.get(0).getGoods_title()%><%=goodsinfo.get(0).getNumber()%>册，现在大概在<%=goodsinfo.get(0).getStatus()%>，如果有需要，请尽快联系我哦~<br>(个性签名：<span id="label"><%=goodsinfo.get(0).getLabel()%></span>)</span>
         </div>
     </div>
     <div class="commonbox">
@@ -606,6 +606,10 @@
             //隐藏信息div
             $("#login_show").hide();
         }
+        if($('#label').innerHTML==null){
+            $('#label').html("TA还没留下签名哦~");
+        }
+
         layui.use('laydate', function () {
             var laydate = layui.laydate;
             laydate.render({
@@ -661,14 +665,16 @@
                 <label class="layui-form-label" style="width: 125px;">购买数量</label>
                 <div class="layui-input-block">
                     <input type="text" name="number" id="number" style="width: 200px" required lay-verify="required"
-                              autocomplete="off"  placeholder="" class="layui-input"></input>
+                              autocomplete="off"  placeholder="" class="layui-input" oninput="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label" style="width: 125px;">出价</label>
                 <div class="layui-input-block">
                     <input type="text" name="price" id="price" style="width: 200px" required lay-verify="required"
-                           autocomplete="off"  placeholder="" class="layui-input">
+                           autocomplete="off"  placeholder="" class="layui-input" oninput="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+                           onafterpaste="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
                 </div>
             </div>
             <div class="layui-form-item">

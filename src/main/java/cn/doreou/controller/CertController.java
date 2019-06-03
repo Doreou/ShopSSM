@@ -41,7 +41,7 @@ public class CertController {
     public String NewCert(HttpSession session, @RequestParam("name") String name,@RequestParam("cardnum") String id){
         List<User> userList=(List<User>) session.getAttribute("user");
         if(id.equals(userList.get(0).getUser_id())) {
-            if (!certService.isExist(id)) {
+            if (!certService.isExist(id)&&userList.get(0).getMember_status()==0) {
                 Cert cert = new Cert();
                 String code = session.getAttribute("CertPic").toString();
                 //截断无用前缀
@@ -92,8 +92,14 @@ public class CertController {
                     return "500";
                 }
             } else {
-                String errmsg = "您已提交过申请，请等待管理员审核";
-                session.setAttribute("errmsg", errmsg);
+                System.out.println(userList.get(0).getMember_status());
+                if(userList.get(0).getMember_status()==0) {
+                    String errmsg = "您已提交过申请，请等待管理员审核";
+                    session.setAttribute("errmsg", errmsg);
+                }else {
+                    String errmsg = "您已是认证用户！";
+                    session.setAttribute("errmsg", errmsg);
+                }
             }
         }else{
             String errmsg = "您输入的ID与登陆账户不符，请更改您登陆的账户ID或检查您的输入";
@@ -183,6 +189,7 @@ public class CertController {
         cert.setAdm_time(time);
         cert.setCert_id(cert_id);
         //0为未认证 1为已认证
+        adminService.Cert(reciever);
         certService.updateCertStatus(cert);
         return "redirect:/Message/AutoSend";
     }

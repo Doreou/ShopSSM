@@ -454,24 +454,29 @@ $(document).on('click','#getbtn',function () {
             url:'/Order/OwnerGet?message_id='+message_id,
             success:function (msg) {
                 layer.msg(msg);
+                setTimeout(function () {
+                    location.reload();
+                },2000)
             }
         })
     })
 })
 $(document).on('click','#getBookbtn',function () {
     var message_id = $(this).find('input').val();
-    alert(message_id);
     layer.confirm("确认收到二手书后可申请确认收货，确定吗？",function () {
         $.ajax({
             type:'POST',
             url:'/Order/BuyerGet?message_id='+message_id,
             success:function (msg) {
                 layer.msg(msg);
+                setTimeout(function () {
+                    location.reload();
+                },2000)
             }
         })
     })
 })
-$(document).on('click','#getMoneybtnbtn',function () {
+$(document).on('click','#getMoneybtn',function () {
     var message_id = $(this).find('input').val();
     layer.confirm("确定买家已付钱后您可申请交易完成，确定吗？",function () {
         $.ajax({
@@ -479,6 +484,9 @@ $(document).on('click','#getMoneybtnbtn',function () {
             url:'/Order/OwnerGet?message_id='+message_id,
             success:function (msg) {
                 layer.msg(msg);
+                setTimeout(function () {
+                    location.reload();
+                },2000)
             }
         })
     })

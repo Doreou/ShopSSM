@@ -278,6 +278,7 @@ public class UserController {
             applyer.setConn_type(conn_type);
             applyer.setConn_way(conn_way);
             applyer.setLocation(school);
+            applyer.setUp_time(new Date());
             applyer.setStatus(0);
             applyer.setUp_time(new Date());
             userService.applyJob(applyer);

@@ -54,6 +54,9 @@ public class PageController {
         session.setAttribute("AllSubject",bookList);
         List<Carousel> CarouselList=orderService.getAllCarousel();
         session.setAttribute("Carousel",CarouselList);
+        if(session.getAttribute("subject")!=null){
+            session.removeAttribute("subject");
+        }
         return "buy";
     }
 //    出售二手
@@ -146,8 +149,14 @@ public class PageController {
     public String Checkinfo_nextstep(HttpSession session){
         List<User> userList=(List<User>) session.getAttribute("user");
         if(certService.isExist(userList.get(0).getUser_id())){
-            String errmsg="您已提交过申请，请等待管理员审核";
-            session.setAttribute("errmsg",errmsg);
+            System.out.println(userList.get(0).getMember_status());
+            if(userList.get(0).getMember_status()==0) {
+                String errmsg = "您已提交过申请，请等待管理员审核";
+                session.setAttribute("errmsg", errmsg);
+            }else {
+                String errmsg = "您已是认证用户！";
+                session.setAttribute("errmsg", errmsg);
+            }
             return "redirect:/Page/checkinfo";
         }else {
             session.setAttribute("name", "");

@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>校园二手</title>
+    <title>加入我们</title>
     <link href="/css/animate.css" rel="stylesheet"/>
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/font-awesome.min.css" rel="stylesheet"/>
@@ -140,7 +140,7 @@
         <a href="/Order/querybuybysub?select=<%=b.getSubject()%>" class="clearfix">
             <li class="item clearfix text-center">
                 <div class="icon pull-left">
-                    <span class="iconfont <%=b.getIcon()%>"></span>
+                    <img style="width: 22px;height: 22px" src="<%=b.getIcon()%>">
                 </div>
                 <div class="title pull-left">
                     <%=b.getSubject()%>

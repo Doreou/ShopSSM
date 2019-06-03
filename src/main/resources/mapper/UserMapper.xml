@@ -28,7 +28,7 @@
       select goods_id,user_id,username,email,member_status,qq,phone,wechat,icon,phone from t_user,t_goods where owner_id=user_id;
     </select>
     <insert id="applyJob" parameterType="cn.doreou.model.Applyer">
-        insert into t_apply (user_id,name,location,major,job,info,conn_type,conn_way,status) values (#{user_id},#{name},#{location},#{major},#{job},#{info},#{conn_type},#{conn_way},#{status})
+        insert into t_apply (user_id,name,location,major,job,info,up_time,conn_type,conn_way,status) values (#{user_id},#{name},#{location},#{major},#{job},#{info},#{up_time},#{conn_type},#{conn_way},#{status})
     </insert>
     <select id="checkApply" parameterType="STRING" resultType="cn.doreou.model.Applyer">
         select * from t_apply where user_id=#{user_id}

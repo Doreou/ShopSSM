@@ -408,7 +408,6 @@
                 url:'${pageContext.request.contextPath}/Order/update_upload',
                 data:$('#saleForm').serialize(),
                 success:function (data) {
-                    alert(data);
                     if(data=='true'){
                         location.reload();
                     }

@@ -284,6 +284,9 @@
     <update id="cancelCert" parameterType="STRING">
         update t_user set member_status=0 where user_id=#{user_id}
     </update>
+    <update id="Cert" parameterType="STRING">
+        update t_user set member_status=1 where user_id=#{user_id}
+    </update>
     <delete id="deleteAdmin" parameterType="String">
         delete from t_admin where admin_id=#{admin_id}
     </delete>

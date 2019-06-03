@@ -123,7 +123,7 @@ layui.use('table', function () {
                     content: $("#popApplyInfo"),
                     btn: ['查看回复信息', '通过', '拒绝', '暂不回复'],
                     yes: function () {
-                        if (data.apply_adm == "" || data.reply == "") {
+                        if (data.apply_adm == null || data.reply == null) {
                             layer.msg("暂时没有回复信息");
                         } else {
                             var check_time = new Date(data.check_time);
@@ -246,7 +246,7 @@ layui.use('table', function () {
                     },
                     btn4: function () {
 
-                        layer.msg("请在24小时内给予答复!");
+                        layer.msg("请在72小时内给予答复!");
                     }
                 })
             }

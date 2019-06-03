@@ -47,7 +47,8 @@
         <div class="col-sm-5">
             <form method="post" id="js-form" action="${pageContext.request.contextPath}/User/login">
                 <h4 class="no-margins">请登录</h4>
-                <input type="text" name="userid" id="userid" class="form-control uname" placeholder="学号">
+                <input type="text" name="userid" id="userid" class="form-control uname" placeholder="学号" oninput="this.value=this.value.replace(/\D/g,'')"
+                       onafterpaste="this.value=this.value.replace(/\D/g,'')">
                 <input type="password" name="password" id="password" class="form-control pword m-b" placeholder="密码">
                 <div class="verifycode-box">
                     <input type="text" name="passcode" id="passcode" class="form-control pword m-b" placeholder="验证码">

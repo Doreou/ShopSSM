@@ -63,6 +63,7 @@ public interface AdminMapper {
     void updateUserStatus(User user);
     //取消认证
     void cancelCert(@Param("user_id") String user_id);
+    void Cert(@Param("user_id") String user_id);
     void deleteAdmin(@Param("admin_id") String admin_id);
     void deleteUser(@Param("user_id") String user_id);
 

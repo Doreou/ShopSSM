@@ -167,7 +167,7 @@
             <h5>发布二手信息</h5>
         </div>
         <div class="ibox-content">
-            <form action="" class="form-horizontal m-t" id="saleForm" method="post"
+            <form action="${pageContext.request.contextPath}/Order/salegoods" class="form-horizontal m-t" id="saleForm" method="post"
                   novalidate="novalidate">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">标题：</label>
@@ -207,13 +207,15 @@
                     <label class="col-sm-3 control-label">数量：</label>
                     <div class="col-sm-8">
                         <input id="count" name="count" placeholder="请输入您拥有的商品数量" class="form-control" type="text"
-                               aria-required="true" aria-invalid="false" value="<%=session.getAttribute("count")%>">
+                               aria-required="true" aria-invalid="false" oninput="this.value=this.value.replace(/\D/g,'')"
+                               onafterpaste="this.value=this.value.replace(/\D/g,'')" value="<%=session.getAttribute("count")%>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">商品原价：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="pricost" name="pricost" type="text" class="form-control"
+                        <input id="pricost" name="pricost" type="text" class="form-control" oninput="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+                               onafterpaste="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
                                value="<%=session.getAttribute("pricost")%>">
                     </div>
                 </div>
@@ -234,7 +236,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control"
+                        <input id="price" name="price" type="text" class="form-control" oninput="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+                               onafterpaste="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
                                value="<%=session.getAttribute("price")%>">
                     </div>
                 </div>
@@ -390,14 +393,13 @@
     function adddata() {
         if (check()) {
             if (<%=session.getAttribute("code")!=null%>) {
-                $('#saleForm').attr('action', '${pageContext.request.contextPath}/Order/salegoods');
+                $('#saleForm').attr('action', '/Order/salegoods');
                 $('#saleForm').submit();
             } else {
                 layer.msg("你至少需要上传一张照片哦");
                 return false;
             }
         }
-        return check();
     }
 
     $("#sureCut").on("click", function () {

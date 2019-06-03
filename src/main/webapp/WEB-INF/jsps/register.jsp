@@ -51,7 +51,8 @@
                 <input type="password" name="password" id="password" class="form-control pword m-b" value=""
                        placeholder="密码">
                 <input type="text" name="email" id="email" class="form-control email m-b" value="" placeholder="邮箱">
-                <input type="text" name="stuid" id="stuid" class="form-control stuid" value="" placeholder="学号">
+                <input type="text" name="stuid" id="stuid" class="form-control stuid" value="" placeholder="学号" oninput="this.value=this.value.replace(/\D/g,'')"
+                       onafterpaste="this.value=this.value.replace(/\D/g,'')">
                 <div class="verifycode-box">
                     <input type="text" name="passcode" id="passcode" class="form-control pword m-b" value=""
                            placeholder="验证码">

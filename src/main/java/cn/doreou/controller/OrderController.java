@@ -45,7 +45,6 @@ public class OrderController {
     public String SaleGoods(HttpSession session, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject) {
         String code = (String) session.getAttribute("code");
         String PicCode = code.substring(22);
-        System.out.println(PicCode);
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             //Base64解码
@@ -161,6 +160,7 @@ public class OrderController {
         session.setAttribute("price", expt_price);
         session.setAttribute("address", give_place);
         session.setAttribute("type", subject);
+        System.out.println("111111111111");
         String errmsg = "上传成功";
         session.setAttribute("errmsg", errmsg);
         return "salegoods";
@@ -386,31 +386,33 @@ public class OrderController {
     //更新商品信息
     @RequestMapping("refresh")
     public String reFresh(HttpSession session, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") String start, @RequestParam("title") String title, @RequestParam("detail") String introduce, @RequestParam("status") String status, @RequestParam("count") int number, @RequestParam("pricost") float pri_cost, @RequestParam("price") float expt_price, @RequestParam("address") String give_place, @RequestParam("type") String subject, @Param("goods_id") int goods_id) {
-        String code = (String) session.getAttribute("newcode");
         Goods goods = new Goods();
-        if (code != null) {
-            String PicCode = code.substring(22);
-            System.out.println(PicCode);
-            BASE64Decoder decoder = new BASE64Decoder();
-            try {
-                //Base64解码
-                byte[] b = decoder.decodeBuffer(PicCode);
-                for (int i = 0; i < b.length; ++i) {
-                    if (b[i] < 0) {
-                        //调整异常数据
-                        b[i] += 256;
+        if(session.getAttribute("newcode")!=null) {
+            String code = (String) session.getAttribute("newcode");
+            if (code != null) {
+                String PicCode = code.substring(22);
+                System.out.println(PicCode);
+                BASE64Decoder decoder = new BASE64Decoder();
+                try {
+                    //Base64解码
+                    byte[] b = decoder.decodeBuffer(PicCode);
+                    for (int i = 0; i < b.length; ++i) {
+                        if (b[i] < 0) {
+                            //调整异常数据
+                            b[i] += 256;
+                        }
                     }
+                    //生成png图片
+                    String imgFilePath = "D:\\img\\goodspic\\" + System.currentTimeMillis() + ".png";
+                    OutputStream out = new FileOutputStream(imgFilePath);
+                    goods.setCover(imgFilePath.substring(2));
+                    out.write(b);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return "500";
                 }
-                //生成png图片
-                String imgFilePath = "D:\\img\\goodspic\\" + System.currentTimeMillis() + ".png";
-                OutputStream out = new FileOutputStream(imgFilePath);
-                goods.setCover(imgFilePath.substring(2));
-                out.write(b);
-                out.flush();
-                out.close();
-            } catch (Exception e) {
-                System.out.println(e);
-                return "500";
             }
         }
         goods.setGoods_id(goods_id);

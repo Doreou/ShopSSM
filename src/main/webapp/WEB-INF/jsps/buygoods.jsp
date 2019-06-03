@@ -200,14 +200,16 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">预期价格：</label>
                     <div class="pre-price input-group m-b col-sm-8"><span class="input-group-addon">¥</span>
-                        <input id="price" name="price" type="text" class="form-control">
+                        <input id="price" name="price" type="text" class="form-control" oninput="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')"
+                               onafterpaste="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">所需数量：</label>
                     <div class="col-sm-8">
                         <input id="count" name="count" placeholder="请输入您需要的商品数量" class="form-control" type="text"
-                               aria-required="true" aria-invalid="false">
+                               aria-required="true" aria-invalid="false" oninput="this.value=this.value.replace(/\D/g,'')"
+                               onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </div>
                 </div>
                 <div class="form-group">

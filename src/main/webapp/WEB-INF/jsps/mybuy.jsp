@@ -242,10 +242,10 @@
     <div id="my_products">
         <div class="no-data">
             <p class="text">您暂时还没有发布求购信息呃！你可以</p>
-            <a href="/release/buy" target="_blank">
+            <a href="/Page/buygoods" target="_blank">
                 <p class="btn">发布求购信息</p>
             </a>
-            <a href="/buy/index" target="_blank">
+            <a href="/Page/buy" target="_blank">
                 <p class="btn">查看求购模块</p>
             </a>
         </div>

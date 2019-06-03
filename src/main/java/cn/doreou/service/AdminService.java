@@ -46,6 +46,7 @@ public interface AdminService {
     void updateGoodsInfo(Goods goods);
     void updateUserStatus(User user);
     void cancelCert(String user_id);
+    void Cert(String user_id);
     void deleteAdmin(String admin_id);
     void deleteUser(String user_id);
 

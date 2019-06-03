@@ -239,10 +239,10 @@
     <div id="my_products">
         <div class="no-data">
             <p class="text">您暂时还没有发布商品呃！你可以</p>
-            <a href="/release/buy" target="_blank">
+            <a href="/Page/salegoods" target="_blank">
                 <p class="btn">发布商品</p>
             </a>
-            <a href="/buy/index" target="_blank">
+            <a href="/Page/sale" target="_blank">
                 <p class="btn">查看二手模块</p>
             </a>
         </div>
