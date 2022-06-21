@@ -138,7 +138,7 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <!--新版本使用最多的是6.0.6  但在我的配置中无法使用该版本，报一个很无解的异常-->
-      <version>5.1.39</version>
+      <version>8.0.28</version>
     </dependency>
     <!-- 导入dbcp的jar包，用来在applicationContext.xml中配置数据库 -->
     <dependency>
